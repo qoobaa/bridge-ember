@@ -1,0 +1,17 @@
+<p>
+  <strong>current contract:</strong> {{controllers.auction.contract.value}}
+</p>
+<p>
+  <strong>current modifier:</strong> {{controllers.auction.modifier.value}}
+</p>
+<p>
+  <strong>is completed:</strong> {{controllers.auction.isCompleted}}
+</p>
+
+<ul>
+  {{#each bid in controllers.auction}}
+    <li>
+      {{bid.value}}
+    </li>
+  {{/each}}
+</ul>
