@@ -1,26 +1,28 @@
-<p>
-  <strong>current contract:</strong> {{controllers.auction.contract.value}}
-</p>
-<p>
-  <strong>current modifier:</strong> {{controllers.auction.modifier.value}}
-</p>
-<p>
-  <strong>is completed:</strong> {{controllers.auction.isCompleted}}
-</p>
-<p>
-  <strong>dealer:</strong> {{controllers.auction.dealer}}
-</p>
-<p>
-  <strong>current direction:</strong> {{controllers.auction.currentDirection}}
-</p>
+{{#with controllers.auction}}
+  <p>
+    <strong>current contract:</strong> {{contract.value}} ({{contract.direction}})
+  </p>
+  <p>
+    <strong>current modifier:</strong> {{modifier.value}}
+  </p>
+  <p>
+    <strong>is completed:</strong> {{isCompleted}}
+  </p>
+  <p>
+    <strong>dealer:</strong> {{dealer}}
+  </p>
+  <p>
+    <strong>current direction:</strong> {{currentDirection}}
+  </p>
 
-<ul>
-  {{#each bid in controllers.auction}}
-    <li>
-      {{bid.value}} ({{bid.direction}})
-    </li>
-  {{/each}}
-</ul>
+  <ul>
+    {{#each bid in .}}
+      <li>
+        {{bid.value}} ({{bid.direction}})
+      </li>
+    {{/each}}
+  </ul>
+{{/with}}
 
 {{#with "controllers.bidding_box"}}
   <button {{action "bidPass" target="."}} {{bindAttr disabled="isPassDisabled"}}>Pass</button>

@@ -6,3 +6,4 @@
   isPass: (-> @get("value") == Bridge.PASS).property("value")
   level: (-> parseInt(@get("value")[0], 10) if @get("isContract")).property("value")
   trump: (-> @get("value")[1..2] if @get("isContract")).property("value")
+  side: (-> Bridge.SIDES[@get("direction")]).property("direction")

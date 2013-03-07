@@ -26,3 +26,4 @@
 
 @Bridge.SUITS = ["C", "D", "H", "S"]
 @Bridge.TRUMPS = Bridge.SUITS.concat("NT")
+@Bridge.SIDES = {N: "NS", E: "EW", S: "NS", W: "EW"}
