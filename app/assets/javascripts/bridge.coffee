@@ -12,13 +12,17 @@
                      "6C", "6D", "6H", "6S", "6NT",
                      "7C", "7D", "7H", "7S", "7NT"]
 
-@Bridge.MODIFIERS = ["X", "XX"]
-
-@Bridge.DIRECTIONS = ["N", "E", "S", "W"]
-
 @Bridge.PASS = "PASS"
+@Bridge.DOUBLE = "X"
+@Bridge.REDOUBLE = "XX"
+@Bridge.MODIFIERS = [Bridge.DOUBLE, Bridge.REDOUBLE]
 
 @Bridge.CARDS = ["C2", "C3", "C4", "C5", "C6", "C7", "C8", "C9", "CT", "CJ", "CQ", "CK", "CA",
                  "D2", "D3", "D4", "D5", "D6", "D7", "D8", "D9", "DT", "DJ", "DQ", "DK", "DA",
                  "H2", "H3", "H4", "H5", "H6", "H7", "H8", "H9", "HT", "HJ", "HQ", "HK", "HA",
                  "S2", "S3", "S4", "S5", "S6", "S7", "S8", "S9", "ST", "SJ", "SQ", "SK", "SA"]
+
+@Bridge.DIRECTIONS = ["N", "E", "S", "W"]
+
+@Bridge.SUITS = ["C", "D", "H", "S"]
+@Bridge.TRUMPS = Bridge.SUITS.concat("NT")
