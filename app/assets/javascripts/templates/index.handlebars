@@ -1,16 +1,12 @@
 {{#with controllers.auction}}
   <p>
-    <strong>current contract:</strong> {{contract.value}} ({{contract.direction}})
+    {{#if contract}}
+      <strong>current contract:</strong> {{contract.value}}
+      {{#if modifier}}{{modifier.value}}{{/if}}
+      {{declarer}}
+    {{/if}}
   </p>
-  <p>
-    <strong>current modifier:</strong> {{modifier.value}}
-  </p>
-  <p>
-    <strong>is completed:</strong> {{isCompleted}}
-  </p>
-  <p>
-    <strong>dealer:</strong> {{dealer}}
-  </p>
+
   <p>
     <strong>current direction:</strong> {{currentDirection}}
   </p>

@@ -9,9 +9,13 @@
   double: (-> @get("currentBids").filterProperty("isDouble").get("lastObject")).property("currentBids")
   redouble: (-> @get("currentBids").filterProperty("isRedouble").get("lastObject")).property("currentBids")
   isCompleted: (-> @get("length") > 3 and @slice(@get("length") - 3).everyProperty("isPass")).property("@each", "@each.value")
-  currentDirection: (-> Bridge.DIRECTIONS[(@get("length") + @get("dealerIndex")) % 4]).property("length", "dealer")
+  currentDirection: (-> Bridge.DIRECTIONS[(@get("length") + @get("dealerIndex")) % 4]).property("length", "dealerIndex")
   currentSide: (-> Bridge.SIDES[@get("currentDirection")]).property("currentDirection")
+  declarer: (->
+    if contract = @get("contract")
+      @filterProperty("side", contract.get("side")).filterProperty("trump", contract.get("trump")).get("firstObject.direction")
+  ).property("contract")
 
   contentDidChange: (->
     @forEach (bid, i) => bid.set("direction", Bridge.DIRECTIONS[(@get("dealerIndex") + i) % 4])
-  ).observes("@each", "dealer")
+  ).observes("@each", "dealerIndex")
