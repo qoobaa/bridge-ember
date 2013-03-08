@@ -1,8 +1,10 @@
 @Bridge.Board = Ember.Object.extend
-  dealer: "N"
-  bids: []
-  cards: []
+  state: Ember.Object.create
+    dealer: "N"
+    bids: []
+    cards: []
 
+  dealer: (-> Bridge.Direction.create(direction: @get("state.dealer"))).property("state.dealer")
   declarerBinding: "auction.declarer"
   contractBinding: "auction.contract"
 
@@ -24,9 +26,9 @@
     @cardsDidChange()
 
   bidsDidChange: (->
-    @set("auction.content", @get("bids").map (bid) -> Bridge.Bid.create(bid: bid))
-  ).observes("bids.@each")
+    @set("auction.content", @get("state.bids").map (bid) -> Bridge.Bid.create(bid: bid))
+  ).observes("state.bids.@each")
 
   cardsDidChange: (->
-    @set("play.content", @get("cards").map (card) -> Bridge.Card.create(card: card))
-  ).observes("cards.@each")
+    @set("play.content", @get("state.cards").map (card) -> Bridge.Card.create(card: card))
+  ).observes("state.cards.@each")
