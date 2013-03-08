@@ -1,2 +1,1 @@
-@Bridge.HandController = Ember.Controller.extend
-  needs: []
+@Bridge.HandController = Ember.Controller.extend()
