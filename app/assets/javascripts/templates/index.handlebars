@@ -1,0 +1,27 @@
+{{#with controllers.auction}}
+  <ul>
+    {{#each .}}
+      <li>
+        {{bid}} ({{direction.direction}})
+      </li>
+    {{/each}}
+  </ul>
+{{/with}}
+
+{{#with controllers.bidding_box}}
+  <p>
+    {{#each levels}}
+      <button {{bindAttr disabled="isDisabled"}} {{action "bidLevel" level target="controller.controllers.bidding_box"}}>{{level}}</button>
+    {{/each}}
+  </p>
+  <p>
+    {{#each trumps}}
+      <button {{bindAttr disabled="isDisabled"}} {{action "bid" . target="controller.controllers.bidding_box"}}>{{trump}}</button>
+    {{/each}}
+  </p>
+  <p>
+    <button {{bindAttr disabled="pass.isDisabled"}} {{action "bid" pass target="controller.controllers.bidding_box"}}>PASS</button>
+    <button {{bindAttr disabled="double.isDisabled"}} {{action "bid" double target="controller.controllers.bidding_box"}}>X</button>
+    <button {{bindAttr disabled="redouble.isDisabled"}} {{action "bid" redouble target="controller.controllers.bidding_box"}}>XX</button>
+  </p>
+{{/with}}

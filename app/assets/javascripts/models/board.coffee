@@ -14,13 +14,11 @@
     @set "auction", Bridge.Auction.create
       board: @
       dealerBinding: "board.dealer"
-      content: []
 
     @set "play", Bridge.Play.create
       board: @
       declarerBinding: "board.declarer"
       trumpBinding: "board.contract.trump"
-      content: []
 
     @bidsDidChange()
     @cardsDidChange()
