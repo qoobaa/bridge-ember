@@ -1,10 +1,9 @@
 @Bridge.Bid = Ember.Object.extend
-  isContract: (-> @get("value") in Bridge.CONTRACTS).property("value")
-  isDouble: (-> @get("value") == Bridge.DOUBLE).property("value")
-  isRedouble: (-> @get("value") == Bridge.REDOUBLE).property("value")
-  isModifier: (-> @get("value") in Bridge.MODIFIERS).property("value")
-  isPass: (-> @get("value") == Bridge.PASS).property("value")
-  level: (-> parseInt(@get("value")[0], 10) if @get("isContract")).property("value")
-  trump: (-> @get("value")[1..2] if @get("isContract")).property("value")
+  isContract: (-> @get("bid") in Bridge.CONTRACTS).property("bid")
+  isDouble: (-> @get("bid") == Bridge.DOUBLE).property("bid")
+  isRedouble: (-> @get("bid") == Bridge.REDOUBLE).property("bid")
+  isModifier: (-> @get("bid") in Bridge.MODIFIERS).property("bid")
+  isPass: (-> @get("bid") == Bridge.PASS).property("bid")
+  level: (-> parseInt(@get("bid")[0], 10) if @get("isContract")).property("bid")
+  trump: (-> @get("bid")[1..2] if @get("isContract")).property("bid")
   side: (-> Bridge.SIDES[@get("direction")]).property("direction")
-

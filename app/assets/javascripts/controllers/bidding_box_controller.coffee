@@ -56,7 +56,7 @@
 
   bid: (bid) ->
     @set("level", null)
-    @get("controllers.auction").pushObject(Bridge.Bid.create(value: bid))
+    @get("controllers.auction").bid(bid)
 
   bidPass: -> @bid("PASS")
   bidDouble: -> @bid("X")

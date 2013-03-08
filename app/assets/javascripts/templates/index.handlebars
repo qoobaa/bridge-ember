@@ -1,8 +1,10 @@
 {{#with controllers.auction}}
   <p>
     {{#if contract}}
-      <strong>current contract:</strong> {{contract.value}}
-      {{#if modifier}}{{modifier.value}}{{/if}}
+      <strong>current contract:</strong> {{contract.bid}}
+      {{#if modifier}}
+        {{modifier.bid}}
+      {{/if}}
       {{declarer}}
     {{/if}}
   </p>
@@ -14,16 +16,16 @@
   <ul>
     {{#each bid in .}}
       <li>
-        {{bid.value}} ({{bid.direction}})
+        {{bid.bid}} ({{bid.direction}})
       </li>
     {{/each}}
   </ul>
 {{/with}}
 
 {{#with "controllers.bidding_box"}}
-  <button {{action "bidPass" target="."}} {{bindAttr disabled="isPassDisabled"}}>Pass</button>
-  <button {{action "bidDouble" target="."}} {{bindAttr disabled="isDoubleDisabled"}}>Double</button>
-  <button {{action "bidRedouble" target="."}} {{bindAttr disabled="isRedoubleDisabled"}}>Redouble</button>
+  <button {{action "bidPass" target="."}} {{bindAttr disabled="isPassDisabled"}}>PASS</button>
+  <button {{action "bidDouble" target="."}} {{bindAttr disabled="isDoubleDisabled"}}>X</button>
+  <button {{action "bidRedouble" target="."}} {{bindAttr disabled="isRedoubleDisabled"}}>XX</button>
   <button {{action "bid1" target="."}} {{bindAttr disabled="is1Disabled"}}>1</button>
   <button {{action "bid2" target="."}} {{bindAttr disabled="is2Disabled"}}>2</button>
   <button {{action "bid3" target="."}} {{bindAttr disabled="is3Disabled"}}>3</button>
