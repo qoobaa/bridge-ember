@@ -3,4 +3,4 @@
   next: (-> Bridge.Direction.create(direction: Bridge.DIRECTIONS[(@get("index") + 1) % 4])).property("index")
   opposite: (-> Bridge.Direction.create(direction: Bridge.DIRECTIONS[(@get("index") + 2) % 4])).property("index")
   previous: (-> Bridge.Direction.create(direction: Bridge.DIRECTIONS[(@get("index") + 3) % 4])).property("index")
-  side: (-> Bridge.SIDES[@get("direction")]).property("direction")
+  side: (-> Bridge.SIDES[@get("index") % 2]).property("index")

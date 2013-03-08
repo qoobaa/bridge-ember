@@ -1,6 +1,5 @@
 #= require_tree ./models
 #= require_tree ./controllers
-#= require_tree ./views
 #= require_tree ./templates
 #= require_self
 
@@ -26,4 +25,4 @@
 
 @Bridge.SUITS = ["C", "D", "H", "S"]
 @Bridge.TRUMPS = Bridge.SUITS.concat("NT")
-@Bridge.SIDES = {N: "NS", E: "EW", S: "NS", W: "EW"}
+@Bridge.SIDES = ["NS", "EW"]

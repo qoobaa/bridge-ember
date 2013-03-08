@@ -1,1 +1,2 @@
-@Bridge.AuctionController = Ember.ArrayController.extend()
+@Bridge.AuctionController = Ember.ArrayController.extend
+  needs: ["board"]
