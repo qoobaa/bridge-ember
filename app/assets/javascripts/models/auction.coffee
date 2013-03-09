@@ -10,7 +10,7 @@
   declarer: (->
     @filterProperty("side", @get("contractSide")).filterProperty("trump", @get("contractTrump")).get("firstObject.direction")
   ).property("contractSide", "contractTrump")
-  currentDirectionBinding: "lastObject.direction.next"
+  currentDirection: (-> @get("lastObject.direction.next") or @get("dealer")).property("lastObject", "dealer")
 
   contentDidChange: (->
     currentDirection = @get("dealer")

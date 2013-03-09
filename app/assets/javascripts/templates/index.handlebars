@@ -1,3 +1,10 @@
+<p>
+  <strong>game phase:</strong> {{controllers.board.phase}}
+</p>
+<p>
+  <strong>current direction:</strong> {{controllers.board.direction.direction}}
+</p>
+
 {{#with controllers.auction}}
   <div {{bindAttr class="isCompleted::hidden"}}><strong>Final contract:</strong> {{contractInfo}}</div>
   <ul>
@@ -29,26 +36,41 @@
   </div>
 {{/with}}
 
-<p>
-  {{#each controllers.hand_n}}
-    <button>{{card}}</button>
-  {{/each}}
-</p>
+<div>
+  <p>
+    N
+    {{#each controllers.hand_n}}
+      <button {{bindAttr disabled="isDisabled"}} {{action "play" . target="controller.controllers.hand_n"}}>
+        {{card}}
+      </button>
+    {{/each}}
+  </p>
 
-<p>
-  {{#each controllers.hand_e}}
-    <button>{{card}}</button>
-  {{/each}}
-</p>
 
-<p>
-  {{#each controllers.hand_s}}
-    <button>{{card}}</button>
-  {{/each}}
-</p>
+  <p>
+    E
+    {{#each controllers.hand_e}}
+      <button {{bindAttr disabled="isDisabled"}} {{action "play" . target="controller.controllers.hand_e"}}>
+        {{card}}
+      </button>
+    {{/each}}
+  </p>
 
-<p>
-  {{#each controllers.hand_w}}
-    <button>{{card}}</button>
-  {{/each}}
-</p>
+  <p>
+    S
+    {{#each controllers.hand_s}}
+      <button {{bindAttr disabled="isDisabled"}} {{action "play" . target="controller.controllers.hand_s"}}>
+        {{card}}
+      </button>
+    {{/each}}
+  </p>
+
+  <p>
+    W
+    {{#each controllers.hand_w}}
+      <button {{bindAttr disabled="isDisabled"}} {{action "play" . target="controller.controllers.hand_w"}}>
+        {{card}}
+      </button>
+    {{/each}}
+  </p>
+</div>
