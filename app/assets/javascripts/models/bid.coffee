@@ -11,7 +11,7 @@
   contractBinding: "auction.contract"
   doubleBinding: "auction.double"
   redoubleBinding: "auction.redouble"
-  currentSideBinding: "auction.lastObject.direction.next.side"
+  currentSideBinding: "auction.currentDirection.side"
   contractSideBinding: "auction.contract.direction.side"
   contractOrderBinding: "auction.contract.order"
 
