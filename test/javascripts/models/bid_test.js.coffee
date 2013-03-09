@@ -1,13 +1,3 @@
-# @Bridge.Bid = Ember.Object.extend
-#   isContract: (-> @get("bid") in Bridge.CONTRACTS).property("bid")
-#   isDouble: (-> @get("bid") == Bridge.DOUBLE).property("bid")
-#   isRedouble: (-> @get("bid") == Bridge.REDOUBLE).property("bid")
-#   isModifier: (-> @get("bid") in Bridge.MODIFIERS).property("bid")
-#   isPass: (-> @get("bid") == Bridge.PASS).property("bid")
-#   level: (-> parseInt(@get("bid")[0], 10) if @get("isContract")).property("bid", "isContract")
-#   trump: (-> @get("bid")[1..2] if @get("isContract")).property("bid", "isContract")
-#   order: (-> Bridge.CONTRACTS.indexOf(@get("bid")) if @get("isContract")).property("bid", "isContract")
-
 #= require test_helper
 #= require models/bid
 
@@ -64,16 +54,16 @@ describe "Bid", ->
 
     it "returns undefined for PASS", ->
       bid = Bridge.Bid.create bid: "PASS"
-      assert.equal bid.get("level"), undefined
+      assert.strictEqual bid.get("level"), undefined
 
   describe "trump", ->
     it "returns NT for 2NT", ->
       bid = Bridge.Bid.create bid: "2NT"
-      assert.equal bid.get("trump"), "NT"
+      assert.strictEqual bid.get("trump"), "NT"
 
     it "returns undefined for PASS", ->
       bid = Bridge.Bid.create bid: "PASS"
-      assert.equal bid.get("trump"), undefined
+      assert.strictEqual bid.get("trump"), undefined
 
   describe "order", ->
     it "returns 18 for 4S", ->
@@ -82,4 +72,4 @@ describe "Bid", ->
 
     it "returns undefined for PASS", ->
       bid = Bridge.Bid.create bid: "PASS"
-      assert.equal bid.get("order"), undefined
+      assert.strictEqual bid.get("order"), undefined
