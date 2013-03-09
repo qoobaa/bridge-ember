@@ -1,6 +1,7 @@
 {{#with controllers.auction}}
+  <div {{bindAttr class="isCompleted::hidden"}}><strong>Final contract:</strong> {{contractInfo}}</div>
   <ul>
-    {{#each .}}
+    {{#each content}}
       <li>
         {{bid}} ({{direction.direction}})
       </li>
