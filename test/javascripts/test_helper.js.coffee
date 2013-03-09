@@ -4,4 +4,4 @@
 #= require_self
 #= require bridge
 
-@Bridge || @Bridge = {}
+@Bridge = Ember.Application.create()
