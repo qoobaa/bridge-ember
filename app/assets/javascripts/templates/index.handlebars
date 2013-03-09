@@ -4,9 +4,11 @@
 <p>
   <strong>current direction:</strong> {{controllers.board.direction.direction}}
 </p>
+<p {{bindAttr class="controllers.auction.isCompleted::hidden"}}>
+  <strong>final contract:</strong> {{controllers.auction.contractInfo}}
+</p>
 
 {{#with controllers.auction}}
-  <div {{bindAttr class="isCompleted::hidden"}}><strong>Final contract:</strong> {{contractInfo}}</div>
   <ul>
     {{#each content}}
       <li>
