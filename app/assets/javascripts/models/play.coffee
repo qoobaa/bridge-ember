@@ -5,11 +5,11 @@
       Bridge.Trick.create(play: @, trumpBinding: "play.trump", content: @slice(i * 4, i * 4 + 4)) for i in [0..n]
     else
       []
-  ).property("@each")
-  isCompleted: (-> @get("length") == 52).property("@each")
+  ).property("length")
+  isCompleted: (-> @get("length") == 52).property("length")
   currentDirection: (->
     @get("tricks.lastObject.winner.direction") or @get("lastObject.direction.next") or @get("declarer.next")
-  ).property("@each", "tricks", "declarer")
+  ).property("lastObject", "tricks", "declarer")
 
   contentDidChange: (->
     currentDirection = @get("declarer.next")
