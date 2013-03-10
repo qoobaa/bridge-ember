@@ -3,14 +3,14 @@
   contractSideBinding: "contract.side"
   contractTrumpBinding: "contract.trump"
   currentBids: (-> if contract = @get("contract") then @slice(@indexOf(contract)) else []).property("contract", "@each")
-  modifier: (-> @get("currentBids").filterProperty("isModifier").get("lastObject")).property("currentBids")
-  double: (-> @get("currentBids").filterProperty("isDouble").get("lastObject")).property("currentBids")
-  redouble: (-> @get("currentBids").filterProperty("isRedouble").get("lastObject")).property("currentBids")
-  isCompleted: (-> @get("length") > 3 and @slice(@get("length") - 3).everyProperty("isPass")).property("@each")
+  modifier: (-> @get("currentBids").filterProperty("isModifier").get("lastObject")).property("currentBids", "@each.isModifier")
+  double: (-> @get("currentBids").filterProperty("isDouble").get("lastObject")).property("currentBids", "@each.isDouble")
+  redouble: (-> @get("currentBids").filterProperty("isRedouble").get("lastObject")).property("currentBids", "@each.isRedouble")
+  isCompleted: (-> @get("length") > 3 and @slice(@get("length") - 3).everyProperty("isPass")).property("length", "@each.isPass")
   declarer: (->
     @filterProperty("side", @get("contractSide")).filterProperty("trump", @get("contractTrump")).get("firstObject.direction")
-  ).property("contractSide", "contractTrump")
-  currentDirection: (-> @get("lastObject.direction.next") or @get("dealer")).property("lastObject", "dealer")
+  ).property("contractSide", "contractTrump", "@each.direction")
+  currentDirection: (-> @get("lastObject.direction.next") or @get("dealer")).property("lastObject.direction.next", "dealer")
 
   contentDidChange: (->
     currentDirection = @get("dealer")
