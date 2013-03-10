@@ -9,7 +9,7 @@
   isCompleted: (-> @get("length") == 52).property("length")
   currentDirection: (->
     @get("tricks.lastObject.winner.direction") or @get("lastObject.direction.next") or @get("declarer.next")
-  ).property("lastObject", "tricks", "declarer")
+  ).property("lastObject.direction.next", "tricks.lastObject.winner.direction", "declarer.next")
 
   contentDidChange: (->
     currentDirection = @get("declarer.next")
