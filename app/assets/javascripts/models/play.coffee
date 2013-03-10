@@ -1,4 +1,5 @@
 @Bridge.Play = Ember.ArrayProxy.extend
+  content: (-> @get("cards")?.map(Bridge.Card.wrap)).property("cards.@each")
   tricks: (->
     if @get("length") > 0
       n = Math.ceil(@get("length") / 4) - 1

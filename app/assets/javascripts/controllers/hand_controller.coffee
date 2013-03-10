@@ -1,6 +1,6 @@
 @Bridge.HandController = Ember.ArrayController.extend
   needs: ["board"]
-  playedBinding: "controllers.board.cards"
+  playedBinding: "controllers.board.play"
   currentDirectionBinding: "controllers.board.play.currentDirection"
   currentSuitBinding: "controllers.board.play.currentSuit"
   hasCurrentSuit: (-> @get("remaining").findProperty("suit", @get("currentSuit"))?).property("currentSuit", "remaining")

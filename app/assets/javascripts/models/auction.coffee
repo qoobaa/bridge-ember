@@ -1,4 +1,5 @@
 @Bridge.Auction = Ember.ArrayProxy.extend
+  content: (-> @get("bids")?.map(Bridge.Bid.wrap)).property("bids.@each")
   contract: (-> @filterProperty("isContract").get("lastObject")).property("@each")
   contractSideBinding: "contract.side"
   contractTrumpBinding: "contract.trump"

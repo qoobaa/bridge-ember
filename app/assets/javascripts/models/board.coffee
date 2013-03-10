@@ -8,8 +8,6 @@
     s: []
     w: []
 
-  bids: (-> @get("state.bids").map (bid) -> Bridge.Bid.create(bid: bid)).property("state.bids.@each")
-  cards: (-> @get("state.cards").map (card) -> Bridge.Card.create(card: card)).property("state.cards.@each")
   dealer: (-> Bridge.Direction.create(direction: @get("state.dealer"))).property("state.dealer")
   declarerBinding: "auction.declarer"
   contractBinding: "auction.contract"
@@ -28,11 +26,11 @@
 
     @set "auction", Bridge.Auction.create
       board: @
-      contentBinding: "board.bids"
+      bidsBinding: "board.state.bids"
       dealerBinding: "board.dealer"
 
     @set "play", Bridge.Play.create
       board: @
-      contentBinding: "board.cards"
+      cardsBinding: "board.state.cards"
       declarerBinding: "board.declarer"
       trumpBinding: "board.contract.trump"
