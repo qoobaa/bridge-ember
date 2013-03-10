@@ -1,11 +1,5 @@
-<p>
-  <strong>game phase:</strong> {{controllers.board.phase}}
-</p>
-<p>
-  <strong>current direction:</strong> {{controllers.board.direction.direction}}
-</p>
 <p {{bindAttr class="controllers.auction.isCompleted::hidden"}}>
-  <strong>final contract:</strong> {{controllers.auction.contractInfo}}
+  <strong>final contract:</strong> {{controllers.auction.contractString}}
 </p>
 
 {{#with controllers.auction}}

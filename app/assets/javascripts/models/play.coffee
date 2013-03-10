@@ -10,6 +10,9 @@
   currentDirection: (->
     @get("tricks.lastObject.winner.direction") or @get("lastObject.direction.next") or @get("declarer.next")
   ).property("lastObject.direction.next", "tricks.lastObject.winner.direction", "declarer.next")
+  currentSuit: (->
+    @get("tricks.lastObject.suit") unless @get("tricks.lastObject.isCompleted")
+  ).property("tricks.lastObject.suit", "tricks.lastObject.isCompleted")
 
   contentDidChange: (->
     currentDirection = @get("declarer.next")
@@ -17,4 +20,4 @@
       currentDirection = @get("tricks.#{Math.floor(i / 4) - 1}.winner.direction") if i > 0 and i % 4 == 0
       card.set("direction", currentDirection)
       currentDirection = currentDirection.get("next")
-  ).observes("@each", "tricks", "trump", "declarer")
+  ).observes("@each", "tricks.@each.winner.direction", "trump", "declarer.next")

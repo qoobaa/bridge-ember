@@ -1,6 +1,8 @@
 @Bridge.HandController = Ember.ArrayController.extend
   needs: ["board"]
   playedBinding: "controllers.board.cards"
+  currentSuitBinding: "controllers.board.play.currentSuit"
+  hasCurrentSuit: (-> @findProperty("suit", @get("currentSuit"))?).property("currentSuit", "@each")
 
   content: (->
     if @get("initial.length")
@@ -13,7 +15,14 @@
   play: (card) ->
     @get("controllers.board.state.cards").pushObject(card.get("card"))
 
-Bridge.register("controller:hand_n", Bridge.HandController.extend(initialBinding: "controllers.board.n"))
-Bridge.register("controller:hand_e", Bridge.HandController.extend(initialBinding: "controllers.board.e"))
-Bridge.register("controller:hand_s", Bridge.HandController.extend(initialBinding: "controllers.board.s"))
-Bridge.register("controller:hand_w", Bridge.HandController.extend(initialBinding: "controllers.board.w"))
+Bridge.register "controller:hand_n", Bridge.HandController.extend
+  initialBinding: "controllers.board.n"
+
+Bridge.register "controller:hand_e", Bridge.HandController.extend
+  initialBinding: "controllers.board.e"
+
+Bridge.register "controller:hand_s", Bridge.HandController.extend
+  initialBinding: "controllers.board.s"
+
+Bridge.register "controller:hand_w", Bridge.HandController.extend
+  initialBinding: "controllers.board.w"
