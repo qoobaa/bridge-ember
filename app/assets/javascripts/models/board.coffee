@@ -8,7 +8,6 @@
     s: []
     w: []
 
-  dealer: (-> Bridge.Direction.create(direction: @get("state.dealer"))).property("state.dealer")
   declarerBinding: "auction.declarer"
   contractBinding: "auction.contract"
   phase: (->
@@ -27,7 +26,7 @@
     @set "auction", Bridge.Auction.create
       board: @
       bidsBinding: "board.state.bids"
-      dealerBinding: "board.dealer"
+      dealerBinding: "board.state.dealer"
 
     @set "play", Bridge.Play.create
       board: @
