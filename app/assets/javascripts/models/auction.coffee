@@ -1,21 +1,21 @@
 @Bridge.Auction = Ember.ArrayProxy.extend
   objectAtContent: (index) ->
-    Bridge.Bid.create
-      content: @get("content").objectAt(index)
-      index: index
-      auction: @
-      dealerBinding: "auction.dealer"
+    if bid = @get("content").objectAt(index)
+      Bridge.Bid.create(content: bid, index: index)
 
   lastContract: (->
     @filterProperty("isContract").get("lastObject")
-  ).property("@each.isContract", "lastObject")
+  ).property("@each.isContract")
+
+  lastContractIndexBinding: "lastContract.index"
 
   lastContractModifier: (->
-    @slice(@indexOf(lastContract)).filterProperty("isModifier").get("lastObject") if lastContract = @get("lastContract")
+    if lastContractIndex = @get("lastContractIndex")
+      @slice(lastContractIndex).filterProperty("isModifier").get("lastObject")
   ).property("lastContract", "@each")
 
-  lastContractContentBinding: "lastContract.content"
-  lastContractModifierContentBinding: "lastContractModifier.content"
+  lastContractBidBinding: "lastContract.bid"
+  lastContractModifierBidBinding: "lastContractModifier.bid"
   lastContractSideBinding: "lastContract.side"
   lastContractTrumpBinding: "lastContract.trump"
 
@@ -42,5 +42,7 @@
 
   contract: (->
     if @get("isCompleted")
-      [@get("lastContractContent"), @get("lastContractModifierContent"), @get("lastContractSuitFirstDeclarer")].without(undefined).join("")
-  ).property("lastContractContent", "lastContractModifierContent", "lastContractSuitFirstDeclarer", "isCompleted")
+      [@get("lastContractBid"),
+       @get("lastContractModifierBid"),
+       @get("lastContractSuitFirstDeclarer")].without(undefined).join("") or undefined
+  ).property("lastContractBid", "lastContractModifierBid", "lastContractSuitFirstDeclarer", "isCompleted")

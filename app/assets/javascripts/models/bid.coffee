@@ -1,14 +1,14 @@
 @Bridge.Bid = Ember.Object.extend
-  isContract: (-> @get("content") in Bridge.CONTRACTS).property("content")
-  isDouble: (-> @get("content") == Bridge.DOUBLE).property("content")
-  isRedouble: (-> @get("content") == Bridge.REDOUBLE).property("content")
-  isModifier: (-> @get("content") in Bridge.MODIFIERS).property("content")
-  isPass: (-> @get("content") == Bridge.PASS).property("content")
-  level: (-> parseInt(@get("content")[0], 10) if @get("isContract")).property("content", "isContract")
-  trump: (-> @get("content")[1..2] if @get("isContract")).property("content", "isContract")
-  order: (-> Bridge.CONTRACTS.indexOf(@get("content")) if @get("isContract")).property("content", "isContract")
-  dealerIndex: (-> Bridge.DIRECTIONS.indexOf(@get("dealer"))).property("dealer")
-  direction: (-> Bridge.DIRECTIONS[(@get("dealerIndex") + @get("index")) % 4]).property("dealerIndex", "index")
+  direction: (-> @get("content")[-1..-1]).property("content")
+  bid: (-> @get("content")[0..-2]).property("content")
+  isContract: (-> @get("bid") in Bridge.CONTRACTS).property("bid")
+  isDouble: (-> @get("bid") == Bridge.DOUBLE).property("bid")
+  isRedouble: (-> @get("bid") == Bridge.REDOUBLE).property("bid")
+  isModifier: (-> @get("bid") in Bridge.MODIFIERS).property("bid")
+  isPass: (-> @get("bid") == Bridge.PASS).property("bid")
+  level: (-> parseInt(@get("bid")[0], 10) if @get("isContract")).property("bid", "isContract")
+  trump: (-> @get("bid")[1..2] if @get("isContract")).property("bid", "isContract")
+  order: (-> Bridge.CONTRACTS.indexOf(@get("bid")) if @get("isContract")).property("bid", "isContract")
   directionIndex: (-> Bridge.DIRECTIONS.indexOf(@get("direction"))).property("direction")
   side: (-> Bridge.SIDES[@get("directionIndex") % 2]).property("directionIndex")
 
@@ -33,5 +33,3 @@
 #         @get("order") > contractOrder
 #   ).property("content", "contract", "double", "currentSide", "contractSide", "redouble", "contractOrder")
 #   isDisabled: (-> not @get("isEnabled")).property("isEnabled")
-
-# @Bridge.Bid.wrap = (content) -> Bridge.Content.create(content: content)
