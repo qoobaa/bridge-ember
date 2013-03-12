@@ -1,26 +1,93 @@
+sortCards = (cards, trump) =>
+  sorted = []
+  suits = (cards.map (card) -> card[0]).uniq()
+  sortCardSuits(suits, trump).forEach (suit) ->
+    cardsInSuit = cards.filter (card) -> card[0] == suit
+    sortCardValues(cardsInSuit.map (card) -> card[1]).forEach (value) ->
+      sorted.push(suit + value)
+  sorted
+
+sortCardValues = (values) ->
+  sortedValues = ["A", "K", "Q", "J", "T", "9", "8", "7", "6", "5", "4", "3", "2"]
+  values.sort (a, b) ->
+    sortedValues.indexOf(a) - sortedValues.indexOf(b)
+
+sortCardSuits = (suits, trump) ->
+  black = ["S", "C"].filter (s) -> s in suits
+  red   = ["H", "D"].filter (s) -> s in suits
+  if black.contains(trump)
+    black.splice(black.indexOf(trump), 1).concat(red.splice(0, 1)).concat(black.splice(0, 1)).concat(red.splice(0, 1))
+  else if red.contains(trump)
+    red.splice(red.indexOf(trump), 1).concat(black.splice(0, 1)).concat(red.splice(0, 1)).concat(black.splice(0, 1))
+  else if black.length >= red.length
+    black.splice(0, 1).concat(red.splice(0, 1)).concat(black.splice(0, 1)).concat(red.splice(0, 1))
+  else
+    red.splice(0, 1).concat(black.splice(0, 1)).concat(red.splice(0, 1)).concat(black.splice(0, 1))
+
+# Returns a winning card from given trick, using given trump.
+#
+# examples:
+#   trickWinner("H", ["CA", "H2", "SA", "DA"]) => "H2"
+#   trickWinner(undefined, ["C2", "H2", "C4", "CJ"]) => "CJ"
+
+trickWinner = (trump, trick) ->
+  order = (card) -> Bridge.CARDS.indexOf(card)
+  reverse = (a, b) -> b - a
+  suit = trick[0][0]
+  suits = trick.filter (card) -> card[0] == suit
+  suitIndices = suits.map(order).sort(reverse)
+  trumps = trick.filter (card) -> card[0] == trump
+  trumpIndices = trumps.map(order).sort(reverse)
+  Bridge.CARDS[trumpIndices[0] or suitIndices[0]]
+
+# Returns an array containing subsequent directions for corresponding
+# bids array and given dealer.
+#
+# examples:
+#   auctionDirections("N", ["PASS", "1NT"]) => ["N", "E"]
+auctionDirections = (dealer, bids) ->
+  dealerIndex = Bridge.DIRECTIONS.indexOf(dealer)
+  bids.map (bid, i) -> Bridge.DIRECTIONS[(dealerIndex + i) % 4]
+
+# Extracts a contract from given bids and dealer direction.
+#
+# examples:
+#   auctionContract("N", ["1NT", "PASS", "2NT", "X", "XX"]) => "2NTXXN"
+auctionContract = (dealer, bids) ->
+  contracts = bids.filter (bid) -> /^\d/.test(bid)
+  lastContract = contracts[contracts.length - 1]
+  if lastContract?
+    dealerIndex = Bridge.DIRECTIONS.indexOf(dealer)
+    lastContractIndex = bids.indexOf(lastContract)
+    firstBidWithContractSuit = bids.find (bid, i) -> bid[1] == lastContract[1] and lastContractIndex % 2 == i % 2
+    firstBidWithContractSuitIndex = bids.indexOf(firstBidWithContractSuit)
+    double = if bids.slice(lastContractIndex).indexOf("X") != -1 then "X" else ""
+    redouble = if bids.slice(lastContractIndex).indexOf("XX") != -1 then "X" else ""
+    declarerDirection = Bridge.DIRECTIONS[(dealerIndex + firstBidWithContractSuitIndex) % 4]
+    "#{lastContract}#{double}#{redouble}#{declarerDirection}"
+
+
+# Returns an array containing subsequent directions for corresponding
+# cards array and given trump and declarer direction.
+#
+# examples:
+#   playDirections("N", "H", ["H2", "H5", "HA", "C2", "S5"]) => ["E", "S", "W", "N", "W"]
+playDirections = (declarer, trump, cards) ->
+  directionIndex = Bridge.DIRECTIONS.indexOf(declarer)
+  cards.map (card, i) ->
+    if i > 0 and i % 4 == 0
+      lastTrickNumber = Math.floor(i / 4) - 1
+      lastTrick = cards.slice(lastTrickNumber * 4, lastTrickNumber * 4 + 4)
+      lastTrickWinner = trickWinner(trump, lastTrick)
+      lastTrickWinnerIndex = lastTrick.indexOf(lastTrickWinner)
+      directionIndex += lastTrickWinnerIndex
+    Bridge.DIRECTIONS[++directionIndex % 4]
+
 @Bridge.Utils =
-  sortCards: (cards, trump) =>
-    sorted = []
-    suits = (cards.map (card) -> card[0]).uniq()
-    Bridge.Utils.sortCardSuits(suits, trump).forEach (suit) ->
-      cardsInSuit = cards.filter (card) -> card[0] == suit
-      Bridge.Utils.sortCardValues(cardsInSuit.map (card) -> card[1]).forEach (value) ->
-        sorted.push(suit + value)
-    sorted
-
-  sortCardValues: (values) ->
-    sortedValues = ["A", "K", "Q", "J", "T", "9", "8", "7", "6", "5", "4", "3", "2"]
-    values.sort (a, b) ->
-      sortedValues.indexOf(a) - sortedValues.indexOf(b)
-
-  sortCardSuits: (suits, trump) ->
-    black = ["S", "C"].filter (s) -> s in suits
-    red   = ["H", "D"].filter (s) -> s in suits
-    if black.contains(trump)
-      black.splice(black.indexOf(trump), 1).concat(red.splice(0, 1)).concat(black.splice(0, 1)).concat(red.splice(0, 1))
-    else if red.contains(trump)
-      red.splice(red.indexOf(trump), 1).concat(black.splice(0, 1)).concat(red.splice(0, 1)).concat(black.splice(0, 1))
-    else if black.length >= red.length
-      black.splice(0, 1).concat(red.splice(0, 1)).concat(black.splice(0, 1)).concat(red.splice(0, 1))
-    else
-      red.splice(0, 1).concat(black.splice(0, 1)).concat(red.splice(0, 1)).concat(black.splice(0, 1))
+  sortCards: sortCards
+  sortCardValues: sortCardValues
+  sortCardSuits: sortCardSuits
+  trickWinner: trickWinner
+  auctionDirections: auctionDirections
+  auctionContract: auctionContract
+  playDirections: playDirections

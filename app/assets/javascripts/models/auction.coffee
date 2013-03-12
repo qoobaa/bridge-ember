@@ -1,48 +1,36 @@
 @Bridge.Auction = Ember.ArrayProxy.extend
-  objectAtContent: (index) ->
-    if bid = @get("content").objectAt(index)
-      Bridge.Bid.create(content: bid, index: index)
+  arrangedContent: (->
+    @get("content")?.map (bid, i) -> Bridge.Bid.create(content: bid)
+  ).property()
 
-  lastContract: (->
-    @filterProperty("isContract").get("lastObject")
-  ).property("@each.isContract")
+  contentArrayWillChange: (content, index, removedCount, addedCount) ->
+    if removedCount
+      for i in [index..(index + removedCount - 1)]
+        @get("arrangedContent").removeAt(i)
 
-  lastContractIndexBinding: "lastContract.index"
+  contentArrayDidChange: (content, index, removedCount, addedCount) ->
+    if addedCount
+      for i in [index..(index + addedCount - 1)]
+        @get("arrangedContent").insertAt(i, Bridge.Bid.create(content: content.objectAt(i)))
 
-  lastContractModifier: (->
-    if lastContractIndex = @get("lastContractIndex")
-      @slice(lastContractIndex).filterProperty("isModifier").get("lastObject")
-  ).property("lastContract", "@each")
+  reindex: (->
+    Bridge.Utils.auctionDirections(@get("dealer"), @get("content")).forEach (direction, i) =>
+      @get("arrangedContent.#{i}").setProperties(index: i, direction: direction)
+  ).observes("dealer", "arrangedContent.@each")
 
-  lastContractBidBinding: "lastContract.bid"
-  lastContractModifierBidBinding: "lastContractModifier.bid"
-  lastContractSideBinding: "lastContract.side"
-  lastContractTrumpBinding: "lastContract.trump"
-
-  lastContractSuitFirstDeclarer: (->
-    @filterProperty("side", @get("lastContractSide")).filterProperty("trump", @get("lastContractTrump")).get("firstObject.direction")
-  ).property("lastContractSide", "lastContractTrump", "@each.direction")
+  init: ->
+    @_super.apply(@, arguments)
+    @reindex()
 
   isCompleted: (->
     @get("length") > 3 and @slice(@get("length") - 3).everyProperty("isPass")
   ).property("length", "@each.isPass")
 
-  lastDirectionBinding: "lastObject.direction"
-
-  lastDirectionIndex: (->
-    Bridge.DIRECTIONS.indexOf(@get("lastDirection")) if @get("lastDirection")
-  ).property("lastDirection")
-
   currentDirection: (->
-    if @get("lastDirectionIndex")
-      Bridge.DIRECTIONS[(@get("lastDirectionIndex") + 1) % 4]
-    else
-      @get("dealer")
-  ).property("lastDirectionIndex", "dealer")
+    Bridge.Utils.auctionDirections(@get("dealer"), @get("content").concat("")).get("lastObject")
+  ).property("dealer", "content")
 
   contract: (->
     if @get("isCompleted")
-      [@get("lastContractBid"),
-       @get("lastContractModifierBid"),
-       @get("lastContractSuitFirstDeclarer")].without(undefined).join("") or undefined
-  ).property("lastContractBid", "lastContractModifierBid", "lastContractSuitFirstDeclarer", "isCompleted")
+      Bridge.Utils.auctionContract(@get("dealer"), @get("content"))
+  ).property("isCompleted", "content.@each")
