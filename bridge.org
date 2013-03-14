@@ -1,0 +1,31 @@
+* auction
+** input
+*** bids: ["PASS", "1C", "PASS", ...]
+*** dealer: "N"
+** output
+*** contract: "4NTXXN", undefined
+*** currentDirection: "E"
+*** isCompleted: true, false
+* play
+** input
+*** cards: ["HA", "C2", ...]
+*** contract: "4NTXXN"
+** output
+*** currentDirection: "N"
+*** currentSuit: "H"
+*** isCompleted: true, false
+* bid (view)
+** input
+*** bid: "1NT"
+*** contract: "4NTXXN"
+*** currentDirection: "E"
+** output
+*** isEnabled/isDisabled
+* card (view)
+** input
+*** card: "H2", undefined
+*** currentDirection: "E"
+*** currentSuit: "H"
+*** hasCurrentSuit: true, false
+** output
+*** isEnabled/isDisabled

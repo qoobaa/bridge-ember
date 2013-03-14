@@ -15,6 +15,6 @@ group :assets do
 end
 
 group :development, :test do
-  gem "konacha"
+  gem "konacha", ">= 2.5.1"
   gem "poltergeist"
 end

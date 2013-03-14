@@ -8,9 +8,8 @@
     s: []
     w: []
 
-  dealer: (-> Bridge.Direction.create(direction: @get("state.dealer"))).property("state.dealer")
-  declarerBinding: "auction.declarer"
   contractBinding: "auction.contract"
+
   phase: (->
     if @get("play.isCompleted")
       "completed"
@@ -19,18 +18,20 @@
     else
       "auction"
   ).property("auction.isCompleted", "play.isCompleted")
-  direction: (-> @get("#{@get('phase')}.currentDirection")).property("phase", "auction.currentDirection", "play.currentDirection")
+
+  direction: (->
+    @get("#{@get('phase')}.currentDirection")
+  ).property("phase", "auction.currentDirection", "play.currentDirection")
 
   init: ->
     @_super.apply(@, arguments)
 
     @set "auction", Bridge.Auction.create
       board: @
-      bidsBinding: "board.state.bids"
-      dealerBinding: "board.dealer"
+      contentBinding: "board.state.content"
+      dealerBinding: "board.state.dealer"
 
     @set "play", Bridge.Play.create
       board: @
-      cardsBinding: "board.state.cards"
-      declarerBinding: "board.declarer"
-      trumpBinding: "board.contract.trump"
+      contentBinding: "board.state.content"
+      contractBinding: "board.contract"

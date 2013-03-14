@@ -1,21 +1,48 @@
 @Bridge.Auction = Ember.ArrayProxy.extend
-  content: (-> @get("bids")?.map(Bridge.Bid.wrap)).property("bids.@each")
-  contract: (-> @filterProperty("isContract").get("lastObject")).property("@each")
-  contractSideBinding: "contract.side"
-  contractTrumpBinding: "contract.trump"
-  currentBids: (-> if contract = @get("contract") then @slice(@indexOf(contract)) else []).property("contract", "@each")
-  modifier: (-> @get("currentBids").filterProperty("isModifier").get("lastObject")).property("currentBids", "@each.isModifier")
-  double: (-> @get("currentBids").filterProperty("isDouble").get("lastObject")).property("currentBids", "@each.isDouble")
-  redouble: (-> @get("currentBids").filterProperty("isRedouble").get("lastObject")).property("currentBids", "@each.isRedouble")
-  isCompleted: (-> @get("length") > 3 and @slice(@get("length") - 3).everyProperty("isPass")).property("length", "@each.isPass")
-  declarer: (->
-    @filterProperty("side", @get("contractSide")).filterProperty("trump", @get("contractTrump")).get("firstObject.direction")
-  ).property("contractSide", "contractTrump", "@each.direction")
-  currentDirection: (-> @get("lastObject.direction.next") or @get("dealer")).property("lastObject.direction.next", "dealer")
+  objectAtContent: (index) ->
+    if bid = @get("content").objectAt(index)
+      Bridge.Bid.create(content: bid, index: index)
 
-  contentDidChange: (->
-    currentDirection = @get("dealer")
-    @forEach (bid) =>
-      bid.set("direction", currentDirection)
-      currentDirection = currentDirection.get("next")
-  ).observes("@each", "dealer")
+  lastContract: (->
+    @filterProperty("isContract").get("lastObject")
+  ).property("@each.isContract")
+
+  lastContractIndexBinding: "lastContract.index"
+
+  lastContractModifier: (->
+    if lastContractIndex = @get("lastContractIndex")
+      @slice(lastContractIndex).filterProperty("isModifier").get("lastObject")
+  ).property("lastContract", "@each")
+
+  lastContractBidBinding: "lastContract.bid"
+  lastContractModifierBidBinding: "lastContractModifier.bid"
+  lastContractSideBinding: "lastContract.side"
+  lastContractTrumpBinding: "lastContract.trump"
+
+  lastContractSuitFirstDeclarer: (->
+    @filterProperty("side", @get("lastContractSide")).filterProperty("trump", @get("lastContractTrump")).get("firstObject.direction")
+  ).property("lastContractSide", "lastContractTrump", "@each.direction")
+
+  isCompleted: (->
+    @get("length") > 3 and @slice(@get("length") - 3).everyProperty("isPass")
+  ).property("length", "@each.isPass")
+
+  lastDirectionBinding: "lastObject.direction"
+
+  lastDirectionIndex: (->
+    Bridge.DIRECTIONS.indexOf(@get("lastDirection")) if @get("lastDirection")
+  ).property("lastDirection")
+
+  currentDirection: (->
+    if @get("lastDirectionIndex")
+      Bridge.DIRECTIONS[(@get("lastDirectionIndex") + 1) % 4]
+    else
+      @get("dealer")
+  ).property("lastDirectionIndex", "dealer")
+
+  contract: (->
+    if @get("isCompleted")
+      [@get("lastContractBid"),
+       @get("lastContractModifierBid"),
+       @get("lastContractSuitFirstDeclarer")].without(undefined).join("") or undefined
+  ).property("lastContractBid", "lastContractModifierBid", "lastContractSuitFirstDeclarer", "isCompleted")
