@@ -66,9 +66,8 @@ auctionContract = (dealer, bids) ->
     declarerDirection = Bridge.DIRECTIONS[(dealerIndex + firstBidWithContractSuitIndex) % 4]
     "#{lastContract}#{double}#{redouble}#{declarerDirection}"
 
-
 # Returns an array containing subsequent directions for corresponding
-# cards array and given trump and declarer direction.
+# cards array, given trump and declarer direction.
 #
 # examples:
 #   playDirections("N", "H", ["H2", "H5", "HA", "C2", "S5"]) => ["E", "S", "W", "N", "W"]

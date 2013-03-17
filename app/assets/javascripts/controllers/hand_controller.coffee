@@ -29,16 +29,16 @@
 
 Bridge.register "controller:hand_n", Bridge.HandController.extend
   initialBinding: "controllers.board.state.n"
-  direction: Bridge.Direction.create(direction: "N")
+  direction: "N"
 
 Bridge.register "controller:hand_e", Bridge.HandController.extend
   initialBinding: "controllers.board.state.e"
-  direction: Bridge.Direction.create(direction: "E")
+  direction: "E"
 
 Bridge.register "controller:hand_s", Bridge.HandController.extend
   initialBinding: "controllers.board.state.s"
-  direction: Bridge.Direction.create(direction: "S")
+  direction: "S"
 
 Bridge.register "controller:hand_w", Bridge.HandController.extend
   initialBinding: "controllers.board.state.w"
-  direction: Bridge.Direction.create(direction: "W")
+  direction: "W"

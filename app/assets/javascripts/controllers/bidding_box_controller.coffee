@@ -1,20 +1,16 @@
 @Bridge.BiddingBoxController = Ember.Controller.extend
   needs: ["board"]
-  auctionBinding: "controllers.board.auction"
 
-  init: ->
-    @_super.apply(@, arguments)
-    @set("levels", Bridge.Bid.create(bid: "#{i}NT", biddingBox: @, auctionBinding: "biddingBox.auction") for i in [1..7])
-    @set("pass", Bridge.Bid.create(bid: "PASS", biddingBox: @, auctionBinding: "biddingBox.auction"))
-    @set("double", Bridge.Bid.create(bid: "X", biddingBox: @, auctionBinding: "biddingBox.auction"))
-    @set("redouble", Bridge.Bid.create(bid: "XX", biddingBox: @, auctionBinding: "biddingBox.auction"))
-
-  trumps: (->
-    if level = @get("level")
-      Bridge.Bid.create(bid: "#{level}#{i}", biddingBox: @, auctionBinding: "biddingBox.auction") for i in ["C", "D", "H", "S", "NT"]
-    else
-      []
-  ).property("level")
+  contractBinding: "controllers.board.incompletedContract"
+  contractDirection: (-> contract[-1..-1] if contract = @get("contract")).property("contract")
+  contractDirectionIndex: (-> Bridge.DIRECTIONS.indexOf(@get("currentDirection"))).property("contractDirection")
+  contractSide: (-> Bridge.SIDES[@get("contractDirectionIndex") % 2]).property("contractDirectionIndex")
+  level: (-> parseInt(contract[0], 10) if contract = @get("contract")).property("")
+  isDoubled: (-> /X/.test(@get("contract"))).property("contract")
+  isRedoubled: (-> /XX/.test(@get("contract"))).property("contract")
+  currentDirectionBinding: "controllers.board.currentAuctionDirection"
+  currentDirectionIndex: (-> Bridge.DIRECTIONS.indexOf(@get("currentDirection"))).property("currentDirection")
+  currentSide: (-> Bridge.SIDES[@get("currentDirectionIndex") % 2]).property("currentDirectionIndex")
 
   bid: (bid) ->
     @set("level", null)
