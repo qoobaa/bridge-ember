@@ -34,9 +34,38 @@
   {{/each}}
 </ul>
 
+<p>
 N
 {{#each card in "controllers.board.n"}}
   {{#with "controllers.card"}}
-    {{view Bridge.CardView contentBinding=card}}
+    {{view Bridge.CardView contentBinding=card ownerDirection="N"}}
   {{/with}}
 {{/each}}
+</p>
+
+<p>
+E
+{{#each card in "controllers.board.e"}}
+  {{#with "controllers.card"}}
+    {{view Bridge.CardView contentBinding=card ownerDirection="E"}}
+  {{/with}}
+{{/each}}
+</p>
+
+<p>
+S
+{{#each card in "controllers.board.s"}}
+  {{#with "controllers.card"}}
+    {{view Bridge.CardView contentBinding=card ownerDirection="S"}}
+  {{/with}}
+{{/each}}
+</p>
+
+<p>
+W
+{{#each card in "controllers.board.w"}}
+  {{#with "controllers.card"}}
+    {{view Bridge.CardView contentBinding=card ownerDirection="W"}}
+  {{/with}}
+{{/each}}
+</p>

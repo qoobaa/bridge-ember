@@ -9,9 +9,8 @@
   ).property("context.playedCards")
 
   disabled: (->
-    @get("context.isCompleted")
-  ).property("context.isCompleted")
+    @get("context.isCompleted")# or @get("context.currentDirection") != @get("ownerDirection")
+  ).property("context.isCompleted", "context.currentDirection")
 
   click: ->
     @get("context").play(@get("content"))
-

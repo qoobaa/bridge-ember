@@ -26,7 +26,8 @@
   ).property("dealer", "bids.@each")
 
   contract: (->
-    @get("partialContract") if @get("isAuctionCompleted")
+    # @get("partialContract") if @get("isAuctionCompleted")
+    @get("incompletedContract") if @get("isAuctionCompleted")
   ).property("incompletedContract", "isAuctionCompleted")
 
   declarer: (->
