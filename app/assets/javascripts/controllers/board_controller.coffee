@@ -1,5 +1,5 @@
 @Bridge.BoardController = Ember.ObjectController.extend
-  bids: ["1C", "PASS", "2NT", "X"]
+  bids: []
   cards: []
   dealer: "N"
   n: ["C2", "S3", "H4", "D5", "C6", "C7", "C8", "C9", "CT", "CJ", "CQ", "CK", "CA"]
@@ -10,7 +10,7 @@
   isAuctionCompleted: (->
     bids = @get("bids")
     length = bids.get("length")
-    length > 3 and bids.slice(length - 3).everyProperty("isPass")
+    length > 3 and bids.slice(length - 3).every((bid) -> bid == "PASS")
   ).property("bids.@each")
 
   auctionDirections: (->

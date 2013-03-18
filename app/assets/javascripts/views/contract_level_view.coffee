@@ -3,5 +3,8 @@
   templateName: "contract_level"
   tagName: "button"
   disabled: (->
-    false
-  ).property()
+    @get("context.isCompleted") or
+      Bridge.CONTRACTS.indexOf(@get("context.bareContract")) >= Bridge.CONTRACTS.indexOf(@get("level") + "NT")
+  ).property("context.bareContract", "context.isCompleted", "level")
+  click: -> @set("context.level", @get("level"))
+
