@@ -27,3 +27,16 @@
     {{view Bridge.PassView}}
   </p>
 {{/with}}
+
+<ul>
+  {{#each "controllers.board.cards"}}
+    <li>{{.}}</li>
+  {{/each}}
+</ul>
+
+N
+{{#each card in "controllers.board.n"}}
+  {{#with "controllers.card"}}
+    {{view Bridge.CardView contentBinding=card}}
+  {{/with}}
+{{/each}}

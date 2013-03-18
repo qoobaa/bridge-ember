@@ -1,2 +1,3 @@
 @Bridge.IndexController = Ember.Controller.extend
-  needs: ["auction", "bidding_box", "board"]
+  needs: ["auction", "bidding_box", "board", "card"]
+
