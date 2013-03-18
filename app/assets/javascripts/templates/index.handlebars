@@ -1,3 +1,9 @@
+<ul>
+  {{#each "controllers.board.bids"}}
+    <li>{{.}}</li>
+  {{/each}}
+</ul>
+
 {{#with "controllers.bidding_box"}}
   <p>
     {{view Bridge.ContractLevelView level="1"}}
