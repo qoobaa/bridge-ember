@@ -6,7 +6,7 @@
 
   isPlayed: (->
     @get("context.playedCards").contains(@get("content"))
-  ).property("context.playedCards")
+  ).property("context.playedCards.@each")
 
   disabled: (->
     @get("context.isCompleted")# or @get("context.currentDirection") != @get("ownerDirection")
