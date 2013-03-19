@@ -27,7 +27,7 @@
 
   contract: (->
     @get("incompletedContract") if @get("isAuctionCompleted")
-  ).property("incompletedContract", "isAuctionCompleted")
+  ).property("isAuctionCompleted")
 
   declarer: (->
     @get("contract")?[-1..-1]
@@ -36,7 +36,7 @@
   trump: (->
     if @get("contract")
       suit = @get("contract")[1..1]
-      if suit == "N" then undefined else suit
+      if suit == "N" then undefined else suit # NT
   ).property("contract")
 
   isPlayCompleted: (->
