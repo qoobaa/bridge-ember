@@ -1,4 +1,4 @@
-@Bridge.BoardController = Ember.ObjectController.extend
+@Bridge.BoardController = Ember.Controller.extend
   bids: []
   cards: []
   dealer: "N"
@@ -26,12 +26,11 @@
   ).property("dealer", "bids.@each")
 
   contract: (->
-    # @get("partialContract") if @get("isAuctionCompleted")
     @get("incompletedContract") if @get("isAuctionCompleted")
   ).property("incompletedContract", "isAuctionCompleted")
 
   declarer: (->
-    @get("contract")[-1..-1] if @get("contract")
+    @get("contract")?[-1..-1]
   ).property("contract")
 
   trump: (->
