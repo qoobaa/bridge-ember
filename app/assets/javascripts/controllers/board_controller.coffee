@@ -66,3 +66,21 @@
       when "auction" then @get("currentAuctionDirection")
       when "play" then @get("currentPlayDirection")
   ).property("currentPhase", "currentAuctionDirection", "currentPlayDirection")
+
+  # Play properties
+  tricks: (->
+    if @get("cards").get("length") > 0
+      n = Math.ceil(@get("cards").get("length") / 4) - 1
+      @get("cards").slice(i * 4, i * 4 + 4) for i in [0..n]
+    else
+      []
+  ).property("cards.@each")
+
+  isTrickLead: (->
+    @get("cards").get("length") % 4 == 0
+  ).property("cards.@each")
+
+  currentSuit: (->
+    @get("tricks.lastObject.firstObject")?[0] unless @get("isTrickLead")
+  ).property("isTrickLead")
+
