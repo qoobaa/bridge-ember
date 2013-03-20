@@ -36,8 +36,8 @@
 
 <p>
 N
-{{#each card in "controllers.board.n"}}
-  {{#with "controllers.card"}}
+{{#each card in controllers.hand_n}}
+  {{#with controllers.hand_n}}
     {{view Bridge.CardView contentBinding=card ownerDirection="N"}}
   {{/with}}
 {{/each}}
@@ -45,8 +45,8 @@ N
 
 <p>
 E
-{{#each card in "controllers.board.e"}}
-  {{#with "controllers.card"}}
+{{#each card in controllers.hand_e}}
+  {{#with controllers.hand_e}}
     {{view Bridge.CardView contentBinding=card ownerDirection="E"}}
   {{/with}}
 {{/each}}
@@ -54,8 +54,8 @@ E
 
 <p>
 S
-{{#each card in "controllers.board.s"}}
-  {{#with "controllers.card"}}
+{{#each card in controllers.hand_s}}
+  {{#with controllers.hand_s}}
     {{view Bridge.CardView contentBinding=card ownerDirection="S"}}
   {{/with}}
 {{/each}}
@@ -63,8 +63,8 @@ S
 
 <p>
 W
-{{#each card in "controllers.board.w"}}
-  {{#with "controllers.card"}}
+{{#each card in controllers.hand_w}}
+  {{#with controllers.hand_w}}
     {{view Bridge.CardView contentBinding=card ownerDirection="W"}}
   {{/with}}
 {{/each}}
