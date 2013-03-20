@@ -83,4 +83,3 @@
   currentSuit: (->
     @get("tricks.lastObject.firstObject")?[0] unless @get("isTrickLead")
   ).property("isTrickLead")
-

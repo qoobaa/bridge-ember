@@ -1,5 +1,5 @@
 #= require test_helper
-#= require models/bid
+#= require lib/utils
 
 describe "Utils", ->
   describe "sortCardSuits", ->
