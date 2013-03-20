@@ -8,12 +8,12 @@
     @get("context.playedCards").contains(@get("content"))
   ).property("context.playedCards.@each")
 
-  # Doesn't work when no cards in played suit
+  # TODO: simplify
   disabled: (->
     @get("context.isCompleted") or
-    @get("context.currentDirection") != @get("ownerDirection")  or
-    (@get("context.currentSuit")? and @get("context.currentSuit") != @get("content")[0])
-  ).property("context.isCompleted", "context.currentDirection", "context.currentSuit")
+    @get("context.currentDirection") != @get("ownerDirection") or
+    (@get("context.currentSuit")? and @get("context.currentSuit") != @get("content")[0] and @get("context.hasCardInCurrentSuit"))
+  ).property("context.isCompleted", "context.currentDirection", "context.currentSuit", "context.hasCardInCurrentSuit")
 
   click: ->
     @get("context").play(@get("content"))

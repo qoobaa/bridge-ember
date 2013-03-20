@@ -6,6 +6,16 @@
   currentDirectionBinding: "controllers.board.currentPlayDirection"
   currentSuitBinding: "controllers.board.currentSuit"
 
+  cardsLeft: (->
+    @get("content").filter (card) =>
+      not @get("playedCards").contains(card)
+  ).property("playedCards.@each")
+
+  hasCardInCurrentSuit: (->
+    suitsLeft = @get("cardsLeft").map((card) -> card[0]).uniq()
+    suitsLeft.contains @get("currentSuit")
+  ).property("cardsLeft.@each", "currentSuit")
+
   play: (card) ->
     @get("controllers.board.cards").pushObject(card)
 
