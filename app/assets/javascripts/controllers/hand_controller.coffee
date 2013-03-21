@@ -2,6 +2,7 @@
   needs: ["board"]
 
   playedCardsBinding: "controllers.board.cards"
+  isStartedBinding: "controllers.board.isAuctionCompleted"
   isCompletedBinding: "controllers.board.isPlayCompleted"
   currentDirectionBinding: "controllers.board.currentPlayDirection"
   currentSuitBinding: "controllers.board.currentSuit"
@@ -16,21 +17,29 @@
     suitsLeft.contains @get("currentSuit")
   ).property("cardsLeft.@each", "currentSuit")
 
+  content: (->
+    Bridge.Utils.sortCards(@get("initial"))
+  ).property("initial.@each")
+
+  sortingCardsObserver: (->
+    @set "content", Bridge.Utils.sortCards(@get("content"), @get("controllers.board.trump"))
+  ).observes("isStarted")
+
   play: (card) ->
     @get("controllers.board.cards").pushObject(card)
 
 Bridge.register "controller:hand_n", Bridge.HandController.extend
-  contentBinding: "controllers.board.n"
+  initialBinding: "controllers.board.n"
   direction: "N"
 
 Bridge.register "controller:hand_e", Bridge.HandController.extend
-  contentBinding: "controllers.board.e"
+  initialBinding: "controllers.board.e"
   direction: "E"
 
 Bridge.register "controller:hand_s", Bridge.HandController.extend
-  contentBinding: "controllers.board.s"
+  initialBinding: "controllers.board.s"
   direction: "S"
 
 Bridge.register "controller:hand_w", Bridge.HandController.extend
-  contentBinding: "controllers.board.w"
+  initialBinding: "controllers.board.w"
   direction: "W"
