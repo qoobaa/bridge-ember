@@ -1,10 +1,16 @@
+# Returns sorted cards by given trump suit and values from highest to lowest.
+#
+# examples:
+#   sortCards(["C3", "DK" "HA", "ST"], "H") => ["HA", "ST", "DK", "C3"]
+#   sortCards(["C3", "DK" "HA", "ST"]) => ["ST", "HA", "C3", "DK"]
+
 sortCards = (cards, trump) =>
   sorted = []
   suits = (cards.map (card) -> card[0]).uniq()
   sortCardSuits(suits, trump).forEach (suit) ->
     cardsInSuit = cards.filter (card) -> card[0] == suit
     sortCardValues(cardsInSuit.map (card) -> card[1]).forEach (value) ->
-      sorted.push(suit + value)
+      sorted.push cards.find (card) -> card == suit + value
   sorted
 
 sortCardValues = (values) ->
@@ -83,10 +89,10 @@ playDirections = (declarer, trump, cards) ->
     Bridge.DIRECTIONS[++directionIndex % 4]
 
 @Bridge.Utils =
-  sortCards: sortCards
-  sortCardValues: sortCardValues
-  sortCardSuits: sortCardSuits
-  trickWinner: trickWinner
+  sortCards:         sortCards
+  sortCardValues:    sortCardValues
+  sortCardSuits:     sortCardSuits
+  trickWinner:       trickWinner
   auctionDirections: auctionDirections
-  auctionContract: auctionContract
-  playDirections: playDirections
+  auctionContract:   auctionContract
+  playDirections:    playDirections

@@ -1,10 +1,14 @@
+<p>
+  Dealer: {{controllers.board.dealer}}
+</p>
+
 <ul>
-  {{#each "controllers.board.bids"}}
+  {{#each controllers.board.bids}}
     <li>{{.}}</li>
   {{/each}}
 </ul>
 
-{{#with "controllers.bidding_box"}}
+{{#with controllers.bidding_box}}
   <p>
     {{view Bridge.ContractLevelView level="1"}}
     {{view Bridge.ContractLevelView level="2"}}
@@ -28,8 +32,12 @@
   </p>
 {{/with}}
 
+<p>
+  Contract: {{controllers.board.contract}}
+</p>
+
 <ul>
-  {{#each "controllers.board.cards"}}
+  {{#each controllers.board.tricks}}
     <li>{{.}}</li>
   {{/each}}
 </ul>
