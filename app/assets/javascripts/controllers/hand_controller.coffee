@@ -22,7 +22,8 @@
   ).property("initial.@each")
 
   sortingCardsObserver: (->
-    @set "content", Bridge.Utils.sortCards(@get("content"), @get("controllers.board.trump"))
+    if trump = @get("controllers.board.trump") # No need for sorting when NT
+      @set "content", Bridge.Utils.sortCards(@get("content"), trump)
   ).observes("isStarted")
 
   play: (card) ->
