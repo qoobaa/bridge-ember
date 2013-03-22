@@ -1,0 +1,94 @@
+<div class="row">
+  <div class="span4">
+    <p>Dealer: {{controllers.board.dealer}}</p>
+    <p>Contract: {{controllers.board.contract}}</p>
+  </div>
+
+  <div class="span4 hand">
+    <div class="cards">
+    {{#each card in controllers.hand_n}}
+      {{#with controllers.hand_n}}
+        {{view Bridge.PrettyCardView contentBinding=card ownerDirection="N"}}
+      {{/with}}
+    {{/each}}
+    </div>
+  </div>
+
+  <div class="span4">
+    <ul>
+      {{#each controllers.board.bids}}
+        <li>{{.}}</li>
+      {{/each}}
+    </ul>
+  </div>
+</div>
+
+<div class="row">
+  <div class="span4 hand">
+    <div class="cards">
+    {{#each card in controllers.hand_w}}
+      {{#with controllers.hand_w}}
+        {{view Bridge.PrettyCardView contentBinding=card ownerDirection="W"}}
+      {{/with}}
+    {{/each}}
+    </div>
+  </div>
+
+  <div class="span4"></div>
+
+  <div class="span4 hand">
+    <div class="cards">
+    {{#each card in controllers.hand_e}}
+      {{#with controllers.hand_e}}
+        {{view Bridge.PrettyCardView contentBinding=card ownerDirection="E"}}
+      {{/with}}
+    {{/each}}
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="span4">
+    <ul>
+      {{#each controllers.board.tricks}}
+        <li>{{.}}</li>
+      {{/each}}
+    </ul>
+  </div>
+
+  <div class="span4 hand">
+    <div class="cards">
+    {{#each card in controllers.hand_s}}
+      {{#with controllers.hand_s}}
+        {{view Bridge.PrettyCardView contentBinding=card ownerDirection="S"}}
+      {{/with}}
+    {{/each}}
+    </div>
+  </div>
+
+  <div class="span4">
+  {{#with controllers.bidding_box}}
+    <p>
+      {{view Bridge.ContractLevelView level="1"}}
+      {{view Bridge.ContractLevelView level="2"}}
+      {{view Bridge.ContractLevelView level="3"}}
+      {{view Bridge.ContractLevelView level="4"}}
+      {{view Bridge.ContractLevelView level="5"}}
+      {{view Bridge.ContractLevelView level="6"}}
+      {{view Bridge.ContractLevelView level="7"}}
+    </p>
+    <p>
+      {{view Bridge.ContractSuitView suit="C"}}
+      {{view Bridge.ContractSuitView suit="D"}}
+      {{view Bridge.ContractSuitView suit="H"}}
+      {{view Bridge.ContractSuitView suit="S"}}
+      {{view Bridge.ContractSuitView suit="NT"}}
+    </p>
+    <p>
+      {{view Bridge.DoubleView}}
+      {{view Bridge.RedoubleView}}
+      {{view Bridge.PassView}}
+    </p>
+  {{/with}}
+  </div>
+</div>
