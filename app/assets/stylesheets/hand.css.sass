@@ -1,0 +1,59 @@
+.hand
+  display: table
+
+.cards
+  font-size: 4px
+
+  .card
+    cursor: pointer
+
+    &.disabled
+      cursor: default
+
+  .face
+    background-size: cover
+    position: absolute
+    left: 2.56em
+    top: 2.08em
+    width: 10.8em
+    height: 18.24em
+
+  .suit-c
+    color: green
+
+    .card-king .face
+      background-image: url("img/faces/face-king-club.png")
+    .card-queen .face
+      background-image: url("img/faces/face-queen-club.png")
+    .card-jack .face
+      background-image: url("img/faces/face-jack-club.png")
+
+  .suit-d
+    color: orange
+
+    .card-king .face
+      background-image: url("img/faces/face-king-diamond.png")
+    .card-queen .face
+      background-image: url("img/faces/face-queen-diamond.png")
+    .card-jack .face
+      background-image: url("img/faces/face-jack-diamond.png")
+
+  .suit-h
+    color: red
+
+    .card-king .face
+      background-image: url("img/faces/face-king-heart.png")
+    .card-queen .face
+      background-image: url("img/faces/face-queen-heart.png")
+    .card-jack .face
+      background-image: url("img/faces/face-jack-heart.png")
+
+  .suit-s
+    color: black
+
+    .card-king .face
+      background-image: url("img/faces/face-king-spade.png")
+    .card-queen .face
+      background-image: url("img/faces/face-queen-spade.png")
+    .card-jack .face
+      background-image: url("img/faces/face-jack-spade.png")

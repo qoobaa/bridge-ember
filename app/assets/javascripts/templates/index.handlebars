@@ -42,38 +42,46 @@
   {{/each}}
 </ul>
 
-<p>
-N
-{{#each card in controllers.hand_n}}
-  {{#with controllers.hand_n}}
-    {{view Bridge.CardView contentBinding=card ownerDirection="N"}}
-  {{/with}}
-{{/each}}
-</p>
+<div class="hand">
+  N
+  <div class="cards">
+  {{#each card in controllers.hand_n}}
+    {{#with controllers.hand_n}}
+      {{view Bridge.PrettyCardView contentBinding=card ownerDirection="N"}}
+    {{/with}}
+  {{/each}}
+  </div>
+</div>
 
-<p>
-E
-{{#each card in controllers.hand_e}}
-  {{#with controllers.hand_e}}
-    {{view Bridge.CardView contentBinding=card ownerDirection="E"}}
-  {{/with}}
-{{/each}}
-</p>
+<div class="hand">
+  E
+  <div class="cards">
+  {{#each card in controllers.hand_e}}
+    {{#with controllers.hand_e}}
+      {{view Bridge.PrettyCardView contentBinding=card ownerDirection="E"}}
+    {{/with}}
+  {{/each}}
+  </div>
+</div>
 
-<p>
-S
-{{#each card in controllers.hand_s}}
-  {{#with controllers.hand_s}}
-    {{view Bridge.CardView contentBinding=card ownerDirection="S"}}
-  {{/with}}
-{{/each}}
-</p>
+<div class="hand">
+  S
+  <div class="cards">
+  {{#each card in controllers.hand_s}}
+    {{#with controllers.hand_s}}
+      {{view Bridge.PrettyCardView contentBinding=card ownerDirection="S"}}
+    {{/with}}
+  {{/each}}
+  </div>
+</div>
 
-<p>
-W
-{{#each card in controllers.hand_w}}
-  {{#with controllers.hand_w}}
-    {{view Bridge.CardView contentBinding=card ownerDirection="W"}}
-  {{/with}}
-{{/each}}
-</p>
+<div class="hand">
+  W
+  <div class="cards">
+  {{#each card in controllers.hand_w}}
+    {{#with controllers.hand_w}}
+      {{view Bridge.PrettyCardView contentBinding=card ownerDirection="W"}}
+    {{/with}}
+  {{/each}}
+  </div>
+</div>
