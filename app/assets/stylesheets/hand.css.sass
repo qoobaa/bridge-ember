@@ -2,13 +2,15 @@
   display: table
 
 .cards
-  font-size: 4px
+  font-size: 8px
 
   .card
     cursor: pointer
-
     &.disabled
       cursor: default
+
+  .card:not(:first-of-type)
+    margin-left: -14em
 
   .face
     background-size: cover
