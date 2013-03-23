@@ -5,6 +5,7 @@
   </div>
 
   <div class="span4 hand">
+    {{#with controllers.board}}{{view Bridge.DirectionView content="N"}}{{/with}}
     <div class="cards">
     {{#each card in controllers.hand_n}}
       {{#with controllers.hand_n}}
@@ -25,6 +26,7 @@
 
 <div class="row">
   <div class="span4 hand">
+    {{#with controllers.board}}{{view Bridge.DirectionView content="W"}}{{/with}}
     <div class="cards">
     {{#each card in controllers.hand_w}}
       {{#with controllers.hand_w}}
@@ -37,6 +39,7 @@
   <div class="span4"></div>
 
   <div class="span4 hand">
+    {{#with controllers.board}}{{view Bridge.DirectionView content="E"}}{{/with}}
     <div class="cards">
     {{#each card in controllers.hand_e}}
       {{#with controllers.hand_e}}
@@ -57,6 +60,7 @@
   </div>
 
   <div class="span4 hand">
+    {{#with controllers.board}}{{view Bridge.DirectionView content="S"}}{{/with}}
     <div class="cards">
     {{#each card in controllers.hand_s}}
       {{#with controllers.hand_s}}
