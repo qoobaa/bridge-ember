@@ -5,23 +5,16 @@
 #   sortCards(["C3", "DK" "HA", "ST"]) => ["ST", "HA", "C3", "DK"]
 
 sortCards = (cards, trump) =>
-  sorted = []
-  suits = (cards.map (card) -> card[0]).uniq()
-  sortCardSuits(suits, trump).forEach (suit) ->
-    cardsInSuit = cards.filter (card) -> card[0] == suit
-    sortCardValues(cardsInSuit.map (card) -> card[1]).forEach (value) ->
-      sorted.push cards.find (card) -> card == suit + value
-  sorted
-
-sort = (cards, trump) =>
   suits = (cards.map (card) -> card[0]).uniq()
   sortedSuits = sortCardSuits(suits, trump)
   sortedValues = ["A", "K", "Q", "J", "T", "9", "8", "7", "6", "5", "4", "3", "2"]
-
-sortCardValues = (values) ->
-  sortedValues = ["A", "K", "Q", "J", "T", "9", "8", "7", "6", "5", "4", "3", "2"]
-  values.sort (a, b) ->
-    sortedValues.indexOf(a) - sortedValues.indexOf(b)
+  # Ember.copy is necessary since sort function modifies array, which is not catched by Ember later on,
+  # because all content changes should be done via set function.
+  Ember.copy(cards).sort (a, b) ->
+    if a[0] == b[0]
+      sortedValues.indexOf(a[1]) - sortedValues.indexOf(b[1])
+    else
+      sortedSuits.indexOf(a[0]) - sortedSuits.indexOf(b[0])
 
 sortCardSuits = (suits, trump) ->
   black = ["S", "C"].filter (s) -> s in suits
@@ -95,7 +88,6 @@ playDirections = (declarer, trump, cards) ->
 
 @Bridge.Utils =
   sortCards:         sortCards
-  sortCardValues:    sortCardValues
   sortCardSuits:     sortCardSuits
   trickWinner:       trickWinner
   auctionDirections: auctionDirections

@@ -66,10 +66,6 @@ describe "Utils", ->
     it "SD with C trump", ->
       assert.deepEqual Bridge.Utils.sortCardSuits(["D", "S"], "C"), ["S", "D"]
 
-  describe "sortCardValues", ->
-    it "AKJT2", ->
-      assert.deepEqual Bridge.Utils.sortCardValues(["2", "T", "J", "K", "A"]), ["A", "K", "J", "T", "2"]
-
   describe "sortCards", ->
     it "SAKJT2-H84-CT98-DAKQ without trump", ->
       hand   = ["C8", "C9", "CT", "DQ", "DK", "DA", "H4", "H8", "S2", "ST", "SJ", "SK", "SA"]
