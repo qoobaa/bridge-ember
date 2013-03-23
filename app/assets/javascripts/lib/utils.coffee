@@ -13,6 +13,11 @@ sortCards = (cards, trump) =>
       sorted.push cards.find (card) -> card == suit + value
   sorted
 
+sort = (cards, trump) =>
+  suits = (cards.map (card) -> card[0]).uniq()
+  sortedSuits = sortCardSuits(suits, trump)
+  sortedValues = ["A", "K", "Q", "J", "T", "9", "8", "7", "6", "5", "4", "3", "2"]
+
 sortCardValues = (values) ->
   sortedValues = ["A", "K", "Q", "J", "T", "9", "8", "7", "6", "5", "4", "3", "2"]
   values.sort (a, b) ->
