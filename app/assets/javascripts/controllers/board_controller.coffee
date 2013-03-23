@@ -4,6 +4,7 @@
   # http://slzbs.pl/protokoly//01/chorzow/13/1kwartal/mch0304002.html
   dealer: "E"
   n: ["C2", "CQ", "CK", "D9", "DT", "DJ", "H2", "H6", "H7", "S4", "S6", "S9", "SA"]
+  # n: ["", "", "", "", "", "", "", "", "", "", "", "", "", ""]
   e: ["C4", "C5", "C7", "CT", "D3", "D5", "DQ", "H9", "HA", "S2", "S3", "S5", "S7"]
   s: ["D2", "D6", "D8", "DA", "H3", "H8", "HT", "HJ", "HQ", "HK", "S8", "SJ", "SQ"]
   w: ["C3", "C6", "C8", "C9", "CJ", "CA", "D4", "D7", "DK", "H4", "H5", "ST", "SK"]

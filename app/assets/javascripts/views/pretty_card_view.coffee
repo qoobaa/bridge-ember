@@ -8,6 +8,7 @@
   isHeart:   (-> @get("content")[0] == "H").property("content")
   isSpade:   (-> @get("content")[0] == "S").property("content")
 
+  isBack: (-> @get("content") == "").property("content")
   is2: (-> @get("content")[1] == "2").property("content")
   is3: (-> @get("content")[1] == "3").property("content")
   is4: (-> @get("content")[1] == "4").property("content")
@@ -36,11 +37,11 @@
 
   # TODO: simplify
   isDisabled: (->
+    @get("isBack") or
     @get("context.isCompleted") or
     @get("context.currentDirection") != @get("ownerDirection") or
     (@get("context.currentSuit")? and @get("context.currentSuit") != @get("content")[0] and @get("context.hasCardInCurrentSuit"))
-  ).property("context.isCompleted", "context.currentDirection", "context.currentSuit", "context.hasCardInCurrentSuit")
+  ).property("isBack", "context.isCompleted", "context.currentDirection", "context.currentSuit", "context.hasCardInCurrentSuit")
 
   click: ->
-    return if @get("isDisabled")
-    @get("context").play(@get("content"))
+    @get("context").play(@get("content")) unless @get("isDisabled")

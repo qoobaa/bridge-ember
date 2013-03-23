@@ -8,8 +8,7 @@
   currentSuitBinding: "controllers.board.currentSuit"
 
   cardsLeft: (->
-    @get("content").filter (card) =>
-      not @get("playedCards").contains(card)
+    @get("content").reject (card) => @get("playedCards").contains(card)
   ).property("playedCards.@each")
 
   hasCardInCurrentSuit: (->
