@@ -83,3 +83,13 @@ describe "Utils", ->
 
     it "H2 from [C2, H2, CK, CA] with H trump", ->
       assert.strictEqual Bridge.Utils.trickWinner(["C2", "H2", "CK", "CA"], "H"), "H2"
+
+  describe "score", ->
+    it "0 when 4HE and 10 tricks taken", ->
+      assert.strictEqual Bridge.Utils.score("4HE", 10), 0
+
+    it "2 when 4HE and 11 tricks taken", ->
+      assert.strictEqual Bridge.Utils.score("4HE", 12), 2
+
+    it "-2 when 4NTXE and 8 tricks taken", ->
+      assert.strictEqual Bridge.Utils.score("4HE", 8), -2

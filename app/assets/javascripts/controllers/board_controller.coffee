@@ -69,6 +69,22 @@
       when "play" then @get("currentPlayDirection")
   ).property("currentPhase", "currentAuctionDirection", "currentPlayDirection")
 
+  score: (->
+    return unless @get("isPlayCompleted")
+    wonTricksNumber = switch @get("declarer")
+      when "N", "S" then @get("snWonTricksNumber")
+      when "E", "W" then @get("ewWonTricksNumber")
+    Bridge.Utils.score(@get("contract"), wonTricksNumber)
+  ).property("isPlayCompleted")
+
+  scoreString: (->
+    score = @get("score")
+    switch
+      when score == 0 then "="
+      when score > 0  then "+#{score}"
+      when score < 0  then String(score)
+  ).property("score")
+
   # Play properties
   tricks: (->
     if @get("cards").get("length") > 0

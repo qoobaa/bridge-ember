@@ -86,6 +86,16 @@ playDirections = (declarer, trump, cards) ->
       directionIndex += lastTrickWinnerIndex
     Bridge.DIRECTIONS[++directionIndex % 4]
 
+# Returns score for given contract and tricks number taken by declarer side.
+#
+# examples:
+#   score("4HE", 10) => 0
+#   score("4HE", 9) => -1
+#   score("6NTXXS", 13) => 1
+score = (contract, tricksNumber) ->
+  level = parseInt(contract[0], 10)
+  tricksNumber - (level + 6)
+
 @Bridge.Utils =
   sortCards:         sortCards
   sortCardSuits:     sortCardSuits
@@ -93,3 +103,4 @@ playDirections = (declarer, trump, cards) ->
   auctionDirections: auctionDirections
   auctionContract:   auctionContract
   playDirections:    playDirections
+  score:             score
