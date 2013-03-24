@@ -24,7 +24,7 @@
                  "S2", "S3", "S4", "S5", "S6", "S7", "S8", "S9", "ST", "SJ", "SQ", "SK", "SA"]
 
 @Bridge.DIRECTIONS = ["N", "E", "S", "W"]
-
+@Bridge.VULNERABILITIES = ["NONE", "NS", "EW", "BOTH"]
 @Bridge.SUITS = ["C", "D", "H", "S"]
 @Bridge.TRUMPS = Bridge.SUITS.concat("NT")
 @Bridge.SIDES = ["NS", "EW"]

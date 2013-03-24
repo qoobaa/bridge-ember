@@ -34,9 +34,7 @@
   ).property("claimed")
 
   claimAcceptedObserver: (->
-    if @get("isAccepted")
-      @get("controllers.board").set("claim", @get("claimed"))
-      console.log("accepted")
+    @get("controllers.board").set("claim", @get("claimed")) if @get("isAccepted")
   ).observes("isAccepted")
 
   claimRejectedObserver: (->

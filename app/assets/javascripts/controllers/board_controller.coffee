@@ -3,6 +3,7 @@
   cards: []
   # http://slzbs.pl/protokoly//01/chorzow/13/1kwartal/mch0304002.html
   dealer: "E"
+  vulnerable: "NS"
   n: ["C2", "CQ", "CK", "D9", "DT", "DJ", "H2", "H6", "H7", "S4", "S6", "S9", "SA"]
   # n: ["", "", "", "", "", "", "", "", "", "", "", "", ""]
   e: ["C4", "C5", "C7", "CT", "D3", "D5", "DQ", "H9", "HA", "S2", "S3", "S5", "S7"]
@@ -98,14 +99,6 @@
     Bridge.Utils.score(@get("contract"), wonTricksNumber + @get("claimTricksNumber"))
   ).property("isBoardCompleted")
 
-  claimTricksNumber: (->
-    return 0 unless claim = @get("claim")
-    value = parseInt /\d+/.exec(claim), 10
-    switch claim[-1..-1]
-      when @get("declarer") then value
-      when @get("lho"), @get("rho") then 13 - @get("wonTrickCards").length - value
-  ).property("claim")
-
   scoreString: (->
     score = @get("score")
     switch
@@ -113,6 +106,14 @@
       when score > 0  then "+#{score}"
       when score < 0  then String(score)
   ).property("score")
+
+  claimTricksNumber: (->
+    return 0 unless claim = @get("claim")
+    value = parseInt /\d+/.exec(claim), 10
+    switch claim[-1..-1]
+      when @get("declarer") then value
+      when @get("lho"), @get("rho") then 13 - @get("wonTrickCards").length - value
+  ).property("claim")
 
   tricks: (->
     if @get("cards").get("length") > 0
