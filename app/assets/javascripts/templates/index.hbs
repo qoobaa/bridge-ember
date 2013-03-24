@@ -9,6 +9,10 @@
 
   <div class="span4 hand">
     {{view Bridge.DirectionView content="N" contextBinding=controllers.board}}
+    {{view Bridge.ClaimView direction="N" contextBinding=controllers.claim}}
+    {{view Bridge.ClaimAcceptView direction="N" contextBinding=controllers.claim}}
+    {{view Bridge.ClaimRejectView direction="N" contextBinding=controllers.claim}}
+
     <div class="cards">
     {{#each card in controllers.hand_n}}
       {{view Bridge.PrettyCardView contentBinding=card ownerDirection="N" contextBinding=controllers.hand_n}}
@@ -28,6 +32,10 @@
 <div class="row">
   <div class="span4 hand">
     {{view Bridge.DirectionView content="W" contextBinding=controllers.board}}
+    {{view Bridge.ClaimView direction="W" contextBinding=controllers.claim}}
+    {{view Bridge.ClaimAcceptView direction="W" contextBinding=controllers.claim}}
+    {{view Bridge.ClaimRejectView direction="W" contextBinding=controllers.claim}}
+
     <div class="cards">
     {{#each card in controllers.hand_w}}
       {{view Bridge.PrettyCardView contentBinding=card ownerDirection="W" contextBinding=controllers.hand_w}}
@@ -39,6 +47,10 @@
 
   <div class="span4 hand">
     {{view Bridge.DirectionView content="E" contextBinding=controllers.board}}
+    {{view Bridge.ClaimView direction="E" contextBinding=controllers.claim}}
+    {{view Bridge.ClaimAcceptView direction="E" contextBinding=controllers.claim}}
+    {{view Bridge.ClaimRejectView direction="E" contextBinding=controllers.claim}}
+
     <div class="cards">
     {{#each card in controllers.hand_e}}
       {{view Bridge.PrettyCardView contentBinding=card ownerDirection="E" contextBinding=controllers.hand_e}}

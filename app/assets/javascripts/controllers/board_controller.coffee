@@ -31,9 +31,22 @@
     @get("incompletedContract") if @get("isAuctionCompleted")
   ).property("isAuctionCompleted")
 
-  declarer: (->
-    @get("contract")?[-1..-1]
-  ).property("contract")
+  declarer: (-> @get("contract")?[-1..-1]).property("contract")
+
+  dummy: (->
+    index = (Bridge.DIRECTIONS.indexOf(@get("declarer")) + 2) % 4
+    Bridge.DIRECTIONS[index]
+  ).property("declarer")
+
+  lho: (->
+    index = (Bridge.DIRECTIONS.indexOf(@get("declarer")) + 1) % 4
+    Bridge.DIRECTIONS[index]
+  ).property("declarer")
+
+  rho: (->
+    index = (Bridge.DIRECTIONS.indexOf(@get("declarer")) + 3) % 4
+    Bridge.DIRECTIONS[index]
+  ).property("declarer")
 
   trump: (->
     if @get("contract")

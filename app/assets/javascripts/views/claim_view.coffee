@@ -12,4 +12,5 @@
   submit: (event) ->
     event.preventDefault()
     event.stopPropagation()
-    @get("context").claim(@get("direction"))
+    claim = [@get("value"), @get("direction")].join("")
+    @get("context").claim(claim)
