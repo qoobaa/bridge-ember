@@ -1,7 +1,7 @@
 @Bridge.PassView = Ember.View.extend
   classNames: ["btn"]
   attributeBindings: ["disabled"]
-  templateName: "pass"
+  templateName: "bidding_box/pass"
   tagName: "button"
   disabled: (->
     @get("context.isCompleted")

@@ -1,7 +1,7 @@
 @Bridge.ContractLevelView = Ember.View.extend
   classNames: ["btn"]
   attributeBindings: ["disabled"]
-  templateName: "contract_level"
+  templateName: "bidding_box/contract_level"
   tagName: "button"
   disabled: (->
     @get("context.isCompleted") or

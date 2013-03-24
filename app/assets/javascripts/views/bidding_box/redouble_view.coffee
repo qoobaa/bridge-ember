@@ -1,7 +1,7 @@
 @Bridge.RedoubleView = Ember.View.extend
   classNames: ["btn"]
   attributeBindings: ["disabled"]
-  templateName: "redouble"
+  templateName: "bidding_box/redouble"
   tagName: "button"
   disabled: (->
     @get("context.isCompleted") or

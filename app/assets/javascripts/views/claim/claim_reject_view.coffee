@@ -1,7 +1,7 @@
 @Bridge.ClaimRejectView = Ember.View.extend
   classNames: ["btn"]
   classNameBindings: ["hidden"]
-  templateName: "claim_reject"
+  templateName: "claim/claim_reject"
   tagName: "button"
 
   hidden: (->
