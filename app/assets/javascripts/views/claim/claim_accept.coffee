@@ -6,10 +6,9 @@
   tagName: "button"
 
   hidden: (->
-    @get("direction") == @get("context.dummy") or
-    @get("direction") == @get("context.claimed")?[-1..-1] or
-    not @get("context.claimed")
-  ).property("context.claimed", "context.dummy")
+    not @get("context.claimed") or
+    not @get("context.acceptConditionDirections").contains(@get("direction"))
+  ).property("context.claimed", "context.acceptConditionDirections.@each")
 
   disabled: (->
     @get("context.isAccepted") or

@@ -5,9 +5,10 @@
   tagName: "form"
 
   hidden: (->
+    not @get("context.declarer") or
     @get("direction") == @get("context.dummy") or
     not not @get("context.claimed")
-  ).property("context.claimed", "context.dummy")
+  ).property("context.claimed", "context.dummy", "context.declarer")
 
   # Helper {{action}} somehow doesn't work
   submit: (event) ->
