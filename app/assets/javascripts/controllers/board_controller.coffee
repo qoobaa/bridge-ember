@@ -34,16 +34,19 @@
   declarer: (-> @get("contract")?[-1..-1]).property("contract")
 
   dummy: (->
+    return unless @get("declarer")
     index = (Bridge.DIRECTIONS.indexOf(@get("declarer")) + 2) % 4
     Bridge.DIRECTIONS[index]
   ).property("declarer")
 
   lho: (->
+    return unless @get("declarer")
     index = (Bridge.DIRECTIONS.indexOf(@get("declarer")) + 1) % 4
     Bridge.DIRECTIONS[index]
   ).property("declarer")
 
   rho: (->
+    return unless @get("declarer")
     index = (Bridge.DIRECTIONS.indexOf(@get("declarer")) + 3) % 4
     Bridge.DIRECTIONS[index]
   ).property("declarer")

@@ -3,7 +3,7 @@
 
   acceptedDirections: []
   rejectedDirections: []
-  claimed: undefined # "12E"
+  claimed: undefined # example: "12E", "2N"
 
   declarerBinding: "controllers.board.declarer"
   dummyBinding: "controllers.board.dummy"
