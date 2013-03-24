@@ -1,4 +1,5 @@
 @Bridge.ContractSuitView = Ember.View.extend
+  classNames: ["btn"]
   attributeBindings: ["disabled"]
   templateName: "contract_suit"
   tagName: "button"

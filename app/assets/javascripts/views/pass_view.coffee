@@ -1,4 +1,5 @@
 @Bridge.PassView = Ember.View.extend
+  classNames: ["btn"]
   attributeBindings: ["disabled"]
   templateName: "pass"
   tagName: "button"

@@ -1,4 +1,5 @@
 @Bridge.RedoubleView = Ember.View.extend
+  classNames: ["btn"]
   attributeBindings: ["disabled"]
   templateName: "redouble"
   tagName: "button"

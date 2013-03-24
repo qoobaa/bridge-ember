@@ -1,4 +1,5 @@
 @Bridge.DoubleView = Ember.View.extend
+  classNames: ["btn"]
   attributeBindings: ["disabled"]
   templateName: "double"
   tagName: "button"

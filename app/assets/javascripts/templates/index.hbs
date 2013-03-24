@@ -58,6 +58,9 @@
 
   <div class="span4 hand">
     {{view Bridge.DirectionView content="S" contextBinding=controllers.board}}
+    {{view Bridge.ClaimView direction="S" contextBinding=controllers.claim}}
+    {{view Bridge.ClaimAcceptView direction="S" contextBinding=controllers.claim}}
+    {{view Bridge.ClaimRejectView direction="S" contextBinding=controllers.claim}}
     <div class="cards">
     {{#each card in controllers.hand_s}}
       {{view Bridge.PrettyCardView contentBinding=card ownerDirection="S" contextBinding=controllers.hand_s}}

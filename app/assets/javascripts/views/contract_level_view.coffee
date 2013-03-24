@@ -1,4 +1,5 @@
 @Bridge.ContractLevelView = Ember.View.extend
+  classNames: ["btn"]
   attributeBindings: ["disabled"]
   templateName: "contract_level"
   tagName: "button"
