@@ -8,12 +8,10 @@
   </div>
 
   <div class="span4 hand">
-    {{#with controllers.board}}{{view Bridge.DirectionView content="N"}}{{/with}}
+    {{view Bridge.DirectionView content="N" contextBinding=controllers.board}}
     <div class="cards">
     {{#each card in controllers.hand_n}}
-      {{#with controllers.hand_n}}
-        {{view Bridge.PrettyCardView contentBinding=card ownerDirection="N"}}
-      {{/with}}
+      {{view Bridge.PrettyCardView contentBinding=card ownerDirection="N" contextBinding=controllers.hand_n}}
     {{/each}}
     </div>
   </div>
@@ -29,12 +27,10 @@
 
 <div class="row">
   <div class="span4 hand">
-    {{#with controllers.board}}{{view Bridge.DirectionView content="W"}}{{/with}}
+    {{view Bridge.DirectionView content="W" contextBinding=controllers.board}}
     <div class="cards">
     {{#each card in controllers.hand_w}}
-      {{#with controllers.hand_w}}
-        {{view Bridge.PrettyCardView contentBinding=card ownerDirection="W"}}
-      {{/with}}
+      {{view Bridge.PrettyCardView contentBinding=card ownerDirection="W" contextBinding=controllers.hand_w}}
     {{/each}}
     </div>
   </div>
@@ -42,12 +38,10 @@
   <div class="span4"></div>
 
   <div class="span4 hand">
-    {{#with controllers.board}}{{view Bridge.DirectionView content="E"}}{{/with}}
+    {{view Bridge.DirectionView content="E" contextBinding=controllers.board}}
     <div class="cards">
     {{#each card in controllers.hand_e}}
-      {{#with controllers.hand_e}}
-        {{view Bridge.PrettyCardView contentBinding=card ownerDirection="E"}}
-      {{/with}}
+      {{view Bridge.PrettyCardView contentBinding=card ownerDirection="E" contextBinding=controllers.hand_e}}
     {{/each}}
     </div>
   </div>
@@ -63,12 +57,10 @@
   </div>
 
   <div class="span4 hand">
-    {{#with controllers.board}}{{view Bridge.DirectionView content="S"}}{{/with}}
+    {{view Bridge.DirectionView content="S" contextBinding=controllers.board}}
     <div class="cards">
     {{#each card in controllers.hand_s}}
-      {{#with controllers.hand_s}}
-        {{view Bridge.PrettyCardView contentBinding=card ownerDirection="S"}}
-      {{/with}}
+      {{view Bridge.PrettyCardView contentBinding=card ownerDirection="S" contextBinding=controllers.hand_s}}
     {{/each}}
     </div>
   </div>
