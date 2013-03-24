@@ -31,10 +31,10 @@ sortCardSuits = (suits, trump) ->
 # Returns a winning card from given trick, using given trump.
 #
 # examples:
-#   trickWinner("H", ["CA", "H2", "SA", "DA"]) => "H2"
-#   trickWinner(undefined, ["C2", "H2", "C4", "CJ"]) => "CJ"
+#   trickWinner(["CA", "H2", "SA", "DA"], "H") => "H2"
+#   trickWinner(["C2", "H2", "C4", "CJ"], undefined) => "CJ"
 
-trickWinner = (trump, trick) ->
+trickWinner = (trick, trump) ->
   order = (card) -> Bridge.CARDS.indexOf(card)
   reverse = (a, b) -> b - a
   suit = trick[0][0]
@@ -81,7 +81,7 @@ playDirections = (declarer, trump, cards) ->
     if i > 0 and i % 4 == 0
       lastTrickNumber = Math.floor(i / 4) - 1
       lastTrick = cards.slice(lastTrickNumber * 4, lastTrickNumber * 4 + 4)
-      lastTrickWinner = trickWinner(trump, lastTrick)
+      lastTrickWinner = trickWinner(lastTrick, trump)
       lastTrickWinnerIndex = lastTrick.indexOf(lastTrickWinner)
       directionIndex += lastTrickWinnerIndex
     Bridge.DIRECTIONS[++directionIndex % 4]

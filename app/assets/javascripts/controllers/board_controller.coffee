@@ -85,3 +85,16 @@
   currentSuit: (->
     @get("tricks.lastObject.firstObject")?[0] unless @get("isTrickLead")
   ).property("isTrickLead")
+
+  snWonTricksNumber: (->
+    @get("wonTrickCards").filter((card) => @get("s").contains(card) or @get("n").contains(card)).length
+  ).property("wonTrickCards.@each")
+
+  ewWonTricksNumber: (->
+    @get("wonTrickCards").filter((card) => @get("e").contains(card) or @get("w").contains(card)).length
+  ).property("wonTrickCards.@each")
+
+  wonTrickCards: (->
+    tricks = @get("tricks").reject (trick) -> trick.length != 4
+    tricks.map (trick) => Bridge.Utils.trickWinner(trick, @get("trump"))
+  ).property("tricks.@each")

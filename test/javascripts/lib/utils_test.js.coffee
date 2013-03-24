@@ -76,3 +76,10 @@ describe "Utils", ->
       hand   = ["CQ", "CK", "CA", "D2", "DT", "DJ", "DK", "DA", "H8", "H9", "HT", "S4", "S8"]
       sorted = ["DA", "DK", "DJ", "DT", "D2", "S8", "S4", "HT", "H9", "H8", "CA", "CK", "CQ"]
       assert.deepEqual Bridge.Utils.sortCards(hand, "D"), sorted
+
+  describe "trickWinner", ->
+    it "CA from [C2, H2, CK, CA]", ->
+      assert.strictEqual Bridge.Utils.trickWinner(["C2", "H2", "CK", "CA"]), "CA"
+
+    it "H2 from [C2, H2, CK, CA] with H trump", ->
+      assert.strictEqual Bridge.Utils.trickWinner(["C2", "H2", "CK", "CA"], "H"), "H2"
