@@ -3,7 +3,7 @@
 
   playedCardsBinding: "controllers.board.cards"
   isStartedBinding: "controllers.board.isAuctionCompleted"
-  isCompletedBinding: "controllers.board.isPlayCompleted"
+  isCompletedBinding: "controllers.board.isBoardCompleted"
   currentDirectionBinding: "controllers.board.currentPlayDirection"
   currentSuitBinding: "controllers.board.currentSuit"
 

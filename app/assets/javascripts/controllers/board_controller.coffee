@@ -8,6 +8,7 @@
   e: ["C4", "C5", "C7", "CT", "D3", "D5", "DQ", "H9", "HA", "S2", "S3", "S5", "S7"]
   s: ["D2", "D6", "D8", "DA", "H3", "H8", "HT", "HJ", "HQ", "HK", "S8", "SJ", "SQ"]
   w: ["C3", "C6", "C8", "C9", "CJ", "CA", "D4", "D7", "DK", "H4", "H5", "ST", "SK"]
+  claim: undefined # Accepted claim, example: 4E - 4 more tricks by E
 
   isAuctionCompleted: (->
     bids = @get("bids")
@@ -61,6 +62,10 @@
     @get("cards.length") == 52
   ).property("cards.@each")
 
+  isBoardCompleted: (->
+    @get("isPlayCompleted") or !!@get("claim")
+  ).property("isPlayCompleted", "claim")
+
   playDirections: (->
     declarer = @get("declarer")
     Bridge.Utils.playDirections(declarer, @get("trump"), @get("cards").concat("")) if declarer
@@ -71,13 +76,13 @@
   ).property("playDirections.@each")
 
   currentPhase: (->
-    if @get("isPlayCompleted")
+    if @get("isBoardCompleted")
       "completed"
     else if @get("isAuctionCompleted")
       "play"
     else
       "auction"
-  ).property("isAuctionCompleted", "isPlayCompleted")
+  ).property("isAuctionCompleted", "isBoardCompleted")
 
   currentDirection: (->
     switch @get("currentPhase")
@@ -86,12 +91,20 @@
   ).property("currentPhase", "currentAuctionDirection", "currentPlayDirection")
 
   score: (->
-    return unless @get("isPlayCompleted")
+    return unless @get("isBoardCompleted")
     wonTricksNumber = switch @get("declarer")
       when "N", "S" then @get("snWonTricksNumber")
       when "E", "W" then @get("ewWonTricksNumber")
-    Bridge.Utils.score(@get("contract"), wonTricksNumber)
-  ).property("isPlayCompleted")
+    Bridge.Utils.score(@get("contract"), wonTricksNumber + @get("claimTricksNumber"))
+  ).property("isBoardCompleted")
+
+  claimTricksNumber: (->
+    return 0 unless claim = @get("claim")
+    value = parseInt /\d+/.exec(claim), 10
+    switch claim[-1..-1]
+      when @get("declarer") then value
+      when @get("lho"), @get("rho") then 13 - @get("wonTrickCards").length - value
+  ).property("claim")
 
   scoreString: (->
     score = @get("score")
@@ -101,7 +114,6 @@
       when score < 0  then String(score)
   ).property("score")
 
-  # Play properties
   tricks: (->
     if @get("cards").get("length") > 0
       n = Math.ceil(@get("cards").get("length") / 4) - 1

@@ -35,6 +35,7 @@
 
   claimAcceptedObserver: (->
     if @get("isAccepted")
+      @get("controllers.board").set("claim", @get("claimed"))
       console.log("accepted")
   ).observes("isAccepted")
 
@@ -44,6 +45,13 @@
       @set("acceptedDirections", [])
       @set("rejectedDirections", [])
   ).observes("isRejected")
+
+  # Reject claim by playing card
+  cardPlayedObserver: (->
+    # Direction is not important for now - can be simply retrieved when
+    # cards will contain direction.
+    @get("rejectedDirections").pushObject("?") if @get("claimed")
+  ).observes("controllers.board.cards.@each")
 
   claim: (claimed) ->
     @set("claimed", claimed)

@@ -12,8 +12,9 @@
   ).property("context.claimed", "context.dummy")
 
   disabled: (->
+    @get("context.isAccepted") or
     @get("context.acceptedDirections").contains(@get("direction"))
-  ).property("context.acceptedDirections.@each")
+  ).property("context.acceptedDirections.@each", "context.isAccepted")
 
   click: ->
     @get("context").accept(@get("direction"))
