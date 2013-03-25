@@ -1,47 +1,32 @@
 @Bridge.HandController = Ember.ArrayController.extend
   needs: ["board"]
 
-  playedCardsBinding: "controllers.board.cards"
-  playedDirectionsBinding: "controllers.board.directions"
+  playedBinding: "controllers.board.cards"
+  playedDirectionsBinding: "controllers.board.playDirections"
   isStartedBinding: "controllers.board.isAuctionCompleted"
   isCompletedBinding: "controllers.board.isBoardCompleted"
   currentDirectionBinding: "controllers.board.currentPlayDirection"
   currentSuitBinding: "controllers.board.currentSuit"
-
-  cardsLeft: (->
-    @get("content").reject (card) => @get("playedCards").contains(card)
-  ).property("playedCards.@each")
+  trumpBinding: "controllers.board.trump"
 
   hasCardInCurrentSuit: (->
-    suitsLeft = @get("cardsLeft").map((card) -> card[0]).uniq()
-    suitsLeft.contains @get("currentSuit")
-  ).property("cardsLeft.@each", "currentSuit")
-
-  initialDidChange: (->
-    console.log("initialDidChange")
-  ).observes("initial.@each")
-
-  playedCardsDidChange: (->
-    console.log("playedCardsDidChange")
-  ).observes("playedCards.@each")
+    suitsLeft = @get("content").map((card) -> card[0]).uniq()
+    suitsLeft.contains(@get("currentSuit"))
+  ).property("content.@each", "currentSuit")
 
   content: (->
-    console.log("calculating content...")
     if @get("initial.length")
-      remaining = @get("initial").reject (card) => @get("playedCards").contains(card)
+      remaining = @get("initial").reject (card) => @get("played").contains(card)
       Bridge.Utils.sortCards(remaining)
     else
-      [""]
-      # n = playedDirections
-      # "" for i in [1..n]
-  ).property("initial.@each", "playedCards.@each")
-
-  sortingCardsObserver: (->
-    if trump = @get("controllers.board.trump") # No need for sorting when NT
-      @set "content", Bridge.Utils.sortCards(@get("content"), trump)
-  ).observes("isStarted")
+      playedDirections = (@get("playedDirections") or [])[0..-2]
+      playedCount = playedDirections.filter((direction) => direction == @get("direction")).length
+      n = 13 - playedCount
+      "" for i in [1..n]
+  ).property("initial.@each", "played.@each", "playedDirections.@each", "trump")
 
   play: (card) ->
+    window.A = @get("controllers.board.cards")
     @get("controllers.board.cards").pushObject(card)
 
 Bridge.register "controller:hand_n", Bridge.HandController.extend

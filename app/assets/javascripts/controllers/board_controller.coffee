@@ -94,7 +94,7 @@
   score: (->
     return unless @get("isBoardCompleted")
     wonTricksNumber = switch @get("declarer")
-      when "N", "S" then @get("snWonTricksNumber")
+      when "N", "S" then @get("nsWonTricksNumber")
       when "E", "W" then @get("ewWonTricksNumber")
     Bridge.Utils.score(@get("contract"), wonTricksNumber + @get("claimTricksNumber"))
   ).property("isBoardCompleted")
@@ -131,12 +131,20 @@
     @get("tricks.lastObject.firstObject")?[0] unless @get("isTrickLead")
   ).property("isTrickLead")
 
-  snWonTricksNumber: (->
-    @get("wonTrickCards").filter((card) => @get("s").contains(card) or @get("n").contains(card)).length
+  nsWonTricksNumber: (->
+    @get("wonTrickCards").filter((card) =>
+      cardIndex = @get("cards").indexOf(card)
+      direction = @get("playDirections")[cardIndex]
+      direction == "S" or direction == "N"
+    ).length
   ).property("wonTrickCards.@each")
 
   ewWonTricksNumber: (->
-    @get("wonTrickCards").filter((card) => @get("e").contains(card) or @get("w").contains(card)).length
+    @get("wonTrickCards").filter((card) =>
+      cardIndex = @get("cards").indexOf(card)
+      direction = @get("playDirections")[cardIndex]
+      direction == "E" or direction == "W"
+    ).length
   ).property("wonTrickCards.@each")
 
   wonTrickCards: (->
