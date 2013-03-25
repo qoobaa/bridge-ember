@@ -1,10 +1,10 @@
 @Bridge.ClaimView = Ember.View.extend
   classNames: ["form-inline"]
-  classNameBindings: ["hidden"]
+  classNameBindings: ["hide"]
   templateName: "claim/claim"
   tagName: "form"
 
-  hidden: (->
+  hide: (->
     not @get("context.declarer") or
     @get("direction") == @get("context.dummy") or
     not not @get("context.claimed")

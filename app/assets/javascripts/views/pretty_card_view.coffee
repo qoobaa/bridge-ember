@@ -1,6 +1,6 @@
 @Bridge.PrettyCardView = Ember.View.extend
   classNames: ["card"]
-  classNameBindings: ["isDisabled:disabled", "isPlayed:hidden", "isClub:suit-c", "isDiamond:suit-d", "isHeart:suit-h", "isSpade:suit-s"]
+  classNameBindings: ["isDisabled:disabled", "isPlayed:hide", "isClub:suit-c", "isDiamond:suit-d", "isHeart:suit-h", "isSpade:suit-s"]
   templateNameBinding: "templateName"
 
   templateName: (->

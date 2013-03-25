@@ -1,11 +1,11 @@
 @Bridge.ClaimAcceptView = Ember.View.extend
   classNames: ["btn"]
-  classNameBindings: ["hidden"]
+  classNameBindings: ["hide"]
   attributeBindings: ["disabled"]
   templateName: "claim/claim_accept"
   tagName: "button"
 
-  hidden: (->
+  hide: (->
     not @get("context.claimed") or
     not @get("context.acceptConditionDirections").contains(@get("direction"))
   ).property("context.claimed", "context.acceptConditionDirections.@each")
