@@ -2,6 +2,7 @@
   needs: ["board"]
 
   playedCardsBinding: "controllers.board.cards"
+  playedDirectionsBinding: "controllers.board.directions"
   isStartedBinding: "controllers.board.isAuctionCompleted"
   isCompletedBinding: "controllers.board.isBoardCompleted"
   currentDirectionBinding: "controllers.board.currentPlayDirection"
@@ -16,9 +17,24 @@
     suitsLeft.contains @get("currentSuit")
   ).property("cardsLeft.@each", "currentSuit")
 
+  initialDidChange: (->
+    console.log("initialDidChange")
+  ).observes("initial.@each")
+
+  playedCardsDidChange: (->
+    console.log("playedCardsDidChange")
+  ).observes("playedCards.@each")
+
   content: (->
-    Bridge.Utils.sortCards(@get("initial"))
-  ).property("initial.@each")
+    console.log("calculating content...")
+    if @get("initial.length")
+      remaining = @get("initial").reject (card) => @get("playedCards").contains(card)
+      Bridge.Utils.sortCards(remaining)
+    else
+      [""]
+      # n = playedDirections
+      # "" for i in [1..n]
+  ).property("initial.@each", "playedCards.@each")
 
   sortingCardsObserver: (->
     if trump = @get("controllers.board.trump") # No need for sorting when NT
