@@ -4,7 +4,7 @@
   templateNameBinding: "templateName"
 
   templateName: (->
-    name = if @get("content") == "" then "back" else @get("content")[1].toLowerCase()
+    name = if @get("content") == "" then "unknown" else @get("content")[1].toLowerCase()
     "cards/#{name}"
   ).property("content")
 
