@@ -26,7 +26,6 @@
   ).property("initial.@each", "played.@each", "playedDirections.@each", "trump")
 
   play: (card) ->
-    window.A = @get("controllers.board.cards")
     @get("controllers.board.cards").pushObject(card)
 
 Bridge.register "controller:hand_n", Bridge.HandController.extend
