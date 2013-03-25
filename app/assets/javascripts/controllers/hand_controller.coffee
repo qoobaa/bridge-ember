@@ -17,7 +17,7 @@
   content: (->
     if @get("initial.length")
       remaining = @get("initial").reject (card) => @get("played").contains(card)
-      Bridge.Utils.sortCards(remaining)
+      Bridge.Utils.sortCards(remaining, @get("trump"))
     else
       playedDirections = (@get("playedDirections") or [])[0..-2]
       playedCount = playedDirections.filter((direction) => direction == @get("direction")).length
