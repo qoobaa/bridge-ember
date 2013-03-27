@@ -1,34 +1,40 @@
 @Bridge.HandController = Ember.ArrayController.extend
   init: ->
+    window.A = @
     @_super.apply(@, arguments)
     @set("play", Bridge.Play.create(content: [], contract: "4NT"))
+    @get("play").addArrayObserver(@, willChange: @playWillChange, didChange: @playDidChange)
+    @initialDidChange()
 
-  # playedBinding: "controllers.board.cards"
-  # playedDirectionsBinding: "controllers.board.playDirections"
-  # isStartedBinding: "controllers.board.isAuctionCompleted"
-  # isCompletedBinding: "controllers.board.isBoardCompleted"
-  # currentDirectionBinding: "controllers.board.currentPlayDirection"
-  # currentSuitBinding: "controllers.board.currentSuit"
-  # trumpBinding: "controllers.board.trump"
+  # unlikely to happen, but when it does, we just add a card to the end of hand
+  playWillChange: (content, index, removedCount, addedCount) ->
+    if removedCount
+      for i in [index..(index + removedCount - 1)]
+        card = content.objectAt(i)
+        @pushObject(card.get("content")) if card.get("direction") == @get("direction")
 
-  # hasCardInCurrentSuit: (->
-  #   suitsLeft = @get("content").map((card) -> card[0]).uniq()
-  #   suitsLeft.contains(@get("currentSuit"))
-  # ).property("content.@each", "currentSuit")
+  playDidChange: (content, index, removedCount, addedCount) ->
+    if addedCount
+      for i in [index..(index + addedCount - 1)]
+        card = content.objectAt(i)
+        cardContent = card.get("content")
+        if card.get("direction") == @get("direction")
+          if @contains(cardContent) then @removeObject(cardContent) else @popObject()
 
-  # content: (->
-  #   if @get("initial.length")
-  #     remaining = @get("initial").reject (card) => @get("played").contains(card)
-  #     # Bridge.Utils.sortCards(remaining, @get("trump"))
-  #   else
-  #     playedDirections = (@get("playedDirections") or [])[0..-2]
-  #     playedCount = playedDirections.filter((direction) => direction == @get("direction")).length
-  #     n = 13 - playedCount
-  #     "" for i in [1..n]
-  # ).property("initial.@each", "played.@each", "playedDirections.@each", "trump")
+  currentSuitBinding: "play.currentSuit"
+  currentDirectionBinding: "play.currentDirection"
+  trumpBinding: "play.contract.trump"
 
-  # play: (card) ->
-  #   @get("controllers.board.cards").pushObject(card)
+  initialDidChange: (->
+    @set("content", Bridge.Utils.sortCards(@get("initial") || ["", "", "", "", "", "", "", "", "", "", "", "", ""], @get("trump")))
+  ).observes("initial", "trump")
+
+  hasCardInCurrentSuit: (->
+    @some((card) => card[0] == @get("currentSuit"))
+  ).property("content.@each", "currentSuit")
+
+  play: (card) ->
+    @get("play").pushObject(card)
 
 Bridge.register "controller:hand_n", Bridge.HandController.extend
   initialBinding: "controllers.board.n"
