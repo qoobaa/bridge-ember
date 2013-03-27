@@ -1,6 +1,7 @@
 @Bridge.Play = Ember.ArrayProxy.extend
   contract: ((key, value) ->
-    Bridge.Contract.create(content: value) if arguments.length == 2 and value not instanceof Bridge.Contract
+    if arguments.length == 2 and value not instanceof Bridge.Contract
+      Bridge.Contract.create(content: value)
   ).property()
 
   trumpBinding: "contract.trump"
@@ -30,7 +31,7 @@
         card.setProperties(index: i, direction: direction, isWinning: direction == directions[i + 1])
       else
         @set("currentDirection", direction)
-  ).observes("declarer", "arrangedContent.@each")
+  ).observes("declarer", "trump", "arrangedContent.@each")
 
   isCompleted: (->
     @get("length") == 52
