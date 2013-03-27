@@ -1,6 +1,4 @@
 @Bridge.HandCardView = Bridge.CardView.extend
-  classNameBindings: ["isDisabled:disabled", "isClub:suit-c", "isDiamond:suit-d", "isHeart:suit-h", "isSpade:suit-s"]
-
   isDisabled: (->
     @get("content") == "" or
     @get("context.isCompleted") or
