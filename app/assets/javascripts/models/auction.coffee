@@ -29,10 +29,6 @@
     @get("length") > 3 and @slice(@get("length") - 3).everyProperty("isPass")
   ).property("length", "@each.isPass")
 
-  currentDirection: (->
-    Bridge.Utils.auctionDirections(@get("dealer"), @get("content").concat("")).get("lastObject")
-  ).property()
-
   currentSide: (->
     if /N|S/.test(@get("currentDirection")) then "NS" else "EW"
   ).property("currentDirection")

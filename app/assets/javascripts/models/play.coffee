@@ -37,6 +37,6 @@
     @get("length") == 52
   ).property("length")
 
-  currentDirection: (->
-    Bridge.Utils.playDirections(@get("declarer"), @get("trump"), @get("content").concat("")).get("lastObject")
-  ).property()
+  currentSuit: (->
+    @filterProperty("isLead").get("lastObject") if @get("length") % 4 != 0
+  ).property("length", "arrangedContent.@each")
