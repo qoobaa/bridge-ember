@@ -1,6 +1,6 @@
 @Bridge.Play = Ember.ArrayProxy.extend
   contract: ((key, value) ->
-    Bridge.Contract.create(content: value) unless value instanceof Bridge.Contract
+    Bridge.Contract.create(content: value) if arguments.length == 2 and value not instanceof Bridge.Contract
   ).property()
 
   trumpBinding: "contract.trump"
@@ -25,9 +25,9 @@
         @get("arrangedContent").insertAt(i, Bridge.Card.create(content: content.objectAt(i)))
 
   reindex: (->
-    Bridge.Utils.playDirections(@get("declarer"), @get("trump"), @get("content").concat("")).forEach (direction, i) =>
+    Bridge.Utils.playDirections(@get("declarer"), @get("trump"), @get("content").concat("")).forEach (direction, i, directions) =>
       if card = @get("arrangedContent.#{i}")
-        card.setProperties(index: i, direction: direction)
+        card.setProperties(index: i, direction: direction, isWinning: direction == directions[i + 1])
       else
         @set("currentDirection", direction)
   ).observes("declarer", "arrangedContent.@each")
