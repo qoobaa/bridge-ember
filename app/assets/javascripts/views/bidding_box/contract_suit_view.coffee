@@ -5,6 +5,6 @@
   tagName: "button"
   disabled: (->
     @get("context.isCompleted") or
-      Bridge.CONTRACTS.indexOf(@get("context.bareContract")) >= Bridge.CONTRACTS.indexOf(@get("context.level") + @get("suit"))
-  ).property("context.isCompleted", "context.bareContract", "context.level", "suit")
+      Bridge.CONTRACTS.indexOf(@get("context.contractBid")) >= Bridge.CONTRACTS.indexOf(@get("context.level") + @get("suit"))
+  ).property("context.isCompleted", "context.contractBid", "context.level", "suit")
   click: -> @get("context").bid(@get("context.level") + @get("suit"))

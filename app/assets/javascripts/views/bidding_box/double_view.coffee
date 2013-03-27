@@ -6,7 +6,8 @@
   disabled: (->
     @get("context.isCompleted") or
       not @get("context.contract") or
-      @get("context.isDoubled") or
+      @get("context.isContractDoubled") or
+      @get("context.isContractRedoubled") or
       @get("context.currentSide") == @get("context.contractSide")
-  ).property("context.isCompleted", "context.isDoubled", "context.currentSide", "context.contractSide")
+  ).property("context.isCompleted", "context.isContractDoubled", "context.isContractRedoubled", "context.currentSide", "context.contractSide")
   click: -> @get("context").bid("X")

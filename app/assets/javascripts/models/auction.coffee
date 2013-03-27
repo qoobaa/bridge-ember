@@ -33,6 +33,10 @@
     Bridge.Utils.auctionDirections(@get("dealer"), @get("content").concat("")).get("lastObject")
   ).property()
 
+  currentSide: (->
+    if /N|S/.test(@get("currentDirection")) then "NS" else "EW"
+  ).property("currentDirection")
+
   contract: (->
     contract = Bridge.Utils.auctionContract(@get("dealer"), @get("content"))
     Bridge.Contract.create(content: contract) if contract?
