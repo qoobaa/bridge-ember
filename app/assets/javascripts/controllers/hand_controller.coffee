@@ -1,8 +1,4 @@
 @Bridge.HandController = Ember.ArrayController.extend
-  init: ->
-    @_super.apply(@, arguments)
-    @initialDidChange()
-
   playDidChange: (->
     @get("play")?.addArrayObserver(@, willChange: @playContentWillChange, didChange: @playContentDidChange)
   ).observes("play")
@@ -11,11 +7,16 @@
     @get("play")?.removeArrayObserver(@)
   ).observesBefore("play")
 
+  initialDidChange: (->
+    @set("content", Bridge.Utils.sortCards(@get("initial") || ["", "", "", "", "", "", "", "", "", "", "", "", ""], @get("trump")))
+  ).observes("initial", "trump")
+
   # unlikely to happen, but when it does, we just add a card to the end of hand
   playContentWillChange: (content, index, removedCount, addedCount) ->
     if removedCount
       for i in [index..(index + removedCount - 1)]
         card = content.objectAt(i)
+        console.log("asdsa")
         @pushObject(card.get("content")) if card.get("direction") == @get("direction")
 
   playContentDidChange: (content, index, removedCount, addedCount) ->
@@ -30,14 +31,9 @@
   currentDirectionBinding: "play.currentDirection"
   trumpBinding: "play.contract.trump"
 
-  initialDidChange: (->
-    @set("content", Bridge.Utils.sortCards(@get("initial") || ["", "", "", "", "", "", "", "", "", "", "", "", ""], @get("trump")))
-  ).observes("initial", "trump")
-
   hasCardInCurrentSuit: (->
-    console.log(@toArray())
-    @some((card) => card?[0] == @get("currentSuit"))
-  ).property("content.@each", "currentSuit")
+    @some((card) => card[0] == @get("currentSuit"))
+  ).property("@each", "currentSuit")
 
   playCard: (card) ->
     @get("play").pushObject(card)

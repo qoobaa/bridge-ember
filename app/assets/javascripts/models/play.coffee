@@ -38,5 +38,5 @@
   ).property("length")
 
   currentSuit: (->
-    @filterProperty("isLead").get("lastObject") if @get("length") % 4 != 0
+    @filterProperty("isLead").get("lastObject.suit") if @get("length") % 4 != 0
   ).property("length", "arrangedContent.@each")
