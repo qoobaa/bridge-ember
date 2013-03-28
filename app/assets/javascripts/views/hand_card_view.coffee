@@ -7,4 +7,4 @@
   ).property("content", "context.isCompleted", "context.currentDirection", "context.currentSuit", "context.hasCardInCurrentSuit")
 
   click: ->
-    @get("context").play(@get("content")) unless @get("isDisabled")
+    @get("context").playCard(@get("content")) unless @get("isDisabled")
