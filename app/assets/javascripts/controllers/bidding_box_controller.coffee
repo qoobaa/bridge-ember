@@ -1,10 +1,7 @@
 @Bridge.BiddingBoxController = Ember.Controller.extend
   needs: ["board"]
 
-  init: ->
-    @_super.apply(@, arguments)
-    @set("auction", Bridge.Auction.create({dealer: "N", content: []}))
-
+  auctionBinding: "board.auction"
   contractBinding: "auction.contract"
   contractDirectionBinding: "contract.direction"
   contractSideBinding: "contract.side"

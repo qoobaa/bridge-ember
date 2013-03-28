@@ -1,7 +1,10 @@
 @Bridge.Play = Ember.ArrayProxy.extend
   contract: ((key, value) ->
-    if arguments.length == 2 and value not instanceof Bridge.Contract
-      Bridge.Contract.create(content: value)
+    if arguments.length == 2
+      if value instanceof Bridge.Contract
+        value
+      else
+        Bridge.Contract.create(content: value)
   ).property()
 
   trumpBinding: "contract.trump"
