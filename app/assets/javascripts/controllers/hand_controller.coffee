@@ -1,6 +1,4 @@
 @Bridge.HandController = Ember.ArrayController.extend
-  playBinding: "board.play"
-
   playDidChange: (->
     @get("play")?.addArrayObserver(@, willChange: @playContentWillChange, didChange: @playContentDidChange)
   ).observes("play")
