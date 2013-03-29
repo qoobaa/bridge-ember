@@ -84,6 +84,9 @@ describe "Utils", ->
     it "H2 from [C2, H2, CK, CA] with H trump", ->
       assert.strictEqual Bridge.Utils.trickWinner(["C2", "H2", "CK", "CA"], "H"), "H2"
 
+    it "DA from [D9, D3, DA, D4] with no trump", ->
+      assert.strictEqual Bridge.Utils.trickWinner(["D9", "D3", "DA", "D4"], "NT"), "DA"
+
   describe "score", ->
     it "0 when 4HE and 10 tricks taken", ->
       assert.strictEqual Bridge.Utils.score("4HE", 10), 0
@@ -95,4 +98,8 @@ describe "Utils", ->
       assert.strictEqual Bridge.Utils.score("4HE", 8), -2
 
   describe "playDirections", ->
-    it ""
+    it "return correct directions for D9, D3, DA, D4 with declarer N and no trump", ->
+      assert.deepEqual Bridge.Utils.playDirections("N", "NT", ["D9", "D3", "DA", "D4", ""]), ["E", "S", "W", "N", "W"]
+
+    it "return correct directions for D3, DA, D4, D9 with declarer N and no trump", ->
+      assert.deepEqual Bridge.Utils.playDirections("N", "NT", ["D3", "DA", "D4", "D9", ""]), ["E", "S", "W", "N", "S"]

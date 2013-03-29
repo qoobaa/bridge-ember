@@ -8,7 +8,7 @@
   ).property("card.value")
 
   templateNameDidChange: (->
-    @rerender() if @state == "inDOM"
+    @rerender()
   ).observes("templateName")
 
   isClub:    (-> @get("card.suit") == "C").property("card.suit")
@@ -18,10 +18,10 @@
 
   symbol: (->
     switch @get("card.suit")
-      when "C" then "&clubs;"
-      when "D" then "&diams;"
-      when "H" then "&hearts;"
-      when "S" then "&spades;"
+      when "C" then "♣"
+      when "D" then "♦"
+      when "H" then "♥"
+      when "S" then "♠"
   ).property("card.suit")
 
   isDisabled: true

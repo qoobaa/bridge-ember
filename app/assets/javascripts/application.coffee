@@ -4,6 +4,8 @@
 #= require_self
 #= require bridge
 
+Ember.LOG_VERSION = false
+
 @Bridge = Ember.Application.create()
 
 Bridge.IndexRoute = Ember.Route.extend
