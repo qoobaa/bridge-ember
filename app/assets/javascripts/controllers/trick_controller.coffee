@@ -1,23 +1,18 @@
-@Bridge.TrickController = Ember.ArrayController.extend
-  playDidChange: (->
-    @get("play")?.addArrayObserver(@, willChange: @playContentWillChange, didChange: @playContentDidChange)
-  ).observes("play")
+@Bridge.TrickController = Ember.Controller.extend
+  trickNumberBinding: "play.lastObject.trick"
 
-  playWillChange: (->
-    @get("play")?.removeArrayObserver(@)
-  ).observesBefore("play")
+  n: (->
+    @get("play").find((card) => card.get("trick") == @get("trickNumber") and card.get("direction") == "N")?.get("content")
+  ).property("trickNumber", "play.@each")
 
-  playContentWillChange: (content, index, removedCount, addedCount) ->
-    # if removedCount
-    #   for i in [index..(index + removedCount - 1)]
-    #     card = content.objectAt(i)
-    #     @pushObject(card.get("content")) if card.get("direction") == @get("direction")
+  e: (->
+    @get("play").find((card) => card.get("trick") == @get("trickNumber") and card.get("direction") == "E")?.get("content")
+  ).property("trickNumber", "play.@each")
 
-  playContentDidChange: (content, index, removedCount, addedCount) ->
-    if addedCount
-      for i in [index..(index + addedCount - 1)]
-        card = content.objectAt(i)
-        if card.get("trick") != content.objectAt(i - 1)?.get("trick")
-          @set("content", [card.get("content")])
-        else
-          @get("content").pushObject(card.get("content"))
+  s: (->
+    @get("play").find((card) => card.get("trick") == @get("trickNumber") and card.get("direction") == "S")?.get("content")
+  ).property("trickNumber", "play.@each")
+
+  w: (->
+    @get("play").find((card) => card.get("trick") == @get("trickNumber") and card.get("direction") == "W")?.get("content")
+  ).property("trickNumber", "play.@each")
