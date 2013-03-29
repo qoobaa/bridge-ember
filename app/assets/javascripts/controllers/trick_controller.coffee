@@ -18,6 +18,6 @@
       for i in [index..(index + addedCount - 1)]
         card = content.objectAt(i)
         if card.get("trick") != content.objectAt(i - 1)?.get("trick")
-          @set("content", [card.get("content")])
+          @set("content", [card])
         else
-          @get("content").pushObject(card.get("content"))
+          @get("content").pushObject(card)

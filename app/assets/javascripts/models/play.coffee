@@ -15,7 +15,9 @@
     @reindex()
 
   arrangedContent: (->
-    @get("content").map (card, i) -> Bridge.Card.create(content: card)
+    # FIXME: remove Ember.copy
+    # @get("content").map (card, i) -> Bridge.Card.create(content: card)
+    Ember.copy @get("content")
   ).property()
 
   contentArrayWillChange: (content, index, removedCount, addedCount) ->
@@ -26,7 +28,7 @@
   contentArrayDidChange: (content, index, removedCount, addedCount) ->
     if addedCount
       for i in [index..(index + addedCount - 1)]
-        @get("arrangedContent").insertAt(i, Bridge.Card.create(content: content.objectAt(i)))
+        @get("arrangedContent").insertAt(i, content.objectAt(i))
 
   reindex: (->
     Bridge.Utils.playDirections(@get("declarer"), @get("trump"), @get("content").concat("")).forEach (direction, i, directions) =>

@@ -16,7 +16,7 @@
 
     <div class="cards">
       {{#each card in controllers.hand_n}}
-        {{view Bridge.HandCardView contentBinding=card ownerDirection="N" contextBinding=controllers.hand_n}}
+        {{view Bridge.HandCardView cardBinding=card ownerDirection="N" contextBinding=controllers.hand_n}}
       {{/each}}
     </div>
   </div>
@@ -39,7 +39,7 @@
 
     <div class="cards">
       {{#each card in controllers.hand_w}}
-        {{view Bridge.HandCardView contentBinding=card ownerDirection="W" contextBinding=controllers.hand_w}}
+        {{view Bridge.HandCardView cardBinding=card ownerDirection="W" contextBinding=controllers.hand_w}}
       {{/each}}
     </div>
   </div>
@@ -47,7 +47,7 @@
   <div class="span4">
     <div class="cards">
       {{#each card in controllers.trick}}
-        {{view Bridge.CardView contentBinding=card}}
+        {{view Bridge.TrickCardView cardBinding=card}}
       {{/each}}
     </div>
   </div>
@@ -60,7 +60,7 @@
 
     <div class="cards">
       {{#each card in controllers.hand_e}}
-        {{view Bridge.HandCardView contentBinding=card ownerDirection="E" contextBinding=controllers.hand_e}}
+        {{view Bridge.HandCardView cardBinding=card ownerDirection="E" contextBinding=controllers.hand_e}}
       {{/each}}
     </div>
   </div>
@@ -82,7 +82,7 @@
     {{view Bridge.ClaimRejectView direction="S" contextBinding=controllers.claim}}
     <div class="cards">
       {{#each card in controllers.hand_s}}
-        {{view Bridge.HandCardView contentBinding=card ownerDirection="S" contextBinding=controllers.hand_s}}
+        {{view Bridge.HandCardView cardBinding=card ownerDirection="S" contextBinding=controllers.hand_s}}
       {{/each}}
     </div>
   </div>

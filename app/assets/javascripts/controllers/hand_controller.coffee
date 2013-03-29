@@ -8,7 +8,8 @@
   ).observesBefore("play")
 
   initialDidChange: (->
-    @set("content", Bridge.Utils.sortCards(@get("initial") || ["", "", "", "", "", "", "", "", "", "", "", "", ""], @get("trump")))
+    cards = Bridge.Utils.sortCards(@get("initial") || ["", "", "", "", "", "", "", "", "", "", "", "", ""], @get("trump"))
+    @set("content", cards.map (card) -> Bridge.Card.create(content: card))
   ).observes("initial", "trump")
 
   # unlikely to happen, but when it does, we just add a card to the end of hand
@@ -16,22 +17,21 @@
     if removedCount
       for i in [index..(index + removedCount - 1)]
         card = content.objectAt(i)
-        @pushObject(card.get("content")) if card.get("direction") == @get("direction")
+        @pushObject(card) if card.get("direction") == @get("direction")
 
   playContentDidChange: (content, index, removedCount, addedCount) ->
     if addedCount
       for i in [index..(index + addedCount - 1)]
         card = content.objectAt(i)
-        cardContent = card.get("content")
         if card.get("direction") == @get("direction")
-          if @contains(cardContent) then @removeObject(cardContent) else @popObject()
+          if @contains(card) then @removeObject(card) else @popObject()
 
   currentSuitBinding: "play.currentSuit"
   currentDirectionBinding: "play.currentDirection"
   trumpBinding: "play.contract.trump"
 
   hasCardInCurrentSuit: (->
-    @some((card) => card[0] == @get("currentSuit"))
+    @some((card) => card.suit == @get("currentSuit"))
   ).property("@each", "currentSuit")
 
   playCard: (card) ->

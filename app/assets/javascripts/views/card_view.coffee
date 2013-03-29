@@ -3,21 +3,21 @@
   classNameBindings: ["isDisabled:disabled", "isClub:suit-c", "isDiamond:suit-d", "isHeart:suit-h", "isSpade:suit-s"]
 
   templateName: (->
-    name = if @get("content") then @get("content")[1].toLowerCase() else "unknown"
+    name = if @get("card.value") then @get("card.value").toLowerCase() else "unknown"
     "cards/#{name}"
-  ).property("content")
+  ).property("card.value")
 
-  isClub:    (-> @get("content")[0] == "C").property("content")
-  isDiamond: (-> @get("content")[0] == "D").property("content")
-  isHeart:   (-> @get("content")[0] == "H").property("content")
-  isSpade:   (-> @get("content")[0] == "S").property("content")
+  isClub:    (-> @get("card.suit") == "C").property("card.suit")
+  isDiamond: (-> @get("card.suit") == "D").property("card.suit")
+  isHeart:   (-> @get("card.suit") == "H").property("card.suit")
+  isSpade:   (-> @get("card.suit") == "S").property("card.suit")
 
   symbol: (->
-    switch @get("content")[0]
+    switch @get("card.suit")
       when "C" then "&clubs;"
       when "D" then "&diams;"
       when "H" then "&hearts;"
       when "S" then "&spades;"
-  ).property("content")
+  ).property("card.suit")
 
   isDisabled: true
