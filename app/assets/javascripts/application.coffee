@@ -9,8 +9,8 @@
 Bridge.IndexRoute = Ember.Route.extend
   setupController: (controller, model) ->
     auction = Bridge.Auction.create(content: [], dealer: "N")
-    play = Bridge.Play.create(content: [])
-    board = Bridge.Board.create
+    play    = Bridge.Play.create(content: [])
+    board   = Bridge.Board.create
       auction: auction
       play: play
       n: ["C2", "CQ", "CK", "D9", "DT", "DJ", "H2", "H6", "H7", "S4", "S6", "S9", "SA"]
@@ -19,6 +19,7 @@ Bridge.IndexRoute = Ember.Route.extend
       w: ["C3", "C6", "C8", "C9", "CJ", "CA", "D4", "D7", "DK", "H4", "H5", "ST", "SK"]
 
     @controllerFor("bidding_box").set("auction", auction)
+    @controllerFor("trick").set("play", play)
     @controllerFor("hand_n").set("play", play)
     @controllerFor("hand_n").set("initial", board.n)
     @controllerFor("hand_e").set("play", play)

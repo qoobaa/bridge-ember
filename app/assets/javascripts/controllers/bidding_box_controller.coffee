@@ -1,6 +1,4 @@
 @Bridge.BiddingBoxController = Ember.Controller.extend
-  needs: ["board"]
-
   contractBinding: "auction.contract"
   contractDirectionBinding: "contract.direction"
   contractSideBinding: "contract.side"
