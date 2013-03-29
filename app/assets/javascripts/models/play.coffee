@@ -14,27 +14,13 @@
     @_super.apply(@, arguments)
     @reindex()
 
-  arrangedContent: (->
-    @get("content").map (card, i) -> Bridge.Card.create(content: card)
-  ).property()
-
-  contentArrayWillChange: (content, index, removedCount, addedCount) ->
-    if removedCount
-      for i in [index..(index + removedCount - 1)]
-        @get("arrangedContent").removeAt(i)
-
-  contentArrayDidChange: (content, index, removedCount, addedCount) ->
-    if addedCount
-      for i in [index..(index + addedCount - 1)]
-        @get("arrangedContent").insertAt(i, Bridge.Card.create(content: content.objectAt(i)))
-
   reindex: (->
     Bridge.Utils.playDirections(@get("declarer"), @get("trump"), @get("content").concat("")).forEach (direction, i, directions) =>
-      if card = @get("arrangedContent.#{i}")
+      if card = @get("content.#{i}")
         card.setProperties(index: i, direction: direction, isWinning: direction == directions[i + 1])
       else
         @set("currentDirection", direction)
-  ).observes("declarer", "trump", "arrangedContent.@each")
+  ).observes("declarer", "trump", "content.@each")
 
   isCompleted: (->
     @get("length") == 52
@@ -42,4 +28,4 @@
 
   currentSuit: (->
     @filterProperty("isLead").get("lastObject.suit") if @get("length") % 4 != 0
-  ).property("length", "arrangedContent.@each")
+  ).property("length", "content.@each")

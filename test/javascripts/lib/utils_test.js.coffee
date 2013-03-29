@@ -93,3 +93,6 @@ describe "Utils", ->
 
     it "-2 when 4NTXE and 8 tricks taken", ->
       assert.strictEqual Bridge.Utils.score("4HE", 8), -2
+
+  describe "playDirections", ->
+    it ""
