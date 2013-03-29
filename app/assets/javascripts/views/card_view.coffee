@@ -3,7 +3,7 @@
   classNameBindings: ["isDisabled:disabled", "isClub:suit-c", "isDiamond:suit-d", "isHeart:suit-h", "isSpade:suit-s"]
 
   templateName: (->
-    name = if @get("content") == "" then "unknown" else @get("content")[1].toLowerCase()
+    name = if @get("content") then @get("content")[1].toLowerCase() else "unknown"
     "cards/#{name}"
   ).property("content")
 
