@@ -1,5 +1,6 @@
 @Bridge.TrickController = Ember.ArrayController.extend
+  trickNumberBinding: "play.lastObject.trick"
+
   dupa: (->
-    trickNumber = @get("play.lastObject.trick")
-    @set("content", @get("play").filter (card) => card.trick == trickNumber)
-  ).observes("play.@each", "play.lastObject")
+    @set("content", @get("play").filter((card) => card.get("trick") == @get("trickNumber")).mapProperty("content"))
+  ).observes("play.@each", "trickNumber")
