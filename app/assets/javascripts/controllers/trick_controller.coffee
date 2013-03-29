@@ -1,6 +1,23 @@
 @Bridge.TrickController = Ember.ArrayController.extend
-  trickNumberBinding: "play.lastObject.trick"
+  playDidChange: (->
+    @get("play")?.addArrayObserver(@, willChange: @playContentWillChange, didChange: @playContentDidChange)
+  ).observes("play")
 
-  dupa: (->
-    @set("content", @get("play").filter((card) => card.get("trick") == @get("trickNumber")).mapProperty("content"))
-  ).observes("play.@each", "trickNumber")
+  playWillChange: (->
+    @get("play")?.removeArrayObserver(@)
+  ).observesBefore("play")
+
+  playContentWillChange: (content, index, removedCount, addedCount) ->
+    # if removedCount
+    #   for i in [index..(index + removedCount - 1)]
+    #     card = content.objectAt(i)
+    #     @pushObject(card.get("content")) if card.get("direction") == @get("direction")
+
+  playContentDidChange: (content, index, removedCount, addedCount) ->
+    if addedCount
+      for i in [index..(index + addedCount - 1)]
+        card = content.objectAt(i)
+        if card.get("trick") != content.objectAt(i - 1)?.get("trick")
+          @set("content", [card.get("content")])
+        else
+          @get("content").pushObject(card.get("content"))
