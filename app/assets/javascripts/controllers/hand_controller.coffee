@@ -16,7 +16,6 @@
     if removedCount
       for i in [index..(index + removedCount - 1)]
         card = content.objectAt(i)
-        console.log("asdsa")
         @pushObject(card.get("content")) if card.get("direction") == @get("direction")
 
   playContentDidChange: (content, index, removedCount, addedCount) ->
