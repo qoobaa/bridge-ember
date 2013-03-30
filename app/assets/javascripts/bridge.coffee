@@ -3,6 +3,7 @@
 #= require_tree ./controllers
 #= require_tree ./views
 #= require_tree ./templates
+#= require_tree ./routes
 #= require_self
 
 @Bridge.CONTRACTS = ["1C", "1D", "1H", "1S", "1NT",
