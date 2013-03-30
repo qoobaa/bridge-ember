@@ -23,8 +23,8 @@
 
   <div class="span4">
     <ul>
-      {{#each controllers.bidding_box.auction}}
-        <li>{{.}}</li>
+      {{#each bid in controllers.bidding_box.auction}}
+        {{view Bridge.BidView bidBinding=bid contextBinding=controllers.bidding_box}}
       {{/each}}
     </ul>
   </div>

@@ -3,27 +3,13 @@
     @_super.apply(@, arguments)
     @reindex()
 
-  arrangedContent: (->
-    @get("content").map (bid, i) -> Bridge.Bid.create(content: bid)
-  ).property()
-
-  contentArrayWillChange: (content, index, removedCount, addedCount) ->
-    if removedCount
-      for i in [index..(index + removedCount - 1)]
-        @get("arrangedContent").removeAt(i)
-
-  contentArrayDidChange: (content, index, removedCount, addedCount) ->
-    if addedCount
-      for i in [index..(index + addedCount - 1)]
-        @get("arrangedContent").insertAt(i, Bridge.Bid.create(content: content.objectAt(i)))
-
   reindex: (->
-    Bridge.Utils.auctionDirections(@get("dealer"), @get("content").concat("")).forEach (direction, i) =>
-      if bid = @get("arrangedContent.#{i}")
+    Bridge.Utils.auctionDirections(@get("dealer"), @get("content").mapProperty("content").concat("")).forEach (direction, i) =>
+      if bid = @get("content.#{i}")
         bid.setProperties(index: i, direction: direction)
       else
         @set("currentDirection", direction)
-  ).observes("dealer", "arrangedContent.@each")
+  ).observes("dealer", "content.@each")
 
   isCompleted: (->
     @get("length") > 3 and @slice(@get("length") - 3).everyProperty("isPass")
@@ -34,6 +20,6 @@
   ).property("currentDirection")
 
   contract: (->
-    contract = Bridge.Utils.auctionContract(@get("dealer"), @get("content"))
+    contract = Bridge.Utils.auctionContract(@get("dealer"), @get("content").mapProperty("content"))
     Bridge.Contract.create(content: contract) if contract?
   ).property("isCompleted", "content.@each")
