@@ -1,6 +1,6 @@
 @Bridge.CardView = Ember.View.extend
   classNames: ["card"]
-  classNameBindings: ["isDisabled:disabled", "isClub:suit-c", "isDiamond:suit-d", "isHeart:suit-h", "isSpade:suit-s"]
+  classNameBindings: ["isDisabled:disabled", "suitClassName"]
 
   templateName: (->
     name = if @get("card.value") then @get("card.value").toLowerCase() else "unknown"
@@ -11,10 +11,9 @@
     @rerender()
   ).observes("templateName")
 
-  isClub:    (-> @get("card.suit") == "C").property("card.suit")
-  isDiamond: (-> @get("card.suit") == "D").property("card.suit")
-  isHeart:   (-> @get("card.suit") == "H").property("card.suit")
-  isSpade:   (-> @get("card.suit") == "S").property("card.suit")
+  suitClassName: (->
+    "suit-#{@get("card.suit").toLowerCase()}" if @get("card.suit")
+  ).property("card.suit")
 
   symbol: (->
     switch @get("card.suit")
