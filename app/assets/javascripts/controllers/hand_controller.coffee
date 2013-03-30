@@ -31,7 +31,7 @@
   trumpBinding: "play.contract.trump"
 
   hasCardInCurrentSuit: (->
-    @some((card) => card.suit == @get("currentSuit"))
+    @someProperty("suit", @get("currentSuit"))
   ).property("@each", "currentSuit")
 
   playCard: (card) ->

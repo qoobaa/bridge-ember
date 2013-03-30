@@ -15,14 +15,10 @@
     @reindex()
 
   reindex: (->
-    Bridge.Utils.playDirections(@get("declarer"), @get("trump"), @get("content").concat("")).forEach (direction, i, directions) =>
+    Bridge.Utils.playDirections(@get("declarer"), @get("trump"), @get("content").mapProperty("content").concat("")).forEach (direction, i, directions) =>
       if card = @get("content.#{i}")
         card.setProperties(index: i, direction: direction, isWinning: direction == directions[i + 1])
       else
-        console.log(Ember.inspect(@get("declarer")))
-        console.log(Ember.inspect(@get("trump")))
-        console.log(Ember.inspect(@get("content")))
-        console.log(Ember.inspect(Bridge.Utils.playDirections(@get("declarer"), @get("trump"), @get("content").concat(""))))
         @set("currentDirection", direction)
   ).observes("declarer", "trump", "content.@each")
 
