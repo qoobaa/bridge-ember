@@ -10,13 +10,10 @@ Bridge.IndexRoute = Ember.Route.extend
       s: ["D2", "D6", "D8", "DA", "H3", "H8", "HT", "HJ", "HQ", "HK", "S8", "SJ", "SQ"]
       w: ["C3", "C6", "C8", "C9", "CJ", "CA", "D4", "D7", "DK", "H4", "H5", "ST", "SK"]
 
-    @controllerFor("bidding_box").set("auction", auction)
-    @controllerFor("trick").set("play", play)
-    @controllerFor("hand_n").set("play", play)
-    @controllerFor("hand_n").set("initial", board.n)
-    @controllerFor("hand_e").set("play", play)
-    @controllerFor("hand_e").set("initial", board.e)
-    @controllerFor("hand_s").set("play", play)
-    @controllerFor("hand_s").set("initial", board.s)
-    @controllerFor("hand_w").set("play", play)
-    @controllerFor("hand_w").set("initial", board.w)
+    @controllerFor("bidding_box").setProperties(auction: auction)
+    @controllerFor("trick").setProperties(play: play)
+    @controllerFor("direction").setProperties(auction: auction, play: play)
+    @controllerFor("hand_n").setProperties(initial: board.n, play: play)
+    @controllerFor("hand_e").setProperties(initial: board.e, play: play)
+    @controllerFor("hand_s").setProperties(initial: board.s, play: play)
+    @controllerFor("hand_w").setProperties(initial: board.w, play: play)

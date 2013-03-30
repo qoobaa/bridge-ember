@@ -5,5 +5,5 @@
   tagName: "h3"
 
   current: (->
-    @get("context.currentDirection") == @get("content")
-  ).property("context.currentDirection")
+    @get("context.current") == @get("content")
+  ).property("context.current")
