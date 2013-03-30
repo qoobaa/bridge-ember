@@ -13,6 +13,7 @@ Bridge.IndexRoute = Ember.Route.extend
     @controllerFor("bidding_box").setProperties(auction: auction)
     @controllerFor("trick").setProperties(play: play)
     @controllerFor("direction").setProperties(auction: auction, play: play)
+    @controllerFor("summary").setProperties(auction: auction, play: play, dealer: "N", vulnerable: "NS")
     @controllerFor("hand_n").setProperties(initial: board.n, play: play)
     @controllerFor("hand_e").setProperties(initial: board.e, play: play)
     @controllerFor("hand_s").setProperties(initial: board.s, play: play)

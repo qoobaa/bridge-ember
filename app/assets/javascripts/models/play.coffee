@@ -17,7 +17,8 @@
   reindex: (->
     Bridge.Utils.playDirections(@get("declarer"), @get("trump"), @get("content").mapProperty("content").concat("")).forEach (direction, i, directions) =>
       if card = @get("content.#{i}")
-        card.setProperties(index: i, direction: direction, isWinning: direction == directions[i + 1])
+        winningCardIndex = Math.floor(i / 4) * 4 + 4
+        card.setProperties(index: i, direction: direction, isWinning: direction == directions[winningCardIndex])
       else
         @set("currentDirection", direction)
   ).observes("declarer", "trump", "content.@each")
