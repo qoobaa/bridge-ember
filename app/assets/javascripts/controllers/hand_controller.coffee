@@ -28,7 +28,12 @@
 
   currentSuitBinding: "play.currentSuit"
   currentDirectionBinding: "play.currentDirection"
-  trumpBinding: "play.contract.trump"
+  contractBinding: "play.contract"
+  trumpBinding: "contract.trump"
+
+  isPlaying: (->
+    !!@get("contract")
+  ).property("contract")
 
   hasCardInCurrentSuit: (->
     @someProperty("suit", @get("currentSuit"))
