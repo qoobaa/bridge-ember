@@ -44,15 +44,13 @@
     </div>
   </div>
 
-  <div class="span4">
-    <div class="cards">
-      {{#with controllers.trick}}
-        {{view Bridge.TrickCardView cardBinding=n}}
-        {{view Bridge.TrickCardView cardBinding=e}}
-        {{view Bridge.TrickCardView cardBinding=s}}
-        {{view Bridge.TrickCardView cardBinding=w}}
-      {{/with}}
-    </div>
+  <div class="span4 cards trick">
+    {{#with controllers.trick}}
+      {{view Bridge.TrickCardView cardBinding=n}}
+      {{view Bridge.TrickCardView cardBinding=e}}
+      {{view Bridge.TrickCardView cardBinding=s}}
+      {{view Bridge.TrickCardView cardBinding=w}}
+    {{/with}}
   </div>
 
   <div class="span4 hand">
