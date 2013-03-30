@@ -103,3 +103,10 @@ describe "Utils", ->
 
     it "return correct directions for D3, DA, D4, D9 with declarer N and no trump", ->
       assert.deepEqual Bridge.Utils.playDirections("N", "NT", ["D3", "DA", "D4", "D9", ""]), ["E", "S", "W", "N", "S"]
+
+  describe "auctionContract", ->
+    it "4NTXXN from [1NT, PASS, 4NT, X, XX] with N declarer", ->
+      assert.strictEqual Bridge.Utils.auctionContract("N", ["1NT", "PASS", "4NT", "X", "XX"]), "4NTXXN"
+
+    it "no contract from [PASS PASS PASS PASS] with N declarer", ->
+      assert.isUndefined Bridge.Utils.auctionContract("N", ["PASS", "PASS", "PASS", "PASS"])
