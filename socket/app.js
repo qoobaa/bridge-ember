@@ -5,7 +5,7 @@ var server,
     socketUrl = url.parse(process.env.SOCKET_URL || ""),
     redisUrl = url.parse(process.env.REDIS_URL || "");
 
-server = io.listen(parseInt(socketUrl.port, 10) || 3001);
+server = io.listen(parseInt(process.env.PORT, 10) || 5100);
 
 server.sockets.on("connection", function (socket) {
     var client = redis.createClient(redisUrl.port, redisUrl.hostname);
