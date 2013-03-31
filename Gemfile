@@ -8,6 +8,7 @@ gem "ember-rails", github: "emberjs/ember-rails"
 gem "foreman"
 gem "redis"
 gem "pg"
+gem "puma"
 
 group :assets do
   gem "sass-rails",   "~> 4.0.0.beta1"
@@ -19,5 +20,4 @@ group :development, :test do
   gem "konacha", ">= 2.5.1"
   gem "poltergeist"
   gem "capistrano"
-  gem "capistrano-foreman"
 end
