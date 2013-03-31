@@ -1,4 +1,18 @@
+<div class="navbar navbar-static-top">
+  <div class="navbar-inner">
+    <div class="container">
+      <a class="brand" href="#">Bridge</a>
+      <ul class="nav pull-right">
+        <div class="btn-group">
+          {{#if controllers.session.isSignedIn}}
+            <button {{action "signOut" target=controllers.session}} class="btn">Sign out</button>
+          {{/if}}
+        </div>
+      </ul>
+    </div>
+  </div>
+</div>
+
 <div class="container">
-  <h1>Bridge</h1>
   {{outlet}}
 </div>

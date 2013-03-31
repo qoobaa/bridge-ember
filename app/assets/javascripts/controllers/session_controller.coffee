@@ -1,4 +1,8 @@
 @Bridge.SessionController = Ember.Controller.extend
+  isSignedIn: (->
+    !!Bridge.env.get("userId")
+  ).property("Bridge.env.userId")
+
   signIn: ->
     $.post "/api/session", session: {email: @get("email")}, (data) =>
       Bridge.env.set("userId", data.user_id)
