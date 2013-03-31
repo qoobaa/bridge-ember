@@ -11,9 +11,15 @@ set :rails_env, "production"
 server "bridge.jah.pl:43377", :web, :app, :db, primary: true
 
 before "bundle:install", "deploy:symlink_db"
+before "bundle:install", "deploy:symlink_env"
+
 namespace :deploy do
   task :symlink_db, roles: :app do
     run "ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml"
+  end
+
+  task :symlink_env, roles: :app do
+    run "ln -nfs #{shared_path}/config/.env.production #{release_path}/.env.production"
   end
 
   # https://github.com/capistrano/capistrano/issues/362
