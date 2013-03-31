@@ -32,3 +32,28 @@ namespace :deploy do
     end
   end
 end
+
+namespace :foreman do
+  desc "Export the Procfile to Ubuntu's upstart scripts"
+  task :export, :roles => :app do
+    run <<-CMD.compact
+      cd #{release_path} &&
+      sudo $(rbenv which bundle) exec foreman export upstart /etc/init -f ./Procfile.production -a #{application} -u #{user} -l #{shared_path}/log -e .env.production
+    CMD
+  end
+
+  desc "Start the application services"
+  task :start, :roles => :app do
+    sudo "start #{application}"
+  end
+
+  desc "Stop the application services"
+  task :stop, :roles => :app do
+    sudo "stop #{application}"
+  end
+
+  desc "Restart the application services"
+  task :restart, :roles => :app do
+    run "sudo start #{application} || sudo restart #{application}"
+  end
+end
