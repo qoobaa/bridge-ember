@@ -1,0 +1,23 @@
+// Board state
+{
+  "direction": "N", // Direction of current user
+  "board": {
+    "dealer": "N",
+    "vulnerable": "NS",
+    "n": ["C2", "CQ", "CK", "D9", "DT", "DJ", "H2", "H6", "H7", "S4", "S6", "S9", "SA"],
+    "s": ["D2", "D6", "D8", "DA", "H3", "H8", "HT", "HJ", "HQ", "HK", "S8", "SJ", "SQ"],
+    "bids": ["2H", "PASS", "PASS", "PASS"],
+    "cards": ["C4"],
+    "contract": "2HN"
+  }
+}
+
+// Bid created
+{
+  "bid": "2H"
+}
+
+// Card created
+{
+  "card": "C4"
+}

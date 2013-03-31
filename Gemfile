@@ -4,6 +4,7 @@ ruby "2.0.0"
 
 gem "rails", "4.0.0.beta1"
 
+gem "jbuilder"
 gem "ember-rails", github: "emberjs/ember-rails"
 gem "foreman"
 gem "redis"
