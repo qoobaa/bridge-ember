@@ -74,6 +74,8 @@ GEM
     faye-websocket (0.4.7)
       eventmachine (>= 0.12.0)
     ffi (1.4.0)
+    foreman (0.62.0)
+      thor (>= 0.13.6)
     handlebars-source (1.0.0.rc.3)
     hike (1.2.1)
     http_parser.rb (0.5.3)
@@ -118,6 +120,7 @@ GEM
     rake (10.0.3)
     rdoc (3.12.2)
       json (~> 1.4)
+    redis (3.0.3)
     rubyzip (0.9.9)
     sass (3.2.7)
     sass-rails (4.0.0.beta1)
@@ -161,9 +164,11 @@ PLATFORMS
 DEPENDENCIES
   coffee-rails (~> 4.0.0.beta1)
   ember-rails!
+  foreman
   konacha (>= 2.5.1)
   poltergeist
   rails (= 4.0.0.beta1)
+  redis
   sass-rails (~> 4.0.0.beta1)
   sqlite3
   uglifier (>= 1.0.3)

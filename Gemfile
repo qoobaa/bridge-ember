@@ -3,9 +3,11 @@ source "https://rubygems.org"
 ruby "2.0.0"
 
 gem "rails", "4.0.0.beta1"
-gem "sqlite3"
 
 gem "ember-rails", github: "emberjs/ember-rails"
+gem "foreman"
+gem "redis"
+gem "sqlite3"
 
 group :assets do
   gem "sass-rails",   "~> 4.0.0.beta1"
