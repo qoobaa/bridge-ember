@@ -18,4 +18,5 @@ end
 group :development, :test do
   gem "konacha", ">= 2.5.1"
   gem "poltergeist"
+  gem "capistrano"
 end
