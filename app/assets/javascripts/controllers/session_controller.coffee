@@ -1,7 +1,7 @@
 @Bridge.SessionController = Ember.Controller.extend
   signIn: ->
     $.post "/api/session", session: {email: @get("email")}, (data) =>
-      Bridge.env.set("user_id", data.user_id)
+      Bridge.env.set("userId", data.user_id)
       @transitionToRoute "index"
 
   signOut: ->
@@ -9,5 +9,5 @@
       url: "/api/session"
       type: "delete"
     .done =>
-      Bridge.env.set("user_id", undefined)
+      Bridge.env.set("userId", undefined)
       @transitionToRoute "signIn"

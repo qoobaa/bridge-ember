@@ -9,4 +9,5 @@ Ember.LOG_VERSION = false
 
 @Bridge = Ember.Application.create
   ready: ->
-    Bridge.env = Bridge.Env.create(user_id: $("meta[name=user-id]").attr("content"))
+    Bridge.env = Bridge.Env.create()
+    $("meta").each -> Bridge.env.set($(@).attr("name").camelize(), $(@).attr("content"))
