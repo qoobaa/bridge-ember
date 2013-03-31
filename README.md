@@ -2,6 +2,10 @@
 
 ### Tests
 
+To run app tests
+
+`foreman run rake`
+
 To run js tests
 
 ```
