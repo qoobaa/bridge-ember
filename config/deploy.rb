@@ -3,7 +3,7 @@ require "bundler/capistrano"
 set :application, "bridge"
 set :deploy_to, "/home/bridge/apps/#{application}"
 set :user, "bridge"
-set :repository,  "git://github.com/qoobaa/bridge-ember.git"
+set :repository,  "git://github.com/qoobaa/bridge-ember-zomg.git"
 set :use_sudo, false
 set :default_environment, "PATH" => "/home/bridge/.nvm/v0.10.2/bin:/home/bridge/.rbenv/shims:/home/bridge/.rbenv/bin:$PATH"
 set :rails_env, "production"
@@ -12,6 +12,7 @@ server "bridge.jah.pl:43377", :web, :app, :db, primary: true
 
 before "bundle:install", "deploy:symlink_db", "deploy:symlink_env"
 after "deploy:update_code", "deploy:socket_npm_install"
+after "deploy:update", "foreman:export", "foreman:restart"
 
 namespace :deploy do
   task :symlink_db, roles: :app do
