@@ -12,6 +12,7 @@ server "bridge.jah.pl:43377", :web, :app, :db, primary: true
 
 before "bundle:install", "deploy:symlink_db", "deploy:symlink_env"
 after "deploy:update_code", "deploy:socket_npm_install"
+after "deploy:update", "foreman:export", "foreman:restart"
 
 namespace :deploy do
   task :symlink_db, roles: :app do
