@@ -5,15 +5,10 @@
     <p>Contract: {{controllers.summary.contract}}</p>
     <p>NS: {{controllers.summary.nsWonTricksNumber}}</p>
     <p>EW: {{controllers.summary.ewWonTricksNumber}}</p>
-    <p>Result: {{controllers.board.scoreString}}</p>
   </div>
 
   <div class="span4 hand">
     {{view Bridge.DirectionView content="N" contextBinding=controllers.direction}}
-    {{view Bridge.ClaimView direction="N" contextBinding=controllers.claim}}
-    {{view Bridge.ClaimAcceptView direction="N" contextBinding=controllers.claim}}
-    {{view Bridge.ClaimRejectView direction="N" contextBinding=controllers.claim}}
-
     <div class="cards">
       {{#each card in controllers.hand_n}}
         {{view Bridge.HandCardView cardBinding=card ownerDirection="N" contextBinding=controllers.hand_n}}
@@ -33,10 +28,6 @@
 <div class="row">
   <div class="span4 hand">
     {{view Bridge.DirectionView content="W" contextBinding=controllers.direction}}
-    {{view Bridge.ClaimView direction="W" contextBinding=controllers.claim}}
-    {{view Bridge.ClaimAcceptView direction="W" contextBinding=controllers.claim}}
-    {{view Bridge.ClaimRejectView direction="W" contextBinding=controllers.claim}}
-
     <div class="cards">
       {{#each card in controllers.hand_w}}
         {{view Bridge.HandCardView cardBinding=card ownerDirection="W" contextBinding=controllers.hand_w}}
@@ -55,10 +46,6 @@
 
   <div class="span4 hand">
     {{view Bridge.DirectionView content="E" contextBinding=controllers.direction}}
-    {{view Bridge.ClaimView direction="E" contextBinding=controllers.claim}}
-    {{view Bridge.ClaimAcceptView direction="E" contextBinding=controllers.claim}}
-    {{view Bridge.ClaimRejectView direction="E" contextBinding=controllers.claim}}
-
     <div class="cards">
       {{#each card in controllers.hand_e}}
         {{view Bridge.HandCardView cardBinding=card ownerDirection="E" contextBinding=controllers.hand_e}}
@@ -69,18 +56,10 @@
 
 <div class="row">
   <div class="span4">
-    <ul>
-      {{#each controllers.board.tricks}}
-        <li>{{.}}</li>
-      {{/each}}
-    </ul>
   </div>
 
   <div class="span4 hand">
     {{view Bridge.DirectionView content="S" contextBinding=controllers.direction}}
-    {{view Bridge.ClaimView direction="S" contextBinding=controllers.claim}}
-    {{view Bridge.ClaimAcceptView direction="S" contextBinding=controllers.claim}}
-    {{view Bridge.ClaimRejectView direction="S" contextBinding=controllers.claim}}
     <div class="cards">
       {{#each card in controllers.hand_s}}
         {{view Bridge.HandCardView cardBinding=card ownerDirection="S" contextBinding=controllers.hand_s}}
