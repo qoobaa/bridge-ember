@@ -10,8 +10,8 @@ set :rails_env, "production"
 
 server "bridge.jah.pl:43377", :web, :app, :db, primary: true
 
-before "bundle:install", "deploy:symlink_db"
-before "bundle:install", "deploy:symlink_env"
+before "bundle:install", "deploy:symlink_db", "deploy:symlink_env"
+after "deploy:update_code", "deploy:socket_npm_install"
 
 namespace :deploy do
   task :symlink_db, roles: :app do
@@ -20,6 +20,11 @@ namespace :deploy do
 
   task :symlink_env, roles: :app do
     run "ln -nfs #{shared_path}/config/.env.production #{release_path}/.env.production"
+  end
+
+  desc "Install node modules for socket"
+  task :socket_npm_install do
+    run "cd #{current_path}/socket && npm install"
   end
 
   # https://github.com/capistrano/capistrano/issues/362
