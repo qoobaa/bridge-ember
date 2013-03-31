@@ -24,7 +24,7 @@ namespace :deploy do
 
   desc "Install node modules for socket"
   task :socket_npm_install do
-    run "cd #{current_path}/socket && npm install"
+    run "cd #{release_path}/socket && npm install"
   end
 
   # https://github.com/capistrano/capistrano/issues/362
