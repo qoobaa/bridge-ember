@@ -1,9 +1,9 @@
 class Api::SessionsController < Api::ApplicationController
   def create
-    user = User.find_or_create_by!(session_params)
-    session[:user_id] = user.id
+    @user = User.find_or_create_by!(session_params)
+    session[:user_id] = @user.id
 
-    head :created
+    render status: :created
   end
 
   def destroy

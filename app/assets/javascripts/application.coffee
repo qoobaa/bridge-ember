@@ -7,4 +7,6 @@
 
 Ember.LOG_VERSION = false
 
-@Bridge = Ember.Application.create()
+@Bridge = Ember.Application.create
+  ready: ->
+    Bridge.env = Bridge.Env.create(user_id: $("meta[name=user-id]").attr("content"))

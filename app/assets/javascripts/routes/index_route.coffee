@@ -1,4 +1,7 @@
 Bridge.IndexRoute = Ember.Route.extend
+  redirect: ->
+    @transitionTo "signIn" unless Bridge.env.get("user_id")
+
   setupController: (controller, model) ->
     auction = Bridge.Auction.create(content: [], dealer: "N")
     play    = Bridge.Play.create(content: [])
