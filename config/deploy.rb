@@ -37,8 +37,8 @@ namespace :foreman do
   desc "Export the Procfile to Ubuntu's upstart scripts"
   task :export, :roles => :app do
     run <<-CMD.compact
-      cd #{release_path} &&
-      sudo $(rbenv which bundle) exec foreman export upstart /etc/init -f ./Procfile.production -a #{application} -u #{user} -l #{shared_path}/log -e .env.production
+      cd #{current_path} &&
+      sudo env PATH=$PATH bundle exec foreman export upstart /etc/init -f ./Procfile.production -a #{application} -u #{user} -l #{shared_path}/log -e .env.production
     CMD
   end
 
