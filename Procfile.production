@@ -1,2 +1,2 @@
-web: bin/rails s Puma -p $PORT
+web: bundle exec puma -C /home/bridge/apps/bridge/current/config/puma.rb
 socket: node socket/app.js
