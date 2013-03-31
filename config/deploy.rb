@@ -7,6 +7,11 @@ set :repository,  "git://github.com/qoobaa/bridge-ember.git"
 set :use_sudo, false
 set :default_environment, "PATH" => "/home/bridge/.nvm/v0.10.2/bin:/home/bridge/.rbenv/shims:/home/bridge/.rbenv/bin:$PATH"
 
-set :shared_children, shared_children + %w[config/database.yml]
-
 server "bridge.jah.pl:43377", :web, :app, :db, primary: true
+
+before "bundle:install", "deploy:symlink_db"
+namespace :deploy do
+  task :symlink_db, roles: :app do
+    run "ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml"
+  end
+end
