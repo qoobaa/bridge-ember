@@ -20,5 +20,6 @@ module Bridge
     # config.i18n.default_locale = :de
 
     config.assets.paths << Rails.root.join("app", "assets", "images")
+    config.assets.paths << Rails.root.join("app", "assets", "flash")
   end
 end
