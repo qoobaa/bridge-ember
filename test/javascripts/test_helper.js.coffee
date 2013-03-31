@@ -2,6 +2,8 @@
 #= require vendor/handlebars
 #= require vendor/ember
 #= require_self
-#= require bridge
+#= require constants
+
+Ember.LOG_VERSION = false
 
 @Bridge = Ember.Application.create()
