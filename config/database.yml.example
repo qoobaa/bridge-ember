@@ -1,0 +1,20 @@
+development:
+  adapter: postgresql
+  database: worldvisionloyalty_development
+  username: postgres
+  password:
+  min_messages: WARNING
+
+test:
+  adapter: postgresql
+  database: worldvisionloyalty_test
+  username: postgres
+  password:
+  min_messages: WARNING
+
+production:
+  adapter: postgresql
+  database: worldvisionloyalty_production
+  username: postgres
+  password:
+  min_messages: WARNING
