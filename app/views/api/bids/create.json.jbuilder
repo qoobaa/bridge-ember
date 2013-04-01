@@ -1,0 +1,1 @@
+json.bid @bid.content
