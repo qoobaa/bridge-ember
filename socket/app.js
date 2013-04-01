@@ -1,13 +1,16 @@
-var server,
+var socketServer, httpServer,
     io = require("socket.io"),
     redis = require("redis"),
     url = require("url"),
+    http = require("http"),
     socketUrl = url.parse(process.env.SOCKET_URL || ""),
     redisUrl = url.parse(process.env.REDIS_URL || "");
 
-server = io.listen(parseInt(process.env.PORT, 10) || 5100);
+httpServer = http.createServer();
+httpServer.listen(parseInt(process.env.PORT, 10) || 5100, "localhost");
+socketServer = io.listen(httpServer);
 
-server.sockets.on("connection", function (socket) {
+socketServer.sockets.on("connection", function (socket) {
     var client = redis.createClient(redisUrl.port, redisUrl.hostname);
 
     redisUrl.auth && client.auth(redisUrl.auth.split(":")[1], function (error) {
