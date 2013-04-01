@@ -1,18 +1,21 @@
 @Bridge.TrickController = Ember.Controller.extend
   trickNumberBinding: "play.lastObject.trick"
 
+  getCard: (direction) ->
+    @get("play")?.find((card) => card.get("trick") == @get("trickNumber") and card.get("direction") == direction)
+
   n: (->
-    @get("play")?.find((card) => card.get("trick") == @get("trickNumber") and card.get("direction") == "N")
+    @getCard("N")
   ).property("trickNumber", "play.@each")
 
   e: (->
-    @get("play")?.find((card) => card.get("trick") == @get("trickNumber") and card.get("direction") == "E")
+    @getCard("E")
   ).property("trickNumber", "play.@each")
 
   s: (->
-    @get("play")?.find((card) => card.get("trick") == @get("trickNumber") and card.get("direction") == "S")
+    @getCard("S")
   ).property("trickNumber", "play.@each")
 
   w: (->
-    @get("play")?.find((card) => card.get("trick") == @get("trickNumber") and card.get("direction") == "W")
+    @getCard("W")
   ).property("trickNumber", "play.@each")
