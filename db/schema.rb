@@ -11,10 +11,36 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130331134821) do
+ActiveRecord::Schema.define(version: 20130401140722) do
 
-  # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
+  create_table "bids", force: true do |t|
+    t.integer  "board_id",   null: false
+    t.string   "content",    null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "bids", ["board_id", "content"], name: "index_bids_on_board_id_and_content", unique: true
+  add_index "bids", ["board_id"], name: "index_bids_on_board_id"
+
+  create_table "boards", force: true do |t|
+    t.string   "deal_id",    null: false
+    t.string   "dealer",     null: false
+    t.string   "vulnerable", null: false
+    t.string   "contract"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "cards", force: true do |t|
+    t.integer  "board_id",   null: false
+    t.string   "content"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "cards", ["board_id", "content"], name: "index_cards_on_board_id_and_content", unique: true
+  add_index "cards", ["board_id"], name: "index_cards_on_board_id"
 
   create_table "channels", force: true do |t|
     t.integer  "user_id"
