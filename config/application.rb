@@ -21,5 +21,6 @@ module Bridge
 
     config.assets.paths << Rails.root.join("app", "assets", "images")
     config.assets.paths << Rails.root.join("app", "assets", "flash")
+    config.assets.paths << Rails.root.join("app", "assets", "fonts")
   end
 end

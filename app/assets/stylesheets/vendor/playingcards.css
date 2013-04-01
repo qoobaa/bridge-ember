@@ -1,15 +1,14 @@
 /* https://github.com/donpark/scalable-css-playing-cards */
 
 @font-face {
-  font-family: 'Suit-Regular';
-  src: url("../fonts/suit-regular.eot");
-  /* src: url("../fonts/suit-regular.eot?#iefix") format('embedded-opentype'), url("../fonts/suit-regular.woff") format('woff'), url("../fonts/suit-regular.ttf") format('truetype'), url("../fonts/suit-regular.svg#suit-regular") format('svg'); */
+  font-family: "Suit-Regular";
+  src: url("/assets/suit-regular.eot?#iefix") format("embedded-opentype"), url("/assets/suit-regular.woff") format("woff"), url("/assets/suit-regular.ttf") format("truetype"), url("/assets/suit-regular.svg#suit-regular") format("svg");
   font-weight: normal;
   font-style: normal;
 }
 .card {
   background-color: #fff;
-  font-family: 'Suit-Regular', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-family: "Suit-Regular", "Helvetica Neue", Helvetica, Arial, sans-serif;
   -moz-border-radius: 0.8em;
   -webkit-border-radius: 0.8em;
   border-radius: 0.8em;
