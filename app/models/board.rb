@@ -1,5 +1,8 @@
 class Board < ActiveRecord::Base
+  has_many :bids,  -> { order(:created_at) }
+  has_many :cards, -> { order(:created_at) }
+
   validates :deal_id,    presence: true
-  validates :dealer,     presence: true
-  validates :vulnerable, presence: true
+  validates :dealer,     presence: true, inclusion: Bridge::DIRECTIONS
+  validates :vulnerable, presence: true, inclusion: Bridge::VULNERABILITIES
 end

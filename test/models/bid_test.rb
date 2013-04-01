@@ -1,7 +1,11 @@
-require 'test_helper'
+require "test_helper"
 
 class BidTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
+  test "is valid" do
+    assert build(:bid).valid?
+  end
+
+  test "is invalid with bid not existing bid" do
+    assert build(:bid, content: "8S").invalid?
+  end
 end

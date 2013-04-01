@@ -4,5 +4,6 @@ require "rails/test_help"
 
 class ActiveSupport::TestCase
   ActiveRecord::Migration.check_pending!
-  fixtures :all
+
+  include FactoryGirl::Syntax::Methods
 end

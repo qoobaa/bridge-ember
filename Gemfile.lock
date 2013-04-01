@@ -45,6 +45,7 @@ GEM
       ember-source
       execjs
       handlebars-source
+    bridge (0.1.4)
     builder (3.1.4)
     capistrano (2.14.2)
       highline
@@ -77,6 +78,11 @@ GEM
     eventmachine (1.0.3)
     execjs (1.4.0)
       multi_json (~> 1.0)
+    factory_girl (4.2.0)
+      activesupport (>= 3.0.0)
+    factory_girl_rails (4.2.1)
+      factory_girl (~> 4.2.0)
+      railties (>= 3.0.0)
     faye-websocket (0.4.7)
       eventmachine (>= 0.12.0)
     ffi (1.4.0)
@@ -136,7 +142,7 @@ GEM
       rake (>= 0.8.7)
       rdoc (~> 3.4)
       thor (>= 0.17.0, < 2.0)
-    rake (10.0.3)
+    rake (10.0.4)
     rdoc (3.12.2)
       json (~> 1.4)
     redis (3.0.3)
@@ -180,9 +186,11 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  bridge
   capistrano
   coffee-rails (~> 4.0.0.beta1)
   ember-rails!
+  factory_girl_rails
   foreman
   jbuilder
   konacha (>= 2.5.1)

@@ -1,7 +1,7 @@
-require 'test_helper'
+require "test_helper"
 
 class BoardTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
+  test "is valid" do
+    assert build(:board).valid?
+  end
 end

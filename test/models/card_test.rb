@@ -1,7 +1,11 @@
-require 'test_helper'
+require "test_helper"
 
 class CardTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
+  test "is valid" do
+    assert build(:card).valid?
+  end
+
+  test "is invalid with not existing card" do
+    assert build(:card, content: "SU").invalid?
+  end
 end

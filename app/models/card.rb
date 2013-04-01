@@ -1,6 +1,6 @@
 class Card < ActiveRecord::Base
-  belongs_to :board_id
+  belongs_to :board
 
   validates :board_id, presence: true
-  validates :content,  presence: true, uniqueness: {scope: :board_id}
+  validates :content,  presence: true, inclusion: Bridge::DECK, uniqueness: {scope: :board_id}
 end
