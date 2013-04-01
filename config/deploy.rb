@@ -7,6 +7,7 @@ set :repository,  "git://github.com/qoobaa/bridge-ember.git"
 set :use_sudo, false
 set :default_environment, "PATH" => "/home/bridge/.nvm/v0.10.2/bin:/home/bridge/.rbenv/shims:/home/bridge/.rbenv/bin:$PATH"
 set :rails_env, "production"
+set :keep_releases, 3
 
 server "bridge.jah.pl:43377", :web, :app, :db, primary: true
 
