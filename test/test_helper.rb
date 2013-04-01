@@ -6,4 +6,8 @@ class ActiveSupport::TestCase
   ActiveRecord::Migration.check_pending!
 
   include FactoryGirl::Syntax::Methods
+
+  def json_response
+    ActiveSupport::JSON.decode(response.body)
+  end
 end

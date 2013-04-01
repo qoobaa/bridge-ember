@@ -6,7 +6,5 @@ class CreateBids < ActiveRecord::Migration
 
       t.timestamps
     end
-
-    add_index :bids, [:board_id, :content], unique: true
   end
 end

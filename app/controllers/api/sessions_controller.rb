@@ -1,6 +1,6 @@
 class Api::SessionsController < Api::ApplicationController
-  before_filter :require_no_user, only: :create
-  before_filter :require_user, only: :destroy
+  before_action :require_no_user, only: :create
+  before_action :require_user, only: :destroy
 
   def create
     @user = User.find_or_create_by!(session_params)

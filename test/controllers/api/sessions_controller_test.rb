@@ -8,7 +8,7 @@ class Api::SessionsControllerTest < ActionController::TestCase
   end
 
   test "removes user_id from session" do
-    session[:user_id] = 6
+    session[:user_id] = create(:user).id
     delete :destroy, format: :json
 
     assert_nil session[:user_id]

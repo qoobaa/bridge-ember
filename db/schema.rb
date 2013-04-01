@@ -20,7 +20,6 @@ ActiveRecord::Schema.define(version: 20130401140722) do
     t.datetime "updated_at"
   end
 
-  add_index "bids", ["board_id", "content"], name: "index_bids_on_board_id_and_content", unique: true
   add_index "bids", ["board_id"], name: "index_bids_on_board_id"
 
   create_table "boards", force: true do |t|
