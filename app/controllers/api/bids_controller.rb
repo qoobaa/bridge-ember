@@ -20,8 +20,6 @@ class Api::BidsController < Api::ApplicationController
   end
 
   def check_direction
-    direction = board.dealer
-    board.bids.count.times { direction = Bridge.next_direction(direction) }
-    # head(:unauthorized) if direction != # user direction
+    # head(:unauthorized) if board.auction.next_direction == user direction
   end
 end

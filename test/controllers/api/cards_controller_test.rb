@@ -2,7 +2,7 @@ require "test_helper"
 
 class Api::CardsControllerTest < ActionController::TestCase
   test "creates card" do
-    board = create(:board)
+    board = create(:board, deal_id: "0", contract: "7SN")
 
     post :create, board_id: board.id, card: {content: "HA"}, format: :json
 
@@ -11,11 +11,11 @@ class Api::CardsControllerTest < ActionController::TestCase
   end
 
   test "returns validation error" do
-    board = create(:board)
+    board = create(:board, deal_id: "0", contract: "7SN")
 
-    post :create, board_id: board.id, card: {content: "WA"}, format: :json
+    post :create, board_id: board.id, card: {content: "DA"}, format: :json
 
-    expected = {"errors" => {"content"=> ["is invalid"]}}
+    expected = {"errors" => {"content" => ["is not allowed"]}}
 
     assert_response :unprocessable_entity
     assert_equal(expected, json_response)

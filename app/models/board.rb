@@ -9,4 +9,8 @@ class Board < ActiveRecord::Base
   def auction
     Bridge::Auction.new(dealer, bids.reload.map(&:content))
   end
+
+  def play
+    Bridge::Play.new(deal_id.to_i, contract, cards.reload.map(&:content))
+  end
 end
