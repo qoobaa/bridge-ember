@@ -6,6 +6,10 @@
   isRegistering: false
   isRegistered: false
 
+  init: ->
+    @_super.apply(@, arguments)
+    @ioDidChange()
+
   io: (->
     io.connect(@get("url"), "auto connect": false)
   ).property("url")
