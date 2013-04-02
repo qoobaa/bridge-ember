@@ -1,13 +1,10 @@
 class Api::BidsController < Api::ApplicationController
   before_action :check_direction
+
   # TODO: add authorization
-  # TODO: decide if additional validation should be moved to model or some other class
   def create
-    @bid = Bid.new(bid_params.merge(board: board))
-    if @bid.valid?
-      @bid.errors.add(:content, :not_allowed) unless Bridge::Auction.new(board.bids.map(&:content)).bid_allowed?(@bid.content)
-    end
-    @bid.save! if @bid.errors.none?
+    @bid = Bid.create(bid_params.merge(board: board))
+    board.update!(contract: board.auction.contract) if board.auction.finished?
 
     respond_with(@bid, status: :created)
   end

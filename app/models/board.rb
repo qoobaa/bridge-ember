@@ -5,4 +5,8 @@ class Board < ActiveRecord::Base
   validates :deal_id,    presence: true
   validates :dealer,     presence: true, inclusion: Bridge::DIRECTIONS
   validates :vulnerable, presence: true, inclusion: Bridge::VULNERABILITIES
+
+  def auction
+    Bridge::Auction.new(dealer, bids.reload.map(&:content))
+  end
 end

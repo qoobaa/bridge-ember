@@ -21,4 +21,16 @@ class Api::BidsControllerTest < ActionController::TestCase
     assert_response :unprocessable_entity
     assert_equal(expected, json_response)
   end
+
+  test "sets contract on board when auction finished" do
+    board = create(:board, dealer: "N")
+    create(:bid, board: board, content: "1NT")
+    create(:bid, board: board, content: "PASS")
+    create(:bid, board: board, content: "PASS")
+
+    post :create, board_id: board.id, bid: {content: "PASS"}, format: :json
+
+    assert_response :created
+    assert_equal "1NTN", board.reload.contract
+  end
 end

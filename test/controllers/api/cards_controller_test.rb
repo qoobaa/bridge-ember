@@ -15,7 +15,7 @@ class Api::CardsControllerTest < ActionController::TestCase
 
     post :create, board_id: board.id, card: {content: "WA"}, format: :json
 
-    expected = {"errors" => {"content"=> ["is not included in the list"]}}
+    expected = {"errors" => {"content"=> ["is invalid"]}}
 
     assert_response :unprocessable_entity
     assert_equal(expected, json_response)
