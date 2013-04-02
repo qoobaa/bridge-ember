@@ -22,7 +22,7 @@ socketServer.sockets.on("connection", function (socket) {
     });
 
     client.on("ready", function () {
-        client.subscribe(socket.id);
+        client.subscribe("public", socket.id);
     });
 
     client.on("error", function (error) {
