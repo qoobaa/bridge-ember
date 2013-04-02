@@ -10,7 +10,7 @@ gem "foreman"
 gem "redis"
 gem "pg"
 gem "puma"
-gem "bridge"
+gem "bridge", github: "qoobaa/bridge"
 
 group :assets do
   gem "sass-rails",   "~> 4.0.0.beta1"
@@ -19,6 +19,7 @@ group :assets do
 end
 
 group :development, :test do
+  gem "debugger"
   gem "konacha", ">= 2.5.1"
   gem "poltergeist"
   gem "capistrano"

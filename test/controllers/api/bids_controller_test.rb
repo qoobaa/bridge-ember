@@ -12,10 +12,11 @@ class Api::BidsControllerTest < ActionController::TestCase
 
   test "returns validation error" do
     board = create(:board)
+    create(:bid, board: board, content: "1NT")
 
-    post :create, board_id: board.id, bid: {content: "8NT"}, format: :json
+    post :create, board_id: board.id, bid: {content: "1S"}, format: :json
 
-    expected = {"errors" => {"content"=> ["is not included in the list"]}}
+    expected = {"errors" => {"content"=> ["is not allowed"]}}
 
     assert_response :unprocessable_entity
     assert_equal(expected, json_response)

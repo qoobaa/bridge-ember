@@ -10,6 +10,12 @@ GIT
       execjs (>= 1.2)
       railties (>= 3.1)
 
+GIT
+  remote: git://github.com/qoobaa/bridge.git
+  revision: c9c319812d574422fe6b7389a220eb9a3d232feb
+  specs:
+    bridge (0.1.4)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -45,7 +51,6 @@ GEM
       ember-source
       execjs
       handlebars-source
-    bridge (0.1.4)
     builder (3.1.4)
     capistrano (2.14.2)
       highline
@@ -70,6 +75,13 @@ GEM
       execjs
     coffee-script-source (1.6.2)
     colorize (0.5.8)
+    columnize (0.3.6)
+    debugger (1.5.0)
+      columnize (>= 0.3.1)
+      debugger-linecache (~> 1.2.0)
+      debugger-ruby_core_source (~> 1.2.0)
+    debugger-linecache (1.2.0)
+    debugger-ruby_core_source (1.2.0)
     ember-data-source (0.0.5)
       ember-source
     ember-source (0.0.3)
@@ -186,9 +198,10 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  bridge
+  bridge!
   capistrano
   coffee-rails (~> 4.0.0.beta1)
+  debugger
   ember-rails!
   factory_girl_rails
   foreman
