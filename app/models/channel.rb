@@ -15,8 +15,7 @@ class Channel < ActiveRecord::Base
   end
 
   def publish(message)
-    message = message.to_json unless message.is_a?(String)
-    listeners = redis.publish(name, message)
+    listeners = redis_publish(message.merge(channel: name))
     disconnect! if listeners.zero?
   end
 end
