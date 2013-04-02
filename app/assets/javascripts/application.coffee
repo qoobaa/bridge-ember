@@ -10,4 +10,4 @@ Ember.LOG_VERSION = false
 @Bridge = Ember.Application.create
   ready: ->
     Bridge.env = Bridge.Env.create()
-    $("meta").each -> Bridge.env.set($(@).attr("name").camelize(), $(@).attr("content"))
+    Bridge.channel = Bridge.Channel.create(urlBinding: "Bridge.env.socketUrl", userIdBinding: "Bridge.env.userId")

@@ -1,6 +1,4 @@
 class Api::ChannelsController < Api::ApplicationController
-  before_filter :require_user
-
   def create
     @channel = Channel.find_or_create_by(channel_params)
     @channel.user_id = current_user.try(:id)
