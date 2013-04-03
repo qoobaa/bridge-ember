@@ -22,5 +22,7 @@ module Bridge
     config.assets.paths << Rails.root.join("app", "assets", "images")
     config.assets.paths << Rails.root.join("app", "assets", "flash")
     config.assets.paths << Rails.root.join("app", "assets", "fonts")
+
+    config.active_record.observers = :table_observer
   end
 end
