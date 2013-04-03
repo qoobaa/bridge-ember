@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130402103017) do
+ActiveRecord::Schema.define(version: 20130403181345) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -32,7 +32,16 @@ ActiveRecord::Schema.define(version: 20130402103017) do
     t.string   "contract"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "user_n_id",  null: false
+    t.integer  "user_e_id",  null: false
+    t.integer  "user_s_id",  null: false
+    t.integer  "user_w_id",  null: false
   end
+
+  add_index "boards", ["user_e_id"], name: "index_boards_on_user_e_id"
+  add_index "boards", ["user_n_id"], name: "index_boards_on_user_n_id"
+  add_index "boards", ["user_s_id"], name: "index_boards_on_user_s_id"
+  add_index "boards", ["user_w_id"], name: "index_boards_on_user_w_id"
 
   create_table "cards", force: true do |t|
     t.integer  "board_id",   null: false
