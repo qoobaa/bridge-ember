@@ -18,4 +18,13 @@ class Board < ActiveRecord::Base
   def play
     Bridge::Play.new(deal_id.to_i, contract, cards.reload.map(&:content))
   end
+
+  def user_direction(user)
+    case user
+    when user_n then "N"
+    when user_e then "E"
+    when user_s then "S"
+    when user_w then "W"
+    end
+  end
 end

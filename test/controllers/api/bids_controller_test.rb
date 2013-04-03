@@ -1,8 +1,13 @@
 require "test_helper"
 
 class Api::BidsControllerTest < ActionController::TestCase
+  setup do
+    @user = create(:user)
+    sign_in(@user)
+  end
+
   test "creates bid" do
-    board = create(:board)
+    board = create(:board, dealer: "N", user_n: @user)
 
     post :create, board_id: board.id, bid: {content: "2H"}, format: :json
 
@@ -11,7 +16,7 @@ class Api::BidsControllerTest < ActionController::TestCase
   end
 
   test "returns validation error" do
-    board = create(:board)
+    board = create(:board, dealer: "N", user_e: @user)
     create(:bid, board: board, content: "1NT")
 
     post :create, board_id: board.id, bid: {content: "1S"}, format: :json
@@ -23,7 +28,7 @@ class Api::BidsControllerTest < ActionController::TestCase
   end
 
   test "sets contract on board when auction finished" do
-    board = create(:board, dealer: "N")
+    board = create(:board, dealer: "N", user_w: @user)
     create(:bid, board: board, content: "1NT")
     create(:bid, board: board, content: "PASS")
     create(:bid, board: board, content: "PASS")
@@ -32,5 +37,13 @@ class Api::BidsControllerTest < ActionController::TestCase
 
     assert_response :created
     assert_equal "1NTN", board.reload.contract
+  end
+
+  test "returns unathorized when user is not current direction" do
+    board = create(:board, dealer: "N", user_e: @user)
+
+    post :create, board_id: board.id, bid: {content: "2H"}, format: :json
+
+    assert_response :unauthorized
   end
 end

@@ -1,5 +1,5 @@
 class Api::BidsController < Api::ApplicationController
-  before_action :check_direction
+  before_action :require_user, :check_direction
 
   # TODO: add authorization
   def create
@@ -20,6 +20,6 @@ class Api::BidsController < Api::ApplicationController
   end
 
   def check_direction
-    # head(:unauthorized) if board.auction.next_direction == user direction
+    head(:unauthorized) if board.auction.next_direction != board.user_direction(current_user)
   end
 end
