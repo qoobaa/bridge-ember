@@ -3,17 +3,17 @@ class Api::TablesController < Api::ApplicationController
 
   def index
     @tables = Table.all
-    render json: @tables, root: false
+    render json: @tables
   end
 
   def show
     @table = Table.find(params[:id])
-    render json: @table, root: false
+    render json: @table
   end
 
   def create
     @table = Table.create!
-    redis_publish(event: "tables/create", data: TableSerializer.new(@table, root: false))
-    render json: @table, root: false
+    redis_publish(event: "tables/create", data: TableSerializer.new(@table))
+    render json: @table
   end
 end
