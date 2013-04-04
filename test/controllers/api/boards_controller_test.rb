@@ -2,7 +2,6 @@ require "test_helper"
 
 class Api::BoardsControllerTest < ActionController::TestCase
   test "returns board JSON" do
-    skip "https://github.com/rails-api/active_model_serializers/issues/265"
     board = create(:board, dealer: "N", vulnerable: "NONE", deal_id: "0", contract: "7SN")
     create(:bid, board: board, content: "7S")
     create(:bid, board: board, content: "PASS")
