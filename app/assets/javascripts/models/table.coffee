@@ -4,4 +4,4 @@
   save: ->
     $.ajax "/api/tables",
       type: "POST"
-      success: (table) => setProperties(table)
+      success: (table) => @setProperties(table)

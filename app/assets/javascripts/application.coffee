@@ -13,6 +13,6 @@ Ember.LOG_VERSION = false
     Bridge.channel = Bridge.Channel.create(urlBinding: "Bridge.env.socketUrl", userIdBinding: "Bridge.env.userId")
     Bridge.store = Bridge.Store.create()
 
-    Bridge.channel.on("tables/create", Bridge.store.tables.merge)
-    Bridge.channel.on("tables/update", Bridge.store.tables.merge)
-    Bridge.channel.on("tables/destroy", Bridge.store.tables.remove)
+    Bridge.channel.on("tables/create", (a) -> Bridge.store.tables.merge(a))
+    Bridge.channel.on("tables/update", (a) -> Bridge.store.tables.merge(a))
+    Bridge.channel.on("tables/destroy", (a) -> Bridge.store.tables.remove(a))

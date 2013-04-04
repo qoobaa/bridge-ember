@@ -1,3 +1,4 @@
 Bridge.Router.map ->
   @route("signIn", path: "/sign_in")
-  @route("tables", path: "/tables")
+  @resource("tables", path: "/tables")
+  @resource("table", path: "/tables/:id")

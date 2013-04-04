@@ -4,13 +4,14 @@ ruby "2.0.0"
 
 gem "rails", "4.0.0.beta1"
 
-gem "jbuilder"
+gem "active_model_serializers"
+gem "bridge", github: "qoobaa/bridge"
 gem "ember-rails", github: "emberjs/ember-rails"
 gem "foreman"
-gem "redis"
+gem "jbuilder"
 gem "pg"
 gem "puma"
-gem "bridge", github: "qoobaa/bridge"
+gem "redis"
 
 group :assets do
   gem "sass-rails",   "~> 4.0.0.beta1"

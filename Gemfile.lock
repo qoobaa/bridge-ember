@@ -198,6 +198,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  active_model_serializers
   bridge!
   capistrano
   coffee-rails (~> 4.0.0.beta1)
