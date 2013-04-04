@@ -12,11 +12,11 @@ class Board < ActiveRecord::Base
   validates :vulnerable, presence: true, inclusion: Bridge::VULNERABILITIES
 
   def auction
-    Bridge::Auction.new(dealer, bids.reload.map(&:content))
+    Bridge::Auction.new(dealer, bids.reload.pluck(:content))
   end
 
   def play
-    Bridge::Play.new(deal_id.to_i, contract, cards.reload.map(&:content))
+    Bridge::Play.new(deal_id.to_i, contract, cards.reload.pluck(:content))
   end
 
   def user_direction(user)
