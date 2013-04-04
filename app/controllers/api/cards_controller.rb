@@ -1,11 +1,10 @@
 class Api::CardsController < Api::ApplicationController
   before_action :require_user, :check_direction
 
-  # TODO: add authorization
   def create
     @card = Card.create(card_params.merge(board: board))
 
-    respond_with(@card, status: :created)
+    respond_with(@card, status: :created, location: nil)
   end
 
   private

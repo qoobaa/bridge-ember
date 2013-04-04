@@ -12,7 +12,7 @@ class Api::CardsControllerTest < ActionController::TestCase
     post :create, board_id: board.id, card: {content: "HA"}, format: :json
 
     assert_response :created
-    assert_equal({"card" => "HA"}, json_response)
+    assert_equal({"card" => {"content" => "HA"}}, json_response)
   end
 
   test "returns validation error" do

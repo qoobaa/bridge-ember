@@ -6,7 +6,7 @@ class Api::SessionsController < Api::ApplicationController
     @user = User.find_or_create_by!(session_params)
     session[:user_id] = @user.id
 
-    render status: :created
+    respond_with(@user, status: :created, location: nil)
   end
 
   def destroy

@@ -1,12 +1,11 @@
 class Api::BidsController < Api::ApplicationController
   before_action :require_user, :check_direction
 
-  # TODO: add authorization
   def create
     @bid = Bid.create(bid_params.merge(board: board))
     board.update!(contract: board.auction.contract) if board.auction.finished?
 
-    respond_with(@bid, status: :created)
+    respond_with(@bid, status: :created, location: nil)
   end
 
   private

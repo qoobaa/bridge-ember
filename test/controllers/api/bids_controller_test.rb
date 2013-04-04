@@ -12,7 +12,7 @@ class Api::BidsControllerTest < ActionController::TestCase
     post :create, board_id: board.id, bid: {content: "2H"}, format: :json
 
     assert_response :created
-    assert_equal({"bid" => "2H"}, json_response)
+    assert_equal({"bid" => {"content" => "2H"}}, json_response)
   end
 
   test "returns validation error" do
