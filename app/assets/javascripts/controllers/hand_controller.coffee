@@ -1,7 +1,7 @@
 @Bridge.HandController = Ember.ArrayController.extend
   needs: ["table"]
 
-  playBinding: "controllers.table.content.board.play"
+  playBinding: "controllers.table.board.play"
 
   init: ->
     @_super.apply(@, arguments)

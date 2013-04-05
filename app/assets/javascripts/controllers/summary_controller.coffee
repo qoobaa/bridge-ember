@@ -1,10 +1,10 @@
 @Bridge.SummaryController = Ember.Controller.extend
   needs: ["table"]
 
-  auctionBinding: "controllers.table.content.board.auction"
-  playBinding: "controllers.table.content.board.play"
-  dealerBinding: "controllers.table.content.board.dealer"
-  vulnerableBinding: "controllers.table.content.board.vulnerable"
+  auctionBinding: "controllers.table.board.auction"
+  playBinding: "controllers.table.board.play"
+  dealerBinding: "controllers.table.board.dealer"
+  vulnerableBinding: "controllers.table.board.vulnerable"
 
 
   contract: (->

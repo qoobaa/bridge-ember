@@ -1,8 +1,8 @@
 @Bridge.DirectionController = Ember.Controller.extend
   needs: ["table"]
 
-  auctionBinding: "controllers.table.content.board.auction"
-  playBinding: "controllers.table.content.board.play"
+  auctionBinding: "controllers.table.board.auction"
+  playBinding: "controllers.table.board.play"
 
   current: (->
     if @get("auction.isCompleted") then @get("play.currentDirection") else @get("auction.currentDirection")
