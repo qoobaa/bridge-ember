@@ -1,7 +1,7 @@
 @Bridge.BiddingBoxController = Ember.Controller.extend
   needs: ["table"]
 
-  auctionBinding: "controllers.table.content.board.auction"
+  auctionBinding: "controllers.table.board.auction"
 
   contractBinding: "auction.contract"
   contractDirectionBinding: "contract.direction"
@@ -15,6 +15,13 @@
   currentDirectionBinding: "auction.currentDirection"
   currentSideBinding: "auction.currentSide"
   isCompletedBinding: "auction.isCompleted"
+
+  loggedInUserIdBinding: "Bridge.env.userId"
+  currentUserIdBinding: "controllers.table.currentUser.id"
+
+  isActive: (->
+    @get("currentUserId") == @get("loggedInUserId")
+  ).property("loggedInUserId", "currentUserId")
 
   bid: (bid) ->
     @set("level", null)
