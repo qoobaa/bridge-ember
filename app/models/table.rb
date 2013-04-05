@@ -1,4 +1,19 @@
 class Table < ActiveRecord::Base
   %w[n e s w].each { |direction| belongs_to :"user_#{direction}", class_name: "User" }
   has_many :boards, -> { order(:created_at) }
+
+  def board
+    boards.last
+  end
+
+  def create_board!
+    attributes = self.attributes.slice("user_n_id", "user_e_id", "user_s_id", "user_w_id")
+    attributes[:deal_id] = Bridge::Deal.random_id.to_s
+    attributes[:dealer] = Bridge.next_direction(board.try(:dealer))
+    attributes[:vulnerable] = Bridge.vulnerable_in_deal(boards.count + 1)
+
+    puts attributes
+
+    boards.create!(attributes)
+  end
 end

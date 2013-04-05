@@ -1,6 +1,6 @@
 Bridge.TableRoute = Ember.Route.extend
   redirect: ->
-    @transitionTo "signIn" unless Bridge.get("env.userId")
+    @transitionTo "signIn" unless Bridge.env.get("userId")
 
   model: (params) ->
     Bridge.Table.create(id: params.table_id)

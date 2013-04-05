@@ -1,5 +1,5 @@
 class BoardSerializer < ActiveModel::Serializer
-  attributes :dealer, :vulnerable, :contract, :bids, :cards
+  attributes :dealer, :vulnerable, :bids, :cards
 
   def bids
     object.bids.pluck(:content)

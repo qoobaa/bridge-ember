@@ -1,4 +1,7 @@
 @Bridge.TrickController = Ember.Controller.extend
+  needs: ["table"]
+
+  playBinding: "controllers.table.content.board.play"
   trickNumberBinding: "play.lastObject.trick"
 
   getCard: (direction) ->

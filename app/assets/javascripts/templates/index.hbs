@@ -1,95 +1,15 @@
-<div class="row">
-  <div class="span4">
-    <p>Dealer: {{controllers.summary.dealer}}</p>
-    <p>Vulnerable: {{controllers.summary.vulnerable}}</p>
-    <p>Contract: {{controllers.summary.contract}}</p>
-    <p>NS: {{controllers.summary.nsWonTricksNumber}}</p>
-    <p>EW: {{controllers.summary.ewWonTricksNumber}}</p>
-  </div>
+<ul>
+  {{#each controller}}
+    <li>
+      {{#linkTo "table" .}}
+      {{name}}
+      N: {{user_n.email}}
+      E: {{user_e.email}}
+      S: {{user_s.email}}
+      W: {{user_w.email}}
+      {{/linkTo}}
+    </li>
+  {{/each}}
+</ul>
 
-  <div class="span4 hand">
-    {{view Bridge.DirectionView content="N" contextBinding=controllers.direction}}
-    <div class="cards">
-      {{#each card in controllers.hand_n}}
-        {{view Bridge.HandCardView cardBinding=card ownerDirection="N" contextBinding=controllers.hand_n}}
-      {{/each}}
-    </div>
-  </div>
-
-  <div class="span4">
-    <ul>
-      {{#each bid in controllers.bidding_box.auction}}
-        {{view Bridge.BidView bidBinding=bid contextBinding=controllers.bidding_box}}
-      {{/each}}
-    </ul>
-  </div>
-</div>
-
-<div class="row">
-  <div class="span4 hand">
-    {{view Bridge.DirectionView content="W" contextBinding=controllers.direction}}
-    <div class="cards">
-      {{#each card in controllers.hand_w}}
-        {{view Bridge.HandCardView cardBinding=card ownerDirection="W" contextBinding=controllers.hand_w}}
-      {{/each}}
-    </div>
-  </div>
-
-  <div class="span4 cards trick">
-    {{#with controllers.trick}}
-      {{view Bridge.TrickCardView cardBinding=n classNames="top"}}
-      {{view Bridge.TrickCardView cardBinding=e classNames="right"}}
-      {{view Bridge.TrickCardView cardBinding=s classNames="bottom"}}
-      {{view Bridge.TrickCardView cardBinding=w classNames="left"}}
-    {{/with}}
-  </div>
-
-  <div class="span4 hand">
-    {{view Bridge.DirectionView content="E" contextBinding=controllers.direction}}
-    <div class="cards">
-      {{#each card in controllers.hand_e}}
-        {{view Bridge.HandCardView cardBinding=card ownerDirection="E" contextBinding=controllers.hand_e}}
-      {{/each}}
-    </div>
-  </div>
-</div>
-
-<div class="row">
-  <div class="span4">
-  </div>
-
-  <div class="span4 hand">
-    {{view Bridge.DirectionView content="S" contextBinding=controllers.direction}}
-    <div class="cards">
-      {{#each card in controllers.hand_s}}
-        {{view Bridge.HandCardView cardBinding=card ownerDirection="S" contextBinding=controllers.hand_s}}
-      {{/each}}
-    </div>
-  </div>
-
-  <div class="span4">
-    {{#with controllers.bidding_box}}
-      <p>
-        {{view Bridge.ContractLevelView level="1"}}
-        {{view Bridge.ContractLevelView level="2"}}
-        {{view Bridge.ContractLevelView level="3"}}
-        {{view Bridge.ContractLevelView level="4"}}
-        {{view Bridge.ContractLevelView level="5"}}
-        {{view Bridge.ContractLevelView level="6"}}
-        {{view Bridge.ContractLevelView level="7"}}
-      </p>
-      <p>
-        {{view Bridge.ContractSuitView suit="C"}}
-        {{view Bridge.ContractSuitView suit="D"}}
-        {{view Bridge.ContractSuitView suit="H"}}
-        {{view Bridge.ContractSuitView suit="S"}}
-        {{view Bridge.ContractSuitView suit="NT"}}
-      </p>
-      <p>
-        {{view Bridge.DoubleView}}
-        {{view Bridge.RedoubleView}}
-        {{view Bridge.PassView}}
-      </p>
-    {{/with}}
-  </div>
-</div>
+<button class="btn" {{action createTable}}>Create a new table</button>

@@ -20,6 +20,10 @@ class Board < ActiveRecord::Base
     Bridge::Play.new(deal_id.to_i, contract, cards.reload.pluck(:content))
   end
 
+  def deal
+    Bridge::Deal.from_id(deal_id) if deal_id.present?
+  end
+
   def user_direction(user)
     case user
     when user_n then "N"

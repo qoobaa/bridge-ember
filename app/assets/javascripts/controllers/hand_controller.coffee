@@ -1,4 +1,8 @@
 @Bridge.HandController = Ember.ArrayController.extend
+  needs: ["table"]
+
+  playBinding: "controllers.table.content.board.play"
+
   init: ->
     @_super.apply(@, arguments)
     @initialDidChange()
@@ -49,12 +53,16 @@
 
 Bridge.register "controller:hand_n", Bridge.HandController.extend
   direction: "N"
+  initialBinding: "controllers.table.content.board.n"
 
 Bridge.register "controller:hand_e", Bridge.HandController.extend
   direction: "E"
+  initialBinding: "controllers.table.content.board.e"
 
 Bridge.register "controller:hand_s", Bridge.HandController.extend
   direction: "S"
+  initialBinding: "controllers.table.content.board.s"
 
 Bridge.register "controller:hand_w", Bridge.HandController.extend
   direction: "W"
+  initialBinding: "controllers.table.content.board.w"

@@ -1,2 +1,7 @@
-@Bridge.IndexController = Ember.Controller.extend
-  needs: ["bidding_box", "hand_n", "hand_e", "hand_s", "hand_w", "trick", "direction", "summary"]
+@Bridge.IndexController = Ember.ArrayController.extend
+  contentDidChange: (->
+    @get("content")?.reload()
+  ).observes("content")
+
+  createTable: ->
+    Bridge.Table.create().save()
