@@ -15,7 +15,6 @@ class Api::BoardsControllerTest < ActionController::TestCase
       "board" => {
         "dealer" => "N",
         "vulnerable" => "NONE",
-        "contract" => "7SN",
         "bids" => ["7S", "PASS", "PASS", "PASS"],
         "cards" => ["HA"]
       }

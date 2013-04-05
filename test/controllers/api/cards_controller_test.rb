@@ -33,4 +33,14 @@ class Api::CardsControllerTest < ActionController::TestCase
 
     assert_response :unauthorized
   end
+
+  test "authorizes declarer to play dummy's card" do
+    board = create(:board, deal_id: "0", contract: "7SN", user_n: @user)
+    create(:card, board: board, content: "HA")
+
+    post :create, board_id: board.id, card: {content: "D2"}, format: :json
+
+    assert_response :created
+    assert_equal({"card" => {"content" => "D2"}}, json_response)
+  end
 end
