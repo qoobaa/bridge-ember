@@ -12,4 +12,25 @@ class BoardSerializer < ActiveModel::Serializer
   def cards
     object.cards.pluck(:content)
   end
+
+  # Authorization
+  def include_n?
+    return false if !current_user
+    object.visible_hand_for?("N", object.user_direction(current_user))
+  end
+
+  def include_e?
+    return false if !current_user
+    object.visible_hand_for?("E", object.user_direction(current_user))
+  end
+
+  def include_s?
+    return false if !current_user
+    object.visible_hand_for?("S", object.user_direction(current_user))
+  end
+
+  def include_w?
+    return false if !current_user
+    object.visible_hand_for?("W", object.user_direction(current_user))
+  end
 end

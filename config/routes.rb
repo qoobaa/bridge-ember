@@ -5,7 +5,7 @@ Bridge::Application.routes.draw do
     resource :session, only: [:create, :destroy]
     resource :channel, only: [:create]
     resources :tables, only: [:index, :show, :create]
-    resources :boards, only: [:show] do
+    resources :boards, only: [] do
       resources :bids, only: [:create]
       resources :cards, only: [:create]
     end

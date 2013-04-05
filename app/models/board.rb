@@ -32,4 +32,12 @@ class Board < ActiveRecord::Base
     when user_w then "W"
     end
   end
+
+  def visible_hand_for?(hand, direction)
+    return true if hand == direction
+    if cards.count > 0
+      hand == play.dummy || # Dummy's cards are visible for all after first lead
+      play.dummy == direction # Dummy can see all hands after first lead
+    end
+  end
 end
