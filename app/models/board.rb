@@ -21,7 +21,7 @@ class Board < ActiveRecord::Base
   end
 
   def deal
-    Bridge::Deal.from_id(deal_id) if deal_id.present?
+    Bridge::Deal.from_id(deal_id.to_i) if deal_id.present?
   end
 
   def user_direction(user)
