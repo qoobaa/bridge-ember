@@ -7,3 +7,7 @@
   csrfTokenDidChange: (->
     $.ajaxSettings.headers = {"X-CSRF-Token": @get("csrfToken")}
   ).observes("csrfToken")
+
+  userId: ((key, value) ->
+    parseInt(value, 10) if arguments.length == 2 and value?
+  ).property()
