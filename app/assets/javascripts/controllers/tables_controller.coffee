@@ -1,5 +1,7 @@
 @Bridge.TablesController = Ember.ArrayController.extend
-  needs: []
+  contentDidChange: (->
+    @get("content")?.reload()
+  ).observes("content")
 
   createTable: ->
     Bridge.Table.create().save()

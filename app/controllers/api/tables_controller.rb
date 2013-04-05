@@ -3,7 +3,7 @@ class Api::TablesController < Api::ApplicationController
 
   def index
     @tables = Table.all
-    render json: @tables
+    render json: @tables, each_serializer: TableShortSerializer
   end
 
   def show

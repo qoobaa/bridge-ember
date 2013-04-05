@@ -2,6 +2,7 @@ class Board < ActiveRecord::Base
   %w[n e s w].each { |direction| belongs_to :"user_#{direction}", class_name: "User" }
   has_many :bids,  -> { order(:created_at) }
   has_many :cards, -> { order(:created_at) }
+  belongs_to :table
 
   validates :user_n_id,  presence: true
   validates :user_e_id,  presence: true

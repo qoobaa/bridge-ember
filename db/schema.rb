@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130403181345) do
+ActiveRecord::Schema.define(version: 20130404201503) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -36,6 +36,7 @@ ActiveRecord::Schema.define(version: 20130403181345) do
     t.integer  "user_e_id",  null: false
     t.integer  "user_s_id",  null: false
     t.integer  "user_w_id",  null: false
+    t.integer  "table_id"
   end
 
   add_index "boards", ["user_e_id"], name: "index_boards_on_user_e_id"
