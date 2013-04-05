@@ -16,4 +16,13 @@ class Table < ActiveRecord::Base
 
     boards.create!(attributes)
   end
+
+  def user_direction(user)
+    case user
+    when user_n then "N"
+    when user_e then "E"
+    when user_s then "S"
+    when user_w then "W"
+    end
+  end
 end

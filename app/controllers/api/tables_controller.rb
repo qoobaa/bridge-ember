@@ -1,5 +1,5 @@
 class Api::TablesController < Api::ApplicationController
-  before_action :require_user, only: [:create]
+  before_action :require_user, only: [:create, :join, :quit]
 
   def index
     @tables = Table.all
@@ -15,5 +15,28 @@ class Api::TablesController < Api::ApplicationController
     @table = Table.create!
     redis_publish(event: "tables/create", data: TableSerializer.new(@table))
     render json: @table
+  end
+
+  def join
+    @table = Table.find(params[:id])
+    direction = params.require(:table).require(:direction)
+    head(:bad_request) && return unless Bridge.direction?(direction)
+
+    if @table.user_direction(current_user).nil? && @table.send(:"user_#{direction.downcase}").nil?
+      @table.update!("user_#{direction.downcase}" => current_user)
+      head :ok
+    else
+      head :unauthorized
+    end
+  end
+
+  def quit
+    @table = Table.find(params[:id])
+    if direction = @table.user_direction(current_user)
+      @table.update!("user_#{direction.downcase}" => nil)
+      head :ok
+    else
+      head :unauthorized
+    end
   end
 end

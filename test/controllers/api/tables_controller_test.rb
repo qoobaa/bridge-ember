@@ -1,6 +1,7 @@
 require "test_helper"
 
 class Api::TablesControllerTest < ActionController::TestCase
+  # show
   test "returns table JSON without visible hands when no user signed in" do
     table = create(:table)
     board = create(:board, table: table, dealer: "N", vulnerable: "NONE", deal_id: "0", contract: "7SN")
@@ -62,5 +63,76 @@ class Api::TablesControllerTest < ActionController::TestCase
     assert_nil json_response["table"]["board"]["e"]
     assert_equal board.deal["S"], json_response["table"]["board"]["s"]
     assert_nil json_response["table"]["board"]["w"]
+  end
+
+  # join
+  test "joins table to given direction" do
+    user = create(:user)
+    table = create(:table)
+    sign_in(user)
+
+    patch :join, id: table.id, table: {direction: "N"}, format: :json
+
+    assert_response :ok
+
+    assert_equal user, table.reload.user_n
+  end
+
+  test "does not allow to join more than once to the same table" do
+    user = create(:user)
+    table = create(:table, user_n: user)
+    sign_in(user)
+
+    patch :join, id: table.id, table: {direction: "E"}, format: :json
+
+    assert_response :unauthorized
+
+    assert_nil table.reload.user_e
+  end
+
+  test "does not allow to join to occupied direction" do
+    user_1 = create(:user)
+    user_2 = create(:user)
+    table = create(:table, user_n: user_1)
+    sign_in(user_2)
+
+    patch :join, id: table.id, table: {direction: "N"}, format: :json
+
+    assert_response :unauthorized
+
+    assert_equal user_1, table.reload.user_n
+  end
+
+  test "returns bad request when invalid direction given" do
+    user = create(:user)
+    table = create(:table)
+    sign_in(user)
+
+    patch :join, id: table.id, table: {direction: "X"}, format: :json
+
+    assert_response :bad_request
+  end
+
+  # quit
+  test "removes current user from table" do
+    user = create(:user)
+    table = create(:table, user_n: user)
+    sign_in(user)
+
+    patch :quit, id: table.id, format: :json
+
+    assert_response :ok
+
+    assert_nil table.reload.user_n
+  end
+
+  test "returns unauthorized when user is not sitting at the table" do
+    user = create(:user)
+    table = create(:table)
+    sign_in(user)
+
+    patch :quit, id: table.id, format: :json
+
+    assert_response :unauthorized
   end
 end
