@@ -14,4 +14,4 @@
 
   bid: (bid) ->
     @set("level", null)
-    @get("auction").pushObject(Bridge.Bid.create(content: bid))
+    @get("auction.content").pushObject(bid)

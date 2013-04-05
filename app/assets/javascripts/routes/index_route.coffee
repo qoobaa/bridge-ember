@@ -6,9 +6,9 @@ Bridge.IndexRoute = Ember.Route.extend
     Bridge.Board.create
       dealer: "N"
       vulnerable: "NS"
-      auction: Bridge.Auction.create(content: [], dealer: "N")
-      play: Bridge.Play.create(content: [])
-      n: ["C2", "CQ", "CK", "D9", "DT", "DJ", "H2", "H6", "H7", "S4", "S6", "S9", "SA"]
+      bids: []
+      cards: []
+      # n: ["C2", "CQ", "CK", "D9", "DT", "DJ", "H2", "H6", "H7", "S4", "S6", "S9", "SA"]
       e: ["C4", "C5", "C7", "CT", "D3", "D5", "DQ", "H9", "HA", "S2", "S3", "S5", "S7"]
       s: ["D2", "D6", "D8", "DA", "H3", "H8", "HT", "HJ", "HQ", "HK", "S8", "SJ", "SQ"]
       w: ["C3", "C6", "C8", "C9", "CJ", "CA", "D4", "D7", "DK", "H4", "H5", "ST", "SK"]

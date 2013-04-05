@@ -1,4 +1,8 @@
 @Bridge.HandController = Ember.ArrayController.extend
+  init: ->
+    @_super.apply(@, arguments)
+    @initialDidChange()
+
   playDidChange: (->
     @get("play")?.addArrayObserver(@, willChange: @playContentWillChange, didChange: @playContentDidChange)
   ).observes("play")
@@ -17,14 +21,15 @@
     if removedCount
       for i in [index..(index + removedCount - 1)]
         card = content.objectAt(i)
-        @pushObject(card) if card.get("direction") == @get("direction")
+        @pushObject(card.get("content")) if card.get("direction") == @get("direction")
 
   playContentDidChange: (content, index, removedCount, addedCount) ->
     if addedCount
       for i in [index..(index + addedCount - 1)]
         card = content.objectAt(i)
+        cardContent = card.get("content")
         if card.get("direction") == @get("direction")
-          if @contains(card) then @removeObject(card) else @popObject()
+          if @contains(cardContent) then @removeObject(cardContent) else @popObject()
 
   currentSuitBinding: "play.currentSuit"
   currentDirectionBinding: "play.currentDirection"
@@ -40,7 +45,7 @@
   ).property("@each", "currentSuit")
 
   playCard: (card) ->
-    @get("play").pushObject(card)
+    @get("play.content").pushObject(card.get("content"))
 
 Bridge.register "controller:hand_n", Bridge.HandController.extend
   direction: "N"
