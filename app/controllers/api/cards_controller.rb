@@ -18,6 +18,10 @@ class Api::CardsController < Api::ApplicationController
   end
 
   def check_direction
-    head(:unauthorized) if board.play.next_direction != board.user_direction(current_user)
+    play = board.play
+    # Declarer can play dummy cards
+    if play.next_direction == play.dummy ? play.declarer != board.user_direction(current_user) : play.next_direction != board.user_direction(current_user)
+      head(:unauthorized)
+    end
   end
 end

@@ -3,15 +3,15 @@ class Channel < ActiveRecord::Base
   validates :name, presence: true, uniqueness: true
 
   def self.active
-    where(arel_table[:connected_at].not_eq(nil)).where(disconnected_at: nil).where(arel_table[:user_id].not_eq(nil))
+    where.not(connected_at: nil).where(disconnected_at: nil).where.not(user_id: nil)
   end
 
   def connect!
-    update_attributes!(connected_at: DateTime.now, disconnected_at: nil)
+    update!(connected_at: DateTime.now, disconnected_at: nil)
   end
 
   def disconnect!
-    update_attributes!(disconnected_at: DateTime.now)
+    update!(disconnected_at: DateTime.now)
   end
 
   def publish(message)
