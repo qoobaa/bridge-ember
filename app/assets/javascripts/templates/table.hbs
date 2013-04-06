@@ -9,6 +9,7 @@
 
   <div class="span4 hand">
     {{view Bridge.DirectionView content="N" contextBinding=controllers.direction}}
+    {{view Bridge.JoinView direction="N"}}
     <div class="cards">
       {{#each card in controllers.hand_n}}
         {{view Bridge.HandCardView cardBinding=card ownerDirection="N" contextBinding=controllers.hand_n}}
@@ -28,6 +29,7 @@
 <div class="row">
   <div class="span4 hand">
     {{view Bridge.DirectionView content="W" contextBinding=controllers.direction}}
+    {{view Bridge.JoinView direction="W"}}
     <div class="cards">
       {{#each card in controllers.hand_w}}
         {{view Bridge.HandCardView cardBinding=card ownerDirection="W" contextBinding=controllers.hand_w}}
@@ -46,6 +48,7 @@
 
   <div class="span4 hand">
     {{view Bridge.DirectionView content="E" contextBinding=controllers.direction}}
+    {{view Bridge.JoinView direction="E"}}
     <div class="cards">
       {{#each card in controllers.hand_e}}
         {{view Bridge.HandCardView cardBinding=card ownerDirection="E" contextBinding=controllers.hand_e}}
@@ -60,6 +63,7 @@
 
   <div class="span4 hand">
     {{view Bridge.DirectionView content="S" contextBinding=controllers.direction}}
+    {{view Bridge.JoinView direction="S"}}
     <div class="cards">
       {{#each card in controllers.hand_s}}
         {{view Bridge.HandCardView cardBinding=card ownerDirection="S" contextBinding=controllers.hand_s}}

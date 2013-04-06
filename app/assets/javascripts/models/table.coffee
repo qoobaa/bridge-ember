@@ -38,3 +38,10 @@ userSetter = (key, value) ->
       type: "POST"
     .done (payload) =>
       @setProperties(payload.table)
+
+  join: (direction) ->
+    $.ajax "/api/tables/#{@get('id')}/join",
+      type: "PATCH"
+      data: table: {direction: direction}
+    .done =>
+      @set("user_#{direction.toLowerCase()}", id: Bridge.get("session.userId"))
