@@ -2,6 +2,18 @@
   needs: ["table"]
 
   playBinding: "controllers.table.board.play"
+  dummyBinding: "play.dummy"
+  loggedInUserIdBinding: "Bridge.env.userId"
+  currentUserIdBinding: "controllers.table.currentUser.id"
+  declarerUserIdBinding: "controllers.table.declarerUser.id"
+
+  isDummy: (->
+    @get("direction") == @get("dummy")
+  ).property("direction", "dummy")
+
+  isEnabled: (->
+    @get("currentUserId") == @get("loggedInUserId") or @get("isDummy") and @get("declarerUserId") == @get("loggedInUserId")
+  ).property("loggedInUserId", "currentUserId", "isDummy", "declarerUserId")
 
   init: ->
     @_super.apply(@, arguments)

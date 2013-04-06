@@ -23,6 +23,7 @@
 
   trumpBinding: "contract.trump"
   declarerBinding: "contract.direction"
+  dummy: (-> {N: "S", E: "W", S: "N", W: "E"}[@get("declarer")]).property("declarer")
 
   init: ->
     @_super.apply(@, arguments)

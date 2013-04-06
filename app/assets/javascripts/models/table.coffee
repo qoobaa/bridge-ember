@@ -13,7 +13,12 @@ userSetter = (key, value) ->
   currentUser: (->
     currentDirection = @get("board.currentDirection")
     @get("user_#{currentDirection.toLowerCase()}") if currentDirection
-  ).property("board.currentDirection")
+  ).property("board.currentDirection", "user_n", "user_e", "user_s", "user_w")
+
+  declarerUser: (->
+    declarer = @get("board.play.declarer")
+    @get("user_#{declarer.toLowerCase()}") if declarer
+  ).property("board.play.declarer", "user_n", "user_e", "user_s", "user_w")
 
   board: ((key, value) ->
     if arguments.length == 2

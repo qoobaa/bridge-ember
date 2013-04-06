@@ -69,7 +69,7 @@
 
   <div class="span4">
     {{#with controllers.bidding_box}}
-      <div {{bindAttr class=":bidding-box isActive::hide"}}>
+      <div {{bindAttr class=":bidding-box isEnabled::hide"}}>
         <p>
           {{view Bridge.ContractLevelView level="1"}}
           {{view Bridge.ContractLevelView level="2"}}

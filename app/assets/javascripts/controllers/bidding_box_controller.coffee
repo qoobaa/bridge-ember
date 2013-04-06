@@ -19,7 +19,7 @@
   loggedInUserIdBinding: "Bridge.env.userId"
   currentUserIdBinding: "controllers.table.currentUser.id"
 
-  isActive: (->
+  isEnabled: (->
     @get("currentUserId") == @get("loggedInUserId")
   ).property("loggedInUserId", "currentUserId")
 
