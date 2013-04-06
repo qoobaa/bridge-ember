@@ -24,6 +24,7 @@ class Api::TablesController < Api::ApplicationController
 
     if @table.user_direction(current_user).nil? && @table.send(:"user_#{direction.downcase}").nil?
       @table.update!("user_#{direction.downcase}" => current_user)
+      redis_publish(event: "tables/#{@table.id}/join", data: TableShortSerializer.new(@table))
       head :ok
     else
       head :unauthorized
@@ -34,6 +35,7 @@ class Api::TablesController < Api::ApplicationController
     @table = Table.find(params[:id])
     if direction = @table.user_direction(current_user)
       @table.update!("user_#{direction.downcase}" => nil)
+      # redis_publish(event: "tables/create", data: TableSerializer.new(@table))
       head :ok
     else
       head :unauthorized

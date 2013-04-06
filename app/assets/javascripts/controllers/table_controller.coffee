@@ -5,9 +5,12 @@
     @get("content")?.reload()
   ).observes("content")
 
-  isSignedInUserAtTable: (->
-    [@get("user_n.id"), @get("user_e.id"), @get("user_s.id"), @get("user_w.id")].contains(Bridge.get("session.userId"))
+  signedInUserDirection: (->
+    @get("content").userDirection(Bridge.get("session.userId"))
   ).property("user_n", "user_e", "user_s", "user_w")
 
   join: (direction) ->
     @get("content").join(direction)
+
+  quit: (direction) ->
+    @get("content").quit(direction)

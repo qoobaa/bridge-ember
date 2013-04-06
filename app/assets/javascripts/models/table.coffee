@@ -28,6 +28,13 @@ userSetter = (key, value) ->
         Bridge.Board.create(value)
   ).property()
 
+  userDirection: (userId) ->
+    switch userId
+      when @get("user_n.id") then "N"
+      when @get("user_e.id") then "E"
+      when @get("user_s.id") then "S"
+      when @get("user_w.id") then "W"
+
   reload: ->
     $.ajax("/api/tables/#{@get('id')}")
     .done (payload) =>
@@ -35,13 +42,19 @@ userSetter = (key, value) ->
 
   save: ->
     $.ajax "/api/tables",
-      type: "POST"
+      type: "post"
     .done (payload) =>
       @setProperties(payload.table)
 
   join: (direction) ->
     $.ajax "/api/tables/#{@get('id')}/join",
-      type: "PATCH"
+      type: "patch"
       data: table: {direction: direction}
     .done =>
       @set("user_#{direction.toLowerCase()}", id: Bridge.get("session.userId"))
+
+  quit: (direction) ->
+    $.ajax "/api/tables/#{@get('id')}/quit",
+      type: "patch"
+    .done =>
+      @set("user_#{direction.toLowerCase()}", undefined)
