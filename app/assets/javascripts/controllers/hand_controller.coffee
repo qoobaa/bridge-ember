@@ -12,7 +12,7 @@
   ).property("direction", "dummy")
 
   isEnabled: (->
-    @get("currentUserId") == @get("loggedInUserId") or @get("isDummy") and @get("declarerUserId") == @get("loggedInUserId")
+    if @get("isDummy") then @get("declarerUserId") == @get("loggedInUserId") else @get("currentUserId") == @get("loggedInUserId")
   ).property("loggedInUserId", "currentUserId", "isDummy", "declarerUserId")
 
   init: ->
@@ -20,16 +20,21 @@
     @initialDidChange()
 
   playDidChange: (->
-    @get("play")?.addArrayObserver(@, willChange: @playContentWillChange, didChange: @playContentDidChange)
+    if play = @get("play")
+      play.addArrayObserver(@, willChange: @playContentWillChange, didChange: @playContentDidChange)
+      @playContentDidChange(play, 0, 0, play.get("length"))
   ).observes("play")
 
   playWillChange: (->
-    @get("play")?.removeArrayObserver(@)
+    if play = @get("play")
+      play.removeArrayObserver(@)
+      @playContentDidChange(play, 0, play.get("length"), 0)
   ).observesBefore("play")
 
   initialDidChange: (->
     cards = Bridge.Utils.sortCards(@get("initial") || ["", "", "", "", "", "", "", "", "", "", "", "", ""], @get("trump"))
     @set("content", cards.map (card) -> Bridge.Card.create(content: card))
+    @playContentDidChange(@get("play"), 0, 0, @get("play.length"))
   ).observes("initial", "trump")
 
   # unlikely to happen, but when it does, we just add a card to the end of hand
@@ -37,7 +42,7 @@
     if removedCount
       for i in [index..(index + removedCount - 1)]
         card = content.objectAt(i)
-        @pushObject(card.get("content")) if card.get("direction") == @get("direction")
+        @pushObject(card) if card.get("direction") == @get("direction")
 
   playContentDidChange: (content, index, removedCount, addedCount) ->
     if addedCount
@@ -45,7 +50,7 @@
         card = content.objectAt(i)
         cardContent = card.get("content")
         if card.get("direction") == @get("direction")
-          if @contains(cardContent) then @removeObject(cardContent) else @popObject()
+          if handCard = @findProperty("content", cardContent) then @removeObject(handCard) else @popObject()
 
   currentSuitBinding: "play.currentSuit"
   currentDirectionBinding: "play.currentDirection"
@@ -61,7 +66,7 @@
   ).property("@each", "currentSuit")
 
   playCard: (card) ->
-    @get("play.content").pushObject(card.get("content"))
+    card.save(@get("controllers.table.board.id"))
 
 Bridge.register "controller:hand_n", Bridge.HandController.extend
   direction: "N"

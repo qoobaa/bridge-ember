@@ -3,7 +3,8 @@ class Api::CardsController < Api::ApplicationController
 
   def create
     @card = Card.create(card_params.merge(board: board))
-
+    # TODO: publish to a tables/:table_id channel
+    redis_publish(event: "tables/#{board.table_id}/cards/create", data: CardSerializer.new(@card)) if @card.persisted?
     respond_with(@card, status: :created, location: nil)
   end
 

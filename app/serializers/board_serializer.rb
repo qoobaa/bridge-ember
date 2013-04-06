@@ -1,5 +1,5 @@
 class BoardSerializer < ActiveModel::Serializer
-  attributes :dealer, :vulnerable, :bids, :cards, :n, :e, :s, :w
+  attributes :id, :dealer, :vulnerable, :bids, :cards, :n, :e, :s, :w
 
   %w[n e s w].each do |direction|
     define_method(direction) { object.deal[direction.upcase].map(&:to_s) }
