@@ -25,4 +25,4 @@
 
   bid: (bid) ->
     @set("level", null)
-    @get("auction.content").pushObject(bid)
+    Bridge.Bid.create(content: bid).save(@get("controllers.table.board.id"))

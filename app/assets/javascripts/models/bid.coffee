@@ -9,3 +9,8 @@
   side: (-> if /N|S/.test(@get("direction")) then "NS" else "EW").property("direction")
 
   toString: -> @get("content")
+
+  save: (boardId) ->
+    $.ajax "/api/boards/#{boardId}/bids",
+      type: "post"
+      data: bid: content: @get("content")
