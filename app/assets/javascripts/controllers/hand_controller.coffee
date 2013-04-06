@@ -12,7 +12,9 @@
   ).property("direction", "dummy")
 
   isEnabled: (->
-    @get("currentUserId") == @get("loggedInUserId") or @get("isDummy") and @get("declarerUserId") == @get("loggedInUserId")
+    !@get("isDummy") and (
+      @get("currentUserId") == @get("loggedInUserId") or
+      @get("isDummy") and @get("declarerUserId") == @get("loggedInUserId"))
   ).property("loggedInUserId", "currentUserId", "isDummy", "declarerUserId")
 
   init: ->
