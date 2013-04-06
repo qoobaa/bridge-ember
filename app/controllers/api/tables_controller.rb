@@ -25,7 +25,7 @@ class Api::TablesController < Api::ApplicationController
     user_key = :"user_#{direction.downcase}"
     if @table.user_direction(current_user).nil? && @table.send(user_key).nil?
       @table.update!(user_key => current_user)
-      redis_publish(event: "tables/#{@table.id}/join", data: TableShortSerializer.new(@table).serializable_hash.slice(user_key))
+      redis_publish(event: "tables/#{@table.id}/update", data: TableShortSerializer.new(@table).serializable_hash.slice(user_key))
       head :ok
     else
       head :unauthorized
@@ -37,7 +37,7 @@ class Api::TablesController < Api::ApplicationController
     if direction = @table.user_direction(current_user)
       user_key = :"user_#{direction.downcase}"
       @table.update!(user_key => nil)
-      redis_publish(event: "tables/#{@table.id}/quit", data: TableShortSerializer.new(@table).serializable_hash.slice(user_key))
+      redis_publish(event: "tables/#{@table.id}/update", data: TableShortSerializer.new(@table).serializable_hash.slice(user_key))
       head :ok
     else
       head :unauthorized

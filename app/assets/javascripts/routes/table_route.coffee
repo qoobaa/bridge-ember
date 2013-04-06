@@ -12,15 +12,13 @@ Bridge.TableRoute = Ember.Route.extend
     tableId = @modelFor("table").get("id")
     Bridge.channel.on("tables/#{tableId}/bids/create", @, @createBid)
     Bridge.channel.on("tables/#{tableId}/cards/create", @, @createCard)
-    Bridge.channel.on("tables/#{tableId}/join", @, @updateTable)
-    Bridge.channel.on("tables/#{tableId}/quit", @, @updateTable)
+    Bridge.channel.on("tables/#{tableId}/update", @, @updateTable)
 
   deactivate: ->
     tableId = @modelFor("table").get("id")
     Bridge.channel.off("tables/#{tableId}/bids/create", @, @createBid)
     Bridge.channel.off("tables/#{tableId}/cards/create", @, @createCard)
-    Bridge.channel.off("tables/#{tableId}/join", @, @updateTable)
-    Bridge.channel.off("tables/#{tableId}/quit", @, @updateTable)
+    Bridge.channel.off("tables/#{tableId}/update", @, @updateTable)
 
   createBid: (payload) ->
     @modelFor("table").get("board.auction")?.pushObject(payload.bid.content)
@@ -30,3 +28,4 @@ Bridge.TableRoute = Ember.Route.extend
 
   updateTable: (payload) ->
     @modelFor("table").setProperties(payload)
+

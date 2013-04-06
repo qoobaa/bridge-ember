@@ -20,9 +20,22 @@
 
   <div class="span4">
     <ul>
-      {{#each bid in controllers.bidding_box.auction}}
-        {{view Bridge.BidView bidBinding=bid contextBinding=controllers.bidding_box}}
-      {{/each}}
+      <table class="auction table table-striped table-bordered">
+        <tr>
+          <th>N</th>
+          <th>E</th>
+          <th>S</th>
+          <th>W</th>
+        </tr>
+        {{#each row in controllers.auction}}
+          <tr>
+            <td>{{row.n}}</td>
+            <td>{{row.e}}</td>
+            <td>{{row.s}}</td>
+            <td>{{row.w}}</td>
+          </tr>
+        {{/each}}
+      </table>
     </ul>
   </div>
 </div>
