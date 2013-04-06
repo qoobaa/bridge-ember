@@ -5,7 +5,7 @@ class Api::BidsController < Api::ApplicationController
     @bid = Bid.create(bid_params.merge(board: board))
     board.update!(contract: board.auction.contract) if board.auction.finished?
     # TODO: publish to a tables/:table_id channel
-    redis_publish(event: "tables/#{board.table_id}/bids/create", data: BidSerializer.new(@bid)) if @bid.valid?
+    redis_publish(event: "tables/#{board.table_id}/bids/create", data: BidSerializer.new(@bid)) if @bid.persisted?
     respond_with(@bid, status: :created, location: nil)
   end
 

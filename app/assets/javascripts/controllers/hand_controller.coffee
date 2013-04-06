@@ -61,7 +61,7 @@
   ).property("@each", "currentSuit")
 
   playCard: (card) ->
-    @get("play.content").pushObject(card.get("content"))
+    card.save(@get("controllers.table.board.id"))
 
 Bridge.register "controller:hand_n", Bridge.HandController.extend
   direction: "N"

@@ -6,3 +6,8 @@
   trick: (-> Math.floor(@get("index") / 4)).property("index")
 
   toString: -> @get("content")
+
+  save: (boardId) ->
+    $.ajax "/api/boards/#{boardId}/cards",
+      type: "post"
+      data: card: content: @get("content")
