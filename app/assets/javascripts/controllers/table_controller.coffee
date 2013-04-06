@@ -12,5 +12,5 @@
   join: (direction) ->
     @get("content").join(direction)
 
-  quit: (direction) ->
-    @get("content").quit(direction)
+  quit: ->
+    @get("content").quit()

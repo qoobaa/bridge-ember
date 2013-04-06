@@ -22,9 +22,10 @@ class Api::TablesController < Api::ApplicationController
     direction = params.require(:table).require(:direction)
     head(:bad_request) && return unless Bridge.direction?(direction)
 
-    if @table.user_direction(current_user).nil? && @table.send(:"user_#{direction.downcase}").nil?
-      @table.update!("user_#{direction.downcase}" => current_user)
-      redis_publish(event: "tables/#{@table.id}/join", data: TableShortSerializer.new(@table))
+    user_key = :"user_#{direction.downcase}"
+    if @table.user_direction(current_user).nil? && @table.send(user_key).nil?
+      @table.update!(user_key => current_user)
+      redis_publish(event: "tables/#{@table.id}/join", data: TableShortSerializer.new(@table).serializable_hash.slice(user_key))
       head :ok
     else
       head :unauthorized
@@ -34,8 +35,9 @@ class Api::TablesController < Api::ApplicationController
   def quit
     @table = Table.find(params[:id])
     if direction = @table.user_direction(current_user)
-      @table.update!("user_#{direction.downcase}" => nil)
-      # redis_publish(event: "tables/create", data: TableSerializer.new(@table))
+      user_key = :"user_#{direction.downcase}"
+      @table.update!(user_key => nil)
+      redis_publish(event: "tables/#{@table.id}/quit", data: TableShortSerializer.new(@table).serializable_hash.slice(user_key))
       head :ok
     else
       head :unauthorized

@@ -50,11 +50,7 @@ userSetter = (key, value) ->
     $.ajax "/api/tables/#{@get('id')}/join",
       type: "patch"
       data: table: {direction: direction}
-    .done =>
-      @set("user_#{direction.toLowerCase()}", id: Bridge.get("session.userId"))
 
-  quit: (direction) ->
+  quit: ->
     $.ajax "/api/tables/#{@get('id')}/quit",
       type: "patch"
-    .done =>
-      @set("user_#{direction.toLowerCase()}", undefined)
