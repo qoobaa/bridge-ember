@@ -16,7 +16,7 @@
   currentSideBinding: "auction.currentSide"
   isCompletedBinding: "auction.isCompleted"
 
-  loggedInUserIdBinding: "Bridge.env.userId"
+  loggedInUserIdBinding: "Bridge.session.userId"
   currentUserIdBinding: "controllers.table.currentUser.id"
 
   isEnabled: (->
