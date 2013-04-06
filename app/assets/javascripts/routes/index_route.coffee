@@ -1,6 +1,6 @@
 Bridge.IndexRoute = Ember.Route.extend
   redirect: ->
-    @transitionTo "signIn" unless Bridge.get("env.userId")
+    @transitionTo "signIn" unless Bridge.get("session.isSignedIn")
 
   model: ->
     Bridge.Tables.create(content: [])

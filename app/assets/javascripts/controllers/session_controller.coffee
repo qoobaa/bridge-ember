@@ -1,19 +1,10 @@
 @Bridge.SessionController = Ember.Controller.extend
-  isSignedIn: (->
-    !!Bridge.get("env.userId")
-  ).property("Bridge.env.userId")
+  isSignedInBinding: "Bridge.session.isSignedIn"
 
   signIn: ->
-    $.ajax "/api/session",
-      type: "post"
-      data: {session: {email: @get("email")}}
-    .done (payload) =>
-      Bridge.set("env.userId", payload.user.id)
+    Bridge.get("session").signIn(email: @get("email")).done =>
       @transitionToRoute("index")
 
   signOut: ->
-    $.ajax "/api/session",
-      type: "delete"
-    .done =>
-      Bridge.set("env.userId", undefined)
+    Bridge.get("session").signOut().done =>
       @transitionToRoute("signIn")

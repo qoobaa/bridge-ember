@@ -10,7 +10,8 @@ Ember.LOG_VERSION = false
 @Bridge = Ember.Application.create
   ready: ->
     Bridge.env = Bridge.Env.create()
-    Bridge.channel = Bridge.Channel.create(urlBinding: "Bridge.env.socketUrl", userIdBinding: "Bridge.env.userId")
+    Bridge.session = Bridge.Session.create(userId: Bridge.get("env.userId"))
+    Bridge.channel = Bridge.Channel.create(urlBinding: "Bridge.env.socketUrl", userIdBinding: "Bridge.session.userId")
     Bridge.store = Bridge.Store.create()
 
     Bridge.channel.on("tables/create", (payload) -> Bridge.store.tables.merge(payload.table))
