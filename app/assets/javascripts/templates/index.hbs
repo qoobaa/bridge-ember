@@ -1,15 +1,20 @@
-<ul>
+<table class="table table-striped table-bordered">
+  <tr>
+    <th>#</th>
+    <th>N</th>
+    <th>E</th>
+    <th>S</th>
+    <th>W</th>
+  </tr>
   {{#each controller}}
-    <li>
-      {{#linkTo "table" .}}
-      {{name}}
-      N: {{user_n.email}}
-      E: {{user_e.email}}
-      S: {{user_s.email}}
-      W: {{user_w.email}}
-      {{/linkTo}}
-    </li>
+    <tr>
+      <td>{{#linkTo "table" .}}{{id}}{{/linkTo}}</td>
+      <td>{{user_n.email}}</td>
+      <td>{{user_e.email}}</td>
+      <td>{{user_s.email}}</td>
+      <td>{{user_w.email}}</td>
+    </tr>
   {{/each}}
-</ul>
+</table>
 
 <button class="btn" {{action createTable}}>Create a new table</button>
