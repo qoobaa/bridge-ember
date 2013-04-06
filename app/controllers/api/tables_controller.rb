@@ -2,7 +2,7 @@ class Api::TablesController < Api::ApplicationController
   before_action :require_user, only: [:create, :join, :quit]
 
   def index
-    @tables = Table.all
+    @tables = Table.order(:created_at)
     render json: @tables, each_serializer: TableShortSerializer
   end
 
