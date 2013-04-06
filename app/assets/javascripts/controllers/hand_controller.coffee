@@ -3,7 +3,7 @@
 
   playBinding: "controllers.table.board.play"
   dummyBinding: "play.dummy"
-  loggedInUserIdBinding: "Bridge.env.userId"
+  loggedInUserIdBinding: "Bridge.session.userId"
   currentUserIdBinding: "controllers.table.currentUser.id"
   declarerUserIdBinding: "controllers.table.declarerUser.id"
 
