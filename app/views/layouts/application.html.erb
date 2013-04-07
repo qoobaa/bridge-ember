@@ -6,6 +6,7 @@
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
   <%= tag(:meta, name: "user-id", content: current_user.try(:id)) %>
+  <%= tag(:meta, name: "user-email", content: current_user.try(:email)) %>
   <%= tag(:meta, name: "socket-url", content: ENV["SOCKET_URL"]) %>
 </head>
 <body>
