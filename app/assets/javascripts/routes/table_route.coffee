@@ -28,4 +28,3 @@ Bridge.TableRoute = Ember.Route.extend
 
   updateTable: (payload) ->
     @modelFor("table").setProperties(payload)
-

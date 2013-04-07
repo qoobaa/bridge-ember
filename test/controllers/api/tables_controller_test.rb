@@ -113,6 +113,16 @@ class Api::TablesControllerTest < ActionController::TestCase
     assert_response :bad_request
   end
 
+  test "creates board when fourth user joining" do
+    table = create(:table, user_n: create(:user), user_e: create(:user), user_s: create(:user))
+    user = create(:user)
+    sign_in(user)
+
+    patch :join, id: table.id, table: {direction: "W"}, format: :json
+
+    refute_nil table.reload.board
+  end
+
   # quit
   test "removes current user from table" do
     user = create(:user)
