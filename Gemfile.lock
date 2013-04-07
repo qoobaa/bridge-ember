@@ -12,7 +12,7 @@ GIT
 
 GIT
   remote: git://github.com/qoobaa/bridge.git
-  revision: 7307586cf22cc4e23970a1d8e83c555771810345
+  revision: f33725a462c641bc2e2f3e112e96efa6d685164d
   specs:
     bridge (0.1.4)
 

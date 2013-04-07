@@ -11,6 +11,7 @@ class Board < ActiveRecord::Base
   validates :deal_id,    presence: true
   validates :dealer,     presence: true, inclusion: Bridge::DIRECTIONS
   validates :vulnerable, presence: true, inclusion: Bridge::VULNERABILITIES
+  validates :result,     inclusion: {in: -13..6, allow_nil: true}
 
   def auction
     Bridge::Auction.new(dealer, bids.reload.pluck(:content))
@@ -22,6 +23,10 @@ class Board < ActiveRecord::Base
 
   def deal
     Bridge::Deal.from_id(deal_id.to_i) if deal_id.present?
+  end
+
+  def score
+    Bridge::Score.new(contract, vulnerable, play.declarer_tricks_number) if play.finished?
   end
 
   def user_direction(user)
