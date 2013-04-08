@@ -27,4 +27,4 @@ Bridge.TableRoute = Ember.Route.extend
     @modelFor("table").get("board.play")?.pushObject(payload.card.content)
 
   updateTable: (payload) ->
-    @modelFor("table").setProperties(payload)
+    @modelFor("table").setProperties(payload.table)

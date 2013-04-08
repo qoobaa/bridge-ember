@@ -25,9 +25,15 @@ class Api::TablesController < Api::ApplicationController
     user_key = :"user_#{direction.downcase}"
     if @table.user_direction(current_user).nil? && @table.send(user_key).nil?
       @table.update!(user_key => current_user)
-      @table.create_board! if @table.users.count == 4
-      # TODO: notify about board
-      redis_publish(event: "tables/#{@table.id}/update", data: TableShortSerializer.new(@table).serializable_hash.slice(user_key))
+      if @table.users.count == 4
+        @table.create_board!
+        # TODO: notify players about board with proper scope
+        # currently all are getting last joined player cards
+        redis_publish(event: "tables/#{@table.id}/update", data: TableSerializer.new(@table, scope: current_user))
+      else
+        redis_publish(event: "tables/#{@table.id}/update", data: TableShortSerializer.new(@table))
+      end
+
       head :ok
     else
       head :unauthorized
@@ -39,7 +45,7 @@ class Api::TablesController < Api::ApplicationController
     if direction = @table.user_direction(current_user)
       user_key = :"user_#{direction.downcase}"
       @table.update!(user_key => nil)
-      redis_publish(event: "tables/#{@table.id}/update", data: TableShortSerializer.new(@table).serializable_hash.slice(user_key))
+      redis_publish(event: "tables/#{@table.id}/update", data: TableShortSerializer.new(@table))
       head :ok
     else
       head :unauthorized
