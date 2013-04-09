@@ -21,6 +21,7 @@ class Api::TablesControllerTest < ActionController::TestCase
         "user_s" => nil,
         "user_w" => nil,
         "board" => {
+          "id" => board.id,
           "dealer" => "N",
           "vulnerable" => "NONE",
           "bids" => ["7S", "PASS", "PASS", "PASS"],

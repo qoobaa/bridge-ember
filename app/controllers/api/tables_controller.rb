@@ -29,7 +29,7 @@ class Api::TablesController < Api::ApplicationController
         @table.create_board!
         # TODO: notify players about board with proper scope
         # currently all are getting last joined player cards
-        @table.publish(event: "table/update", data: TableSerializer.new(@table, scope: current_user))
+        @table.publish(event: "table/update", data: TableSerializer.new(@table, scope: current_user, scope_name: :current_user))
       else
         @table.publish(event: "table/update", data: TableShortSerializer.new(@table))
       end

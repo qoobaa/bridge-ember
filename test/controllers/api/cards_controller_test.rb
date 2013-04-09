@@ -7,7 +7,7 @@ class Api::CardsControllerTest < ActionController::TestCase
   end
 
   test "creates card" do
-    board = create(:board, deal_id: "0", contract: "7SN", user_e: @user)
+    board = create(:board, deal_id: "0", contract: "7SN", user_e: @user, table: create(:table))
 
     post :create, board_id: board.id, card: {content: "HA"}, format: :json
 
@@ -16,7 +16,7 @@ class Api::CardsControllerTest < ActionController::TestCase
   end
 
   test "returns validation error" do
-    board = create(:board, deal_id: "0", contract: "7SN", user_e: @user)
+    board = create(:board, deal_id: "0", contract: "7SN", user_e: @user, table: create(:table))
 
     post :create, board_id: board.id, card: {content: "DA"}, format: :json
 
@@ -27,7 +27,7 @@ class Api::CardsControllerTest < ActionController::TestCase
   end
 
   test "returns unathorized when user is not current direction" do
-    board = create(:board, deal_id: "0", contract: "7SN", user_n: @user)
+    board = create(:board, deal_id: "0", contract: "7SN", user_n: @user, table: create(:table))
 
     post :create, board_id: board.id, card: {content: "HA"}, format: :json
 
@@ -35,7 +35,7 @@ class Api::CardsControllerTest < ActionController::TestCase
   end
 
   test "authorizes declarer to play dummy's card" do
-    board = create(:board, deal_id: "0", contract: "7SN", user_n: @user)
+    board = create(:board, deal_id: "0", contract: "7SN", user_n: @user, table: create(:table))
     create(:card, board: board, content: "HA")
 
     post :create, board_id: board.id, card: {content: "D2"}, format: :json
