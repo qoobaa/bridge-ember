@@ -18,7 +18,7 @@ class Board < ActiveRecord::Base
   end
 
   def play
-    Bridge::Play.new(deal_id.to_i, contract, cards.reload.pluck(:content))
+    Bridge::Play.new(deal_id.to_i, contract, cards.reload.pluck(:content)) if contract?
   end
 
   def deal

@@ -7,6 +7,10 @@ class ActiveSupport::TestCase
 
   include FactoryGirl::Syntax::Methods
 
+  teardown do
+    Redis.current.flushdb
+  end
+
   def json_response
     ActiveSupport::JSON.decode(response.body)
   end

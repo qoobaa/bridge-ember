@@ -1,7 +1,7 @@
 def redis
   return Thread.current[:redis] if Thread.current.key?(:redis)
-  uri = URI.parse(ENV["REDIS_URL"].to_s)
-  Thread.current[:redis] = Redis.new(host: uri.host, port: uri.port, password: uri.password)
+  db = Rails.env.test? ? 1 : 0
+  Thread.current[:redis] = Redis.new(db: db)
 end
 
 # message should contain: event, data
