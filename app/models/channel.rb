@@ -1,5 +1,6 @@
 class Channel < ActiveRecord::Base
   belongs_to :user
+  belongs_to :table
   validates :name, presence: true, uniqueness: true
 
   def self.active

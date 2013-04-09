@@ -12,4 +12,3 @@ Ember.LOG_VERSION = false
   ready: ->
     Bridge.env = Bridge.Env.create()
     Bridge.session = Bridge.Session.create(userIdBinding: "Bridge.env.userId", userEmailBinding: "Bridge.env.userEmail")
-    Bridge.channel = Bridge.Channel.create(urlBinding: "Bridge.env.socketUrl", userIdBinding: "Bridge.session.userId")

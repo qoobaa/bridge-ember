@@ -3,15 +3,14 @@
   isConnecting: false
   isOpen: false
   isReconnecting: false
-  isRegistering: false
-  isRegistered: false
 
   init: ->
     @_super.apply(@, arguments)
     @ioDidChange()
 
   io: (->
-    io.connect(@get("url"), "auto connect": false)
+    io.connect @get("url"),
+      "auto connect": false
   ).property("url")
 
   ioWillChange: (->
@@ -45,25 +44,14 @@
         isOpen: io.socket.open
         isReconnecting: io.socket.reconnecting
 
-  nameOrUserIdDidChange: (->
-    @set("isRegistered", false)
-    @register() if @get("name")
-  ).observes("name", "userId")
+  subscribe: (tableId) ->
+    deferred = new $.Deferred()
+    channelName = if tableId? then "tables/#{tableId}" else "lobby"
+    @get("io").once("subscribed", (payload) -> deferred.resolve(payload))
+    @get("io").emit("subscribe", channelName)
+    deferred.promise()
 
-  register: ->
-    @set("isRegistering", true)
+  register: (tableId) ->
     $.ajax "/api/channel",
-      success: =>
-        @setProperties(isRegistered: true, isRegistering: false)
-      error: =>
-        @set("isRegistering", false)
-        @trigger("error", "unable to register communication channel")
-      type: "POST"
-      data: {channel: {name: @get("name")}}
-
-  connect: ->
-    @get("io").socket.disconnect()
-    @get("io").socket.connect()
-
-  disconnect: ->
-    @get("io").socket.disconnect()
+      type: "post"
+      data: channel: {name: @get("name"), table_id: tableId}

@@ -22,7 +22,19 @@ socketServer.sockets.on("connection", function (socket) {
     });
 
     client.on("ready", function () {
-        client.subscribe("public", socket.id);
+        client.subscribe(socket.id);
+    });
+
+    socket.on("subscribe", function (name) {
+        rooms = socketServer.sockets.manager.roomClients[socket.id];
+        Object.keys(rooms).forEach(function (room) {
+            if (room && rooms[room]) {
+                client.unsubscribe(room.substr(1));
+            }
+        });
+        socket.join(name);
+        client.subscribe(name);
+        socket.emit("subscribed", name);
     });
 
     client.on("error", function (error) {

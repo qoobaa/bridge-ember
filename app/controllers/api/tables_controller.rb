@@ -27,7 +27,7 @@ class Api::TablesController < Api::ApplicationController
       @table.update!(user_key => current_user)
       @table.create_board! if @table.users.count == 4
       # TODO: notify about board
-      redis_publish(event: "tables/#{@table.id}/update", data: TableShortSerializer.new(@table).serializable_hash.slice(user_key))
+      @table.publish(event: "table/update", data: TableShortSerializer.new(@table).serializable_hash.slice(user_key))
       head :ok
     else
       head :unauthorized
@@ -39,7 +39,7 @@ class Api::TablesController < Api::ApplicationController
     if direction = @table.user_direction(current_user)
       user_key = :"user_#{direction.downcase}"
       @table.update!(user_key => nil)
-      redis_publish(event: "tables/#{@table.id}/update", data: TableShortSerializer.new(@table).serializable_hash.slice(user_key))
+      @table.publish(event: "table/update", data: TableShortSerializer.new(@table).serializable_hash.slice(user_key))
       head :ok
     else
       head :unauthorized

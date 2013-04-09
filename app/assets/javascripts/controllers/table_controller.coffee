@@ -1,14 +1,14 @@
 @Bridge.TableController = Ember.ObjectController.extend
-  needs: ["bidding_box", "hand_n", "hand_e", "hand_s", "hand_w", "trick", "summary", "auction"]
+  needs: ["bidding_box", "hand_n", "hand_e", "hand_s", "hand_w", "trick", "summary", "auction", "channel"]
 
-  # FIXME: why this doesn't work through binding?
-  currentDirection: (->
-    @get("board.currentDirection")
-  ).property("board.currentDirection")
+  currentDirection: null
+  currentDirectionBinding: "board.currentDirection"
+  isChannelReady: null
+  isChannelReadyBinding: "controllers.channel.isReady"
 
   contentDidChange: (->
-    @get("content")?.reload()
-  ).observes("content")
+    @get("content")?.reload() if @get("isChannelReady")
+  ).observes("content", "isChannelReady")
 
   signedInUserDirection: (->
     @get("content").userDirection(Bridge.get("session.userId"))
