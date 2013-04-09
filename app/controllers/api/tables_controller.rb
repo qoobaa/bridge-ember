@@ -13,7 +13,7 @@ class Api::TablesController < Api::ApplicationController
 
   def create
     @table = Table.create!
-    redis_publish(event: "tables/create", data: TableSerializer.new(@table))
+    redis_publish(event: "tables/create", data: TableShortSerializer.new(@table))
     render json: @table
   end
 
@@ -27,9 +27,11 @@ class Api::TablesController < Api::ApplicationController
       @table.update!(user_key => current_user)
       if @table.users.count == 4
         @table.create_board!
-        # TODO: notify players about board with proper scope
-        # currently all are getting last joined player cards
-        @table.publish(event: "table/update", data: TableSerializer.new(@table, scope: current_user, scope_name: :current_user))
+
+        @table.user_n_publish event: "table/update", data: TableSerializer.new(@table, scope: @table.user_n, scope_name: :current_user)
+        @table.user_e_publish event: "table/update", data: TableSerializer.new(@table, scope: @table.user_e, scope_name: :current_user)
+        @table.user_s_publish event: "table/update", data: TableSerializer.new(@table, scope: @table.user_s, scope_name: :current_user)
+        @table.user_w_publish event: "table/update", data: TableSerializer.new(@table, scope: @table.user_w, scope_name: :current_user)
       else
         @table.publish(event: "table/update", data: TableShortSerializer.new(@table))
       end
