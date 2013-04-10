@@ -96,7 +96,7 @@ error = Ember.State.create
 @Bridge.Socket = Ember.Object.extend Ember.Evented,
   urlBinding: "Bridge.env.socketUrl"
   # idBinding: "Bridge.env.socketId"
-  channel: "lobby"
+  channel: "tables"
   id: "zomg"
   stateBinding: "stateManager.currentState.name"
 

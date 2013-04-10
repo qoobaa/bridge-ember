@@ -1,16 +1,13 @@
 class Table < ActiveRecord::Base
   %w[n e s w].each { |direction| belongs_to :"user_#{direction}", class_name: "User" }
   has_many :boards, -> { order(:created_at) }
-  has_many :channels
 
   def publish(message)
     redis_publish(message.merge(channel: "tables/#{id}"))
   end
 
-  %w[n e s w].each do |direction|
-    define_method("user_#{direction}_publish") do |message|
-      channels.active.where(user_id: attributes["user_#{direction}_id"]).each { |channel| channel.publish(message) }
-    end
+  def online?
+    not publish(event: "ping").zero?
   end
 
   def board

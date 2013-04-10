@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130408191043) do
+ActiveRecord::Schema.define(version: 20130410160342) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -55,18 +55,6 @@ ActiveRecord::Schema.define(version: 20130408191043) do
   add_index "cards", ["board_id", "content"], name: "index_cards_on_board_id_and_content", unique: true
   add_index "cards", ["board_id"], name: "index_cards_on_board_id"
 
-  create_table "channels", force: true do |t|
-    t.integer  "user_id"
-    t.string   "name"
-    t.datetime "connected_at"
-    t.datetime "disconnected_at"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "table_id"
-  end
-
-  add_index "channels", ["name"], name: "index_channels_on_name", unique: true
-
   create_table "tables", force: true do |t|
     t.integer  "user_n_id"
     t.integer  "user_e_id"
@@ -80,6 +68,7 @@ ActiveRecord::Schema.define(version: 20130408191043) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "email",      null: false
+    t.string   "socket_id"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true
