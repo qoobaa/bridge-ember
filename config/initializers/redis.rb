@@ -5,6 +5,6 @@ def redis
 end
 
 # message should contain: event, data
-def redis_publish(channel: "lobby", **message)
+def redis_publish(channel: "tables", **message)
   redis.publish(channel, message.to_json)
 end

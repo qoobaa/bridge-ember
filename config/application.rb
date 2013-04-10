@@ -8,7 +8,6 @@ Bundler.require(*Rails.groups(assets: %w(development test)))
 module Bridge
   class Application < Rails::Application
     config.assets.paths << Rails.root.join("app", "assets", "images")
-    config.assets.paths << Rails.root.join("app", "assets", "flash")
     config.assets.paths << Rails.root.join("app", "assets", "fonts")
   end
 end

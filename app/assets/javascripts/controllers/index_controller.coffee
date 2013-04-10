@@ -1,11 +1,9 @@
 @Bridge.IndexController = Ember.ArrayController.extend
-  needs: ["channel"]
-
-  isChannelReadyBinding: "controllers.channel.isReady"
+  needs: ["socket"]
 
   contentDidChange: (->
-    @get("content")?.reload() if @get("isChannelReady")
-  ).observes("content", "isChannelReady")
+    @get("content")?.reload()
+  ).observes("content")
 
   createTable: ->
     Bridge.Table.create().save()

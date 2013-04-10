@@ -9,19 +9,19 @@ Bridge.TableRoute = Ember.Route.extend
     table_id: model.get("id")
 
   setupController: (controller, model) ->
-    @controllerFor("channel").set("tableId", model.get("id"))
+    @controllerFor("socket").set("channel", "tables/#{model.get('id')}")
 
   activate: ->
-    channel = @controllerFor("channel").get("content")
-    channel.on("bids/create", @, @createBid)
-    channel.on("cards/create", @, @createCard)
-    channel.on("table/update", @, @updateTable)
+    socket = @controllerFor("socket").get("content")
+    socket.on("bids/create", @, @createBid)
+    socket.on("cards/create", @, @createCard)
+    socket.on("table/update", @, @updateTable)
 
   deactivate: ->
-    channel = @controllerFor("channel").get("content")
-    channel.off("bids/create", @, @createBid)
-    channel.off("cards/create", @, @createCard)
-    channel.off("table/update", @, @updateTable)
+    socket = @controllerFor("socket").get("content")
+    socket.off("bids/create", @, @createBid)
+    socket.off("cards/create", @, @createCard)
+    socket.off("table/update", @, @updateTable)
 
   createBid: (payload) ->
     @modelFor("table").get("board.auction")?.pushObject(payload.bid.content)

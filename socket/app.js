@@ -1,56 +1,125 @@
-var socketServer, httpServer,
-    io = require("socket.io"),
+var server, socket,
+    step = require("step"),
+    sockjs = require("sockjs"),
     redis = require("redis"),
-    url = require("url"),
-    http = require("http"),
-    socketUrl = url.parse(process.env.SOCKET_URL || ""),
-    redisUrl = url.parse(process.env.REDIS_URL || "");
+    http = require("http");
 
-httpServer = http.createServer();
-httpServer.listen(parseInt(process.env.PORT, 10) || 5100, "localhost");
-socketServer = io.listen(httpServer);
-
-socketServer.sockets.on("connection", function (socket) {
-    var client = redis.createClient(redisUrl.port, redisUrl.hostname);
-
-    redisUrl.auth && client.auth(redisUrl.auth.split(":")[1], function (error) {
-        if (error) {
-            console.error("error: " + error.message);
-            socket.removeAllListeners("disconnect");
-            socket.disconnect();
+var authenticate = function (client, id, callback) {
+    step(
+        function () {
+            client.publish(id, JSON.stringify({ event: "ping" }), this);
+        },
+        function (error, count) {
+            if (error) throw error;
+            if (count === 0) {
+                client.subscribe(id, this);
+            } else {
+                throw new Error("could not connect to an active channel");
+            }
+        },
+        function (error) {
+            callback(error);
         }
-    });
+    );
+};
+
+var subscribe = function (client, oldChannel, newChannel, callback) {
+    step(
+        function () {
+            client.unsubscribe(oldChannel, this);
+        },
+        function (error) {
+            if (error) throw error;
+            client.subscribe(newChannel, this);
+        },
+        function (error) {
+            callback(error);
+        }
+    );
+};
+
+socket = sockjs.createServer();
+
+socket.on("connection", function (connection) {
+    var channel, id,
+        client = redis.createClient();
 
     client.on("ready", function () {
-        client.subscribe(socket.id);
-    });
-
-    socket.on("subscribe", function (name) {
-        rooms = socketServer.sockets.manager.roomClients[socket.id];
-        Object.keys(rooms).forEach(function (room) {
-            if (room && rooms[room]) {
-                client.unsubscribe(room.substr(1));
-            }
-        });
-        socket.join(name);
-        client.subscribe(name);
-        socket.emit("subscribed", name);
+        connection.write(JSON.stringify({ event: "ready" }));
     });
 
     client.on("error", function (error) {
         console.error("error: " + error.message);
-        socket.removeAllListeners("disconnect");
-        socket.disconnect();
+        connection.removeAllListeners();
+        connection.close(1, error.message);
     });
 
-    client.on("message", function (channel, payload) {
-        var message = JSON.parse(payload);
+    connection.on("data", function (message) {
+        try {
+            var payload = JSON.parse(message),
+                event = payload.event,
+                data = payload.data;
 
-        socket.emit("message", message);
+            switch (event) {
+            case "authenticate":
+                if (id) throw new Error("already authenticated");
+                if (channel) throw new Error("cannot authenticate after subscribing");
+                if (!data) throw new Error("invalid or missing argument");
+
+                authenticate(client, data, function (error) {
+                    if (error) {
+                        connection.close(1, error.message);
+                    } else {
+                        connection.write(JSON.stringify({ event: "authenticated" }));
+                    }
+                });
+                break;
+            case "subscribe":
+                if (!data) throw new Error("invalid or missing argument");
+
+                subscribe(client, channel, data, function (error) {
+                    if (error) {
+                        connection.close(1, error.message);
+                    } else {
+                        channel = data;
+                        connection.write(JSON.stringify({ event: "subscribed" }));
+                    }
+                });
+                break;
+            default:
+                connection.close(1, "unknown command");
+                break;
+            }
+        } catch (error) {
+            connection.close(1, error.message);
+        }
     });
 
-    socket.on("disconnect", function () {
+    client.on("message", function (channel, message) {
+        var payload = {};
+
+        try {
+            payload = JSON.parse(message);
+        } catch (error) {
+        }
+
+        if (payload.event !== "ping") {
+            connection.write(message);
+        }
+    });
+
+    connection.on("close", function () {
         client.unsubscribe();
         client.quit();
     });
 });
+
+server = http.createServer();
+
+server.on("error", function (error) {
+    console.error("error: " + error.message);
+    process.exit(1);
+});
+
+server.listen(parseInt(process.env.PORT, 10) || 5100, "localhost");
+socket.installHandlers(server, { prefix: "/socket" });
