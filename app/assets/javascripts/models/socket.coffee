@@ -85,6 +85,7 @@ error = Ember.State.create
 
 @Bridge.SocketManager = Ember.StateManager.extend
   initialState: "connecting"
+  enableLogging: true
 
   states:
     connecting: connecting
@@ -100,12 +101,29 @@ error = Ember.State.create
 
   init: ->
     @_super.apply(@, arguments)
-    @set("sock", new SockJS(@get("url")))
-    @set("stateManager", Bridge.SocketManager.create(socket: @))
+    @idDidChange()
+
+  idDidChange: (->
+    switch @get("state")
+      when undefined
+        @connect()
+      when "connecting", "waiting"
+        # do nothing - socket is not authorized yet
+      else
+        @reconnect()
+  ).observes("id")
+
+  stateDidChange: (->
+    @connect() if @get("state") == "disconnected"
+  ).observes("state")
 
   channelDidChange: (->
     @get("stateManager").transitionTo("subscribing") if @get("state") == "connected"
   ).observes("channel")
 
-  disconnect: ->
+  connect: ->
+    @set("sock", new SockJS(@get("url")))
+    @set("stateManager", Bridge.SocketManager.create(socket: @))
+
+  reconnect: ->
     @get("sock").close()

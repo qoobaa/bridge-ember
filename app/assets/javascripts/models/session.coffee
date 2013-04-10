@@ -17,4 +17,7 @@
     $.ajax "/api/session",
       type: "delete"
     .done =>
-      @setProperties(userId: undefined, email: undefined)
+      @setProperties
+        userId: undefined
+        email: undefined
+        socketId: undefined
