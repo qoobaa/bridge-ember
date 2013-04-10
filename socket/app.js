@@ -1,56 +1,33 @@
-var socketServer, httpServer,
-    io = require("socket.io"),
+var server, socket,
+    sockjs = require("sockjs"),
     redis = require("redis"),
-    url = require("url"),
-    http = require("http"),
-    socketUrl = url.parse(process.env.SOCKET_URL || ""),
-    redisUrl = url.parse(process.env.REDIS_URL || "");
+    http = require("http");
 
-httpServer = http.createServer();
-httpServer.listen(parseInt(process.env.PORT, 10) || 5100, "localhost");
-socketServer = io.listen(httpServer);
+socket = sockjs.createServer();
 
-socketServer.sockets.on("connection", function (socket) {
-    var client = redis.createClient(redisUrl.port, redisUrl.hostname);
-
-    redisUrl.auth && client.auth(redisUrl.auth.split(":")[1], function (error) {
-        if (error) {
-            console.error("error: " + error.message);
-            socket.removeAllListeners("disconnect");
-            socket.disconnect();
-        }
-    });
+socket.on("connection", function (connection) {
+    var client = redis.createClient();
 
     client.on("ready", function () {
-        client.subscribe(socket.id);
-    });
-
-    socket.on("subscribe", function (name) {
-        rooms = socketServer.sockets.manager.roomClients[socket.id];
-        Object.keys(rooms).forEach(function (room) {
-            if (room && rooms[room]) {
-                client.unsubscribe(room.substr(1));
-            }
-        });
-        socket.join(name);
-        client.subscribe(name);
-        socket.emit("subscribed", name);
+        client.subscribe(connection.id);
     });
 
     client.on("error", function (error) {
         console.error("error: " + error.message);
-        socket.removeAllListeners("disconnect");
-        socket.disconnect();
+        connection.removeAllListeners("disconnect");
+        connection.disconnect();
     });
 
-    client.on("message", function (channel, payload) {
-        var message = JSON.parse(payload);
+    // client.on("message", function (channel, payload) {
+    //     connection.emit("message", payload);
+    // });
 
-        socket.emit("message", message);
-    });
-
-    socket.on("disconnect", function () {
+    connection.on("close", function () {
         client.unsubscribe();
         client.quit();
     });
 });
+
+server = http.createServer();
+server.listen(parseInt(process.env.PORT, 10) || 5100, "localhost");
+socket.installHandlers(server, { prefix: "/socket" });

@@ -2,7 +2,7 @@
 #= require ./vendor/bootstrap
 #= require ./vendor/handlebars
 #= require ./vendor/ember
-#= require ./vendor/socket.io
+#= require ./vendor/sockjs
 #= require_self
 #= require bridge
 
