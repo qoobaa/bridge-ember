@@ -9,7 +9,7 @@ class User < ActiveRecord::Base
   end
 
   def online?
-    not publish(event: "ping").zero?
+    publish(event: "ping") == 1
   end
 
   def reset_socket_id!

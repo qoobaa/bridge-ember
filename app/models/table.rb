@@ -7,7 +7,7 @@ class Table < ActiveRecord::Base
   end
 
   def online?
-    not publish(event: "ping").zero?
+    publish(event: "ping") > 0
   end
 
   def board

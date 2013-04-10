@@ -3,7 +3,6 @@ Bridge::Application.routes.draw do
 
   namespace :api do
     resource :session, only: [:create, :destroy]
-    resource :channel, only: [:create]
     resources :tables, only: [:index, :show, :create] do
       patch :join, on: :member
       patch :quit, on: :member

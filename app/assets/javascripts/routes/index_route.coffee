@@ -6,19 +6,19 @@ Bridge.IndexRoute = Ember.Route.extend
     Bridge.Tables.create(content: [])
 
   setupController: (controller, model) ->
-    # @controllerFor("channel").set("tableId", null)
+    @controllerFor("socket").set("channel", "tables")
 
   activate: ->
-    # channel = @controllerFor("channel").get("content")
-    # channel.on("tables/create", @, @mergeTable)
-    # channel.on("tables/update", @, @mergeTable)
-    # channel.on("tables/destroy", @, @removeTable)
+    socket = @controllerFor("socket").get("content")
+    socket.on("tables/create", @, @mergeTable)
+    socket.on("tables/update", @, @mergeTable)
+    socket.on("tables/destroy", @, @removeTable)
 
   deactivate: ->
-    # channel = @controllerFor("channel").get("content")
-    # channel.off("tables/create", @, @mergeTable)
-    # channel.off("tables/update", @, @mergeTable)
-    # channel.off("tables/destroy", @, @removeTable)
+    socket = @controllerFor("socket").get("content")
+    socket.off("tables/create", @, @mergeTable)
+    socket.off("tables/update", @, @mergeTable)
+    socket.off("tables/destroy", @, @removeTable)
 
   mergeTable: (payload) ->
     @modelFor("index").merge(payload.table)

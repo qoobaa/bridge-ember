@@ -26,6 +26,7 @@ waiting = Ember.State.create
 
 authenticating = Ember.State.create
   enter: (stateManager) ->
+    return stateManager.transitionTo("subscribing") unless stateManager.get("socket.id")
     sock = stateManager.get("socket.sock")
     sock.onclose = -> stateManager.transitionTo("error")
     sock.onmessage = (event) ->
@@ -74,11 +75,13 @@ disconnected = Ember.State.create
   enter: (stateManager) ->
     sock = stateManager.get("socket.sock")
     sock.onopen = sock.onclose = sock.onmessage = sock.onerror = null
+    sock.close()
 
 error = Ember.State.create
   enter: (stateManager) ->
     sock = stateManager.get("socket.sock")
     sock.onopen = sock.onclose = sock.onmessage = sock.onerror = null
+    sock.close()
 
 @Bridge.SocketManager = Ember.StateManager.extend
   initialState: "connecting"
@@ -93,9 +96,6 @@ error = Ember.State.create
     error: error
 
 @Bridge.Socket = Ember.Object.extend Ember.Evented,
-  urlBinding: "Bridge.env.socketUrl"
-  idBinding: "Bridge.env.socketId"
-  channel: "tables"
   stateBinding: "stateManager.currentState.name"
 
   init: ->
