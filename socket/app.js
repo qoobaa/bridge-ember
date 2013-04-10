@@ -106,5 +106,11 @@ socket.on("connection", function (connection) {
 });
 
 server = http.createServer();
+
+server.on("error", function (error) {
+    console.error("error: " + error.message);
+    process.exit(1);
+});
+
 server.listen(parseInt(process.env.PORT, 10) || 5100, "localhost");
 socket.installHandlers(server, { prefix: "/socket" });
