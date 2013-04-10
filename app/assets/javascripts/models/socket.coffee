@@ -94,9 +94,8 @@ error = Ember.State.create
 
 @Bridge.Socket = Ember.Object.extend Ember.Evented,
   urlBinding: "Bridge.env.socketUrl"
-  # idBinding: "Bridge.env.socketId"
+  idBinding: "Bridge.env.socketId"
   channel: "tables"
-  id: "zomg"
   stateBinding: "stateManager.currentState.name"
 
   init: ->
@@ -105,7 +104,7 @@ error = Ember.State.create
     @set("stateManager", Bridge.SocketManager.create(socket: @))
 
   channelDidChange: (->
-    @get("stateManager").transitionTo("subscribing")
+    @get("stateManager").transitionTo("subscribing") if @get("state") == "connected"
   ).observes("channel")
 
   disconnect: ->

@@ -95,8 +95,17 @@ socket.on("connection", function (connection) {
         }
     });
 
-    client.on("message", function (channel, payload) {
-        connection.write(payload);
+    client.on("message", function (channel, message) {
+        var payload = {};
+
+        try {
+            payload = JSON.parse(message);
+        } catch (error) {
+        }
+
+        if (payload.event !== "ping") {
+            connection.write(message);
+        }
     });
 
     connection.on("close", function () {
