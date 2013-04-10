@@ -13,7 +13,7 @@ class User < ActiveRecord::Base
   end
 
   def reset_socket_id!
-    update_attributes!(socket_id: SecureRandom.hex)
+    update!(socket_id: SecureRandom.hex)
   end
 
   private

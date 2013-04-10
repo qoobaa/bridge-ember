@@ -28,10 +28,9 @@ class Api::TablesController < Api::ApplicationController
       if @table.users.count == 4
         @table.create_board!
 
-        @table.user_n_publish event: "table/update", data: TableSerializer.new(@table, scope: @table.user_n, scope_name: :current_user)
-        @table.user_e_publish event: "table/update", data: TableSerializer.new(@table, scope: @table.user_e, scope_name: :current_user)
-        @table.user_s_publish event: "table/update", data: TableSerializer.new(@table, scope: @table.user_s, scope_name: :current_user)
-        @table.user_w_publish event: "table/update", data: TableSerializer.new(@table, scope: @table.user_w, scope_name: :current_user)
+        @table.users.each do |user|
+          user.publish event: "table/update", data: TableSerializer.new(@table, scope: user, scope_name: :current_user)
+        end
       else
         @table.publish(event: "table/update", data: TableShortSerializer.new(@table))
       end

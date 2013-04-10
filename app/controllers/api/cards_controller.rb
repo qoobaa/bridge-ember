@@ -6,10 +6,9 @@ class Api::CardsController < Api::ApplicationController
 
     if @card.persisted?
       if board.cards.count == 1 # First lead
-        table.user_n_publish event: "table/update", data: TableSerializer.new(table, scope: table.user_n, scope_name: :current_user)
-        table.user_e_publish event: "table/update", data: TableSerializer.new(table, scope: table.user_e, scope_name: :current_user)
-        table.user_s_publish event: "table/update", data: TableSerializer.new(table, scope: table.user_s, scope_name: :current_user)
-        table.user_w_publish event: "table/update", data: TableSerializer.new(table, scope: table.user_w, scope_name: :current_user)
+        table.users.each do |user|
+          user.publish event: "table/update", data: TableSerializer.new(table, scope: user, scope_name: :current_user)
+        end
       else
         table.publish(event: "cards/create", data: CardSerializer.new(@card))
       end
@@ -19,10 +18,9 @@ class Api::CardsController < Api::ApplicationController
       board.update!(result: board.score.result)
       board.table.create_board!
 
-      table.user_n_publish event: "table/update", data: TableSerializer.new(table, scope: table.user_n, scope_name: :current_user)
-      table.user_e_publish event: "table/update", data: TableSerializer.new(table, scope: table.user_e, scope_name: :current_user)
-      table.user_s_publish event: "table/update", data: TableSerializer.new(table, scope: table.user_s, scope_name: :current_user)
-      table.user_w_publish event: "table/update", data: TableSerializer.new(table, scope: table.user_w, scope_name: :current_user)
+      table.users.each do |user|
+        user.publish event: "table/update", data: TableSerializer.new(table, scope: user, scope_name: :current_user)
+      end
     end
     respond_with(@card, status: :created, location: nil)
   end
