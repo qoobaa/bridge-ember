@@ -2,17 +2,18 @@ var server, socket,
     step = require("step"),
     sockjs = require("sockjs"),
     redis = require("redis"),
-    http = require("http");
+    http = require("http"),
+    env = process.env.RAILS_ENV || "development";
 
 var authenticate = function (client, id, callback) {
     step(
         function () {
-            client.publish(id, JSON.stringify({ event: "ping" }), this);
+            client.publish(env + "/" + id, JSON.stringify({ event: "ping" }), this);
         },
         function (error, count) {
             if (error) throw error;
             if (count === 0) {
-                client.subscribe(id, this);
+                client.subscribe(env + "/" + id, this);
             } else {
                 throw new Error("could not connect to an active channel");
             }
@@ -26,11 +27,11 @@ var authenticate = function (client, id, callback) {
 var subscribe = function (client, oldChannel, newChannel, callback) {
     step(
         function () {
-            client.unsubscribe(oldChannel, this);
+            client.unsubscribe(env + "/" + oldChannel, this);
         },
         function (error) {
             if (error) throw error;
-            client.subscribe(newChannel, this);
+            client.subscribe(env + "/" + newChannel, this);
         },
         function (error) {
             callback(error);
