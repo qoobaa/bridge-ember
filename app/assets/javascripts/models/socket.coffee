@@ -35,7 +35,7 @@ authenticating = Ember.State.create
         stateManager.transitionTo(nextState)
       catch error
         stateManager.transitionTo("error")
-    sock.send(JSON.stringify(event: "authenticate", data: "secretid"))
+    sock.send(JSON.stringify(event: "authenticate", data: stateManager.get("socket.id")))
   exit: (stateManager) ->
     sock = stateManager.get("socket.sock")
     sock.onclose = sock.onmessage = null
@@ -95,10 +95,19 @@ error = Ember.State.create
 
 @Bridge.Socket = Ember.Object.extend Ember.Evented,
   urlBinding: "Bridge.env.socketUrl"
-  idBinding: "Bridge.env.socketId"
+  # idBinding: "Bridge.env.socketId"
   channel: "lobby"
+  id: "zomg"
+  stateBinding: "stateManager.currentState.name"
 
   init: ->
     @_super.apply(@, arguments)
     @set("sock", new SockJS(@get("url")))
     @set("stateManager", Bridge.SocketManager.create(socket: @))
+
+  channelDidChange: (->
+    @get("stateManager").transitionTo("subscribing")
+  ).observes("channel")
+
+  disconnect: ->
+    @get("sock").close()
