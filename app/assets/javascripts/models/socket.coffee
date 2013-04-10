@@ -81,7 +81,6 @@ error = Ember.State.create
     sock.onopen = sock.onclose = sock.onmessage = sock.onerror = null
 
 @Bridge.SocketManager = Ember.StateManager.extend
-  enableLogging: true
   initialState: "connecting"
 
   states:

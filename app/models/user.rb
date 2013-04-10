@@ -1,7 +1,7 @@
 class User < ActiveRecord::Base
-  has_many :channels
-
   validates :email, presence: true, uniqueness: {case_sensitive: false}
+  validates :socket_id, presence: true
+
   before_validation :generate_socket_id
 
   def publish(message)
@@ -10,6 +10,10 @@ class User < ActiveRecord::Base
 
   def online?
     not publish(event: "ping").zero?
+  end
+
+  def reset_socket_id!
+    update_attributes!(socket_id: SecureRandom.hex)
   end
 
   private

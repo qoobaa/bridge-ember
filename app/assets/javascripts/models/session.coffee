@@ -8,7 +8,10 @@
       type: "post"
       data: session: credentials
     .done (payload) =>
-      @setProperties(userId: payload.user.id, userEmail: payload.user.email)
+      @setProperties
+        userId: payload.user.id
+        userEmail: payload.user.email
+        socketId: payload.user.socket_id
 
   signOut: ->
     $.ajax "/api/session",
