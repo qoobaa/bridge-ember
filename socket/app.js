@@ -51,7 +51,7 @@ socket.on("connection", function (connection) {
     client.on("error", function (error) {
         console.error("error: " + error.message);
         connection.removeAllListeners();
-        connection.close();
+        connection.close(1, error.message);
     });
 
     connection.on("data", function (message) {
@@ -64,28 +64,34 @@ socket.on("connection", function (connection) {
             case "authenticate":
                 if (id) throw new Error("already authenticated");
                 if (channel) throw new Error("cannot authenticate after subscribing");
+                if (!data) throw new Error("invalid or missing argument");
 
                 authenticate(client, data, function (error) {
                     if (error) {
-                        connection.close();
+                        connection.close(1, error.message);
                     } else {
                         connection.write(JSON.stringify({ event: "authenticated" }));
                     }
                 });
                 break;
             case "subscribe":
+                if (!data) throw new Error("invalid or missing argument");
+
                 subscribe(client, channel, data, function (error) {
                     if (error) {
-                        connection.close();
+                        connection.close(1, error.message);
                     } else {
                         channel = data;
                         connection.write(JSON.stringify({ event: "subscribed" }));
                     }
                 });
                 break;
+            default:
+                connection.close(1, "unknown command");
+                break;
             }
         } catch (error) {
-            connection.close();
+            connection.close(1, error.message);
         }
     });
 
