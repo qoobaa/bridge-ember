@@ -1,11 +1,11 @@
 var server, socket,
-    Step = require("step"),
+    step = require("step"),
     sockjs = require("sockjs"),
     redis = require("redis"),
     http = require("http");
 
 var authenticate = function (client, id, callback) {
-    Step(
+    step(
         function () {
             client.publish(id, JSON.stringify({ event: "ping" }), this);
         },
@@ -24,7 +24,7 @@ var authenticate = function (client, id, callback) {
 };
 
 var subscribe = function (client, oldChannel, newChannel, callback) {
-    Step(
+    step(
         function () {
             client.unsubscribe(oldChannel, this);
         },
