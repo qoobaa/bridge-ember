@@ -7,7 +7,7 @@ class Api::SessionsController < Api::ApplicationController
     @user.reset_socket_id!
     session[:user_id] = @user.id
 
-    respond_with(@user, status: :created, location: nil)
+    respond_with(@user, serializer: SessionSerializer, status: :created, location: nil)
   end
 
   def destroy
