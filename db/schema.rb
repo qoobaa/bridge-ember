@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130410165914) do
+ActiveRecord::Schema.define(version: 20130411205201) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -54,6 +54,19 @@ ActiveRecord::Schema.define(version: 20130410165914) do
 
   add_index "cards", ["board_id", "content"], name: "index_cards_on_board_id_and_content", unique: true
   add_index "cards", ["board_id"], name: "index_cards_on_board_id"
+
+  create_table "claims", force: true do |t|
+    t.integer  "board_id",                         null: false
+    t.string   "direction",                        null: false
+    t.integer  "tricks",                           null: false
+    t.string   "accepted_directions", default: [],              array: true
+    t.string   "rejected_directions", default: [],              array: true
+    t.string   "state"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "claims", ["board_id"], name: "index_claims_on_board_id"
 
   create_table "tables", force: true do |t|
     t.integer  "user_n_id"
