@@ -8,29 +8,29 @@ var server, socket,
 var authenticate = function (client, id, callback) {
     step(
         function () {
-            console.log("1");
-            console.log(arguments);
             client.unsubscribe().then(this.bind(null, null), this);
         },
         function (error) {
-            console.log("2");
-            console.log(arguments);
             if (error) throw error;
-            client.publish(env + "/" + id, JSON.stringify({ event: "ping" })).then(this.bind(null, null), this);
+            if (id) {
+                client.publish(env + "/" + id, JSON.stringify({ event: "ping" })).then(this.bind(null, null), this);
+            } else {
+                this(null, 0);
+            }
         },
         function (error, count) {
-            console.log("3");
-            console.log(arguments);
             if (error) throw error;
             if (count === 0) {
-                client.subscribe(env + "/" + id).then(this.bind(null, null), this);
+                if (id) {
+                    client.subscribe(env + "/" + id).then(this.bind(null, null), this);
+                } else {
+                    this();
+                }
             } else {
                 throw new Error("could not connect to an active channel");
             }
         },
         function (error) {
-            console.log("4");
-            console.log(arguments);
             callback(error);
         }
     );
@@ -39,11 +39,19 @@ var authenticate = function (client, id, callback) {
 var subscribe = function (client, oldChannel, newChannel, callback) {
     step(
         function () {
-            client.unsubscribe(env + "/" + oldChannel).then(this.bind(null, null), this);
+            if (oldChannel) {
+                client.unsubscribe(env + "/" + oldChannel).then(this.bind(null, null), this);
+            } else {
+                this();
+            }
         },
         function (error) {
             if (error) throw error;
-            client.subscribe(env + "/" + newChannel).then(this.bind(null, null), this);
+            if (newChannel) {
+                client.subscribe(env + "/" + newChannel).then(this.bind(null, null), this);
+            } else {
+                this();
+            }
         },
         function (error) {
             callback(error);
@@ -68,25 +76,21 @@ socket.on("connection", function (connection) {
 
                     switch (event) {
                     case "authenticate":
-                        if (!data) throw new Error("invalid or missing argument");
-
                         authenticate(client, data, function (error) {
                             if (error) {
                                 connection.close(1, error.message);
                             } else {
-                                connection.write(JSON.stringify({ event: "authenticated" }));
+                                connection.write(JSON.stringify({ event: "authenticated", data: data }));
                             }
                         });
                         break;
                     case "subscribe":
-                        if (!data) throw new Error("invalid or missing argument");
-
                         subscribe(client, channel, data, function (error) {
                             if (error) {
                                 connection.close(1, error.message);
                             } else {
                                 channel = data;
-                                connection.write(JSON.stringify({ event: "subscribed" }));
+                                connection.write(JSON.stringify({ event: "subscribed", data: data }));
                             }
                         });
                         break;

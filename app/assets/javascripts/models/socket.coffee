@@ -26,13 +26,13 @@ waiting = Ember.State.create
 
 authenticating = Ember.State.create
   enter: (stateManager) ->
-    return stateManager.transitionTo("subscribing") unless stateManager.get("socket.id")
     sock = stateManager.get("socket.sock")
     sock.onclose = -> stateManager.transitionTo("error")
     sock.onmessage = (event) ->
       try
         payload = JSON.parse(event.data)
         nextState = if payload.event == "authenticated" then "subscribing" else "error"
+        stateManager.set("socket.registeredId", payload.data)
         stateManager.transitionTo(nextState)
       catch error
         stateManager.transitionTo("error")
@@ -49,6 +49,7 @@ subscribing = Ember.State.create
       try
         payload = JSON.parse(event.data)
         nextState = if payload.event == "subscribed" then "connected" else "error"
+        stateManager.set("socket.registeredChannel", payload.data)
         stateManager.transitionTo(nextState)
       catch error
         stateManager.transitionTo("error")
@@ -103,15 +104,13 @@ error = Ember.State.create
     @_super.apply(@, arguments)
     @connect()
 
-  idOrChannelDidChange: (->
-    @set("hasChanged", true) unless @get("state") in [undefined, "connecting", "waiting"]
-  ).observes("channel", "id")
-
   stateDidChange: (->
-    if @get("hasChanged") and @get("state") == "connected"
-      @set("hasChanged", false)
-      @get("stateManager").transitionTo("authenticating")
-  ).observes("state", "hasChanged")
+    if @get("state") == "connected"
+      if @get("registeredId") != @get("id")
+        @get("stateManager").transitionTo("authenticating")
+      else if @get("registeredChannel") != @get("channel")
+        @get("stateManager").transitionTo("subscribing")
+  ).observes("state", "id", "channel")
 
   connect: ->
     @set("sock", new SockJS(@get("url")))
