@@ -2,7 +2,7 @@ class Api::BidsController < Api::ApplicationController
   before_action :require_user, :check_direction
 
   def create
-    @bid = Bid.create(bid_params.merge(board: board))
+    @bid = board.bids.create(bid_params)
     board.update!(contract: board.auction.contract) if board.auction.finished?
     @board.table.publish(event: "bids/create", data: BidSerializer.new(@bid)) if @bid.persisted?
     respond_with(@bid, status: :created, location: nil)
