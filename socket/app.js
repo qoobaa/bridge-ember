@@ -8,13 +8,19 @@ var server, socket,
 var authenticate = function (client, id, callback) {
     step(
         function () {
+            console.log("1");
+            console.log(arguments);
             client.unsubscribe().then(this.bind(null, null), this);
         },
         function (error) {
+            console.log("2");
+            console.log(arguments);
             if (error) throw error;
             client.publish(env + "/" + id, JSON.stringify({ event: "ping" })).then(this.bind(null, null), this);
         },
         function (error, count) {
+            console.log("3");
+            console.log(arguments);
             if (error) throw error;
             if (count === 0) {
                 client.subscribe(env + "/" + id).then(this.bind(null, null), this);
@@ -23,6 +29,8 @@ var authenticate = function (client, id, callback) {
             }
         },
         function (error) {
+            console.log("4");
+            console.log(arguments);
             callback(error);
         }
     );
