@@ -1,2 +1,3 @@
-{{view Bridge.NumberField valueBinding="view.value" maxBinding="max" required=true placeholder="How many?" class="input-small" type="number" min=0}}
-<button class="btn">Claim</button>
+<span class="badge">{{view.direction}}</span>
+{{view Bridge.NumberField valueBinding="view.value" maxBinding="max" required=true placeholder="How many?" class="input-small" min=0}}
+<button class="btn" {{action "claim" target=view}}>Claim</button>

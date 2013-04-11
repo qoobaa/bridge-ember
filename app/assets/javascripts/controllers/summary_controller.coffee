@@ -6,7 +6,6 @@
   dealerBinding: "controllers.table.board.dealer"
   vulnerableBinding: "controllers.table.board.vulnerable"
 
-
   contract: (->
     @get("auction.contract") if @get("auction.isCompleted")
   ).property("auction.isCompleted")

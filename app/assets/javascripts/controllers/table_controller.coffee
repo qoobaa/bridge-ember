@@ -1,5 +1,5 @@
 @Bridge.TableController = Ember.ObjectController.extend
-  needs: ["bidding_box", "hand_n", "hand_e", "hand_s", "hand_w", "trick", "summary", "auction", "socket"]
+  needs: ["bidding_box", "hand_n", "hand_e", "hand_s", "hand_w", "trick", "summary", "auction", "socket", "claim"]
 
   currentDirection: null
   currentDirectionBinding: "board.currentDirection"
