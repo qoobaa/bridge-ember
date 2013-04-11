@@ -6,18 +6,35 @@
       "dependencies": {
         "node-uuid": {
           "version": "1.3.3",
-          "from": "node-uuid@1.3.3"
+          "from": "node-uuid@1.3.3",
+          "resolved": "https://registry.npmjs.org/node-uuid/-/node-uuid-1.3.3.tgz"
         },
         "faye-websocket": {
           "version": "0.4.0",
-          "from": "faye-websocket@0.4.0"
+          "from": "faye-websocket@0.4.0",
+          "resolved": "https://registry.npmjs.org/faye-websocket/-/faye-websocket-0.4.0.tgz"
         }
       }
     },
-    "redis": {
-      "version": "0.8.3",
-      "from": "redis@~0.8.2",
-      "resolved": "https://registry.npmjs.org/redis/-/redis-0.8.3.tgz"
+    "then-redis": {
+      "version": "0.3.4",
+      "from": "then-redis@~0.3.4",
+      "dependencies": {
+        "when": {
+          "version": "2.0.1",
+          "from": "when@2.0.x"
+        },
+        "hiredis": {
+          "version": "0.1.15",
+          "from": "hiredis@0.1.15",
+          "dependencies": {
+            "bindings": {
+              "version": "1.1.0",
+              "from": "bindings@*"
+            }
+          }
+        }
+      }
     },
     "step": {
       "version": "0.0.5",
