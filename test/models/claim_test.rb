@@ -25,24 +25,24 @@ class ClaimTest < ActiveSupport::TestCase
   test "is accepted when lho and rho accepted" do
     board = create(:board, contract: "1NTS")
 
-    assert build(:claim, board: board, direction: "S", accepted_directions: ["E", "W"]).accepted?
+    assert build(:claim, board: board, direction: "S", accepted: ["E", "W"]).accepted?
   end
 
   test "is not accepted when only one opponent accepted" do
     board = create(:board, contract: "1NTS")
 
-    refute build(:claim, board: board, direction: "S", accepted_directions: ["W"]).accepted?
+    refute build(:claim, board: board, direction: "S", accepted: ["W"]).accepted?
   end
 
   test "is accepted when declarer accepted" do
     board = create(:board, contract: "1NTS")
 
-    assert build(:claim, board: board, direction: "E", accepted_directions: ["S"]).accepted?
+    assert build(:claim, board: board, direction: "E", accepted: ["S"]).accepted?
   end
 
   test "is rejected when someone rejected" do
     board = create(:board, contract: "1NTS")
 
-    assert build(:claim, board: board, direction: "S", rejected_directions: ["E"]).rejected?
+    assert build(:claim, board: board, direction: "S", rejected: ["E"]).rejected?
   end
 end

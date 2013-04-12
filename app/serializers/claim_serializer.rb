@@ -1,3 +1,3 @@
 class ClaimSerializer < ActiveModel::Serializer
-  attributes :id, :direction, :tricks, :accepted_directions, :rejected_directions
+  attributes :id, :direction, :tricks, :accepted, :rejected
 end

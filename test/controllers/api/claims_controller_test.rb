@@ -37,16 +37,16 @@ class Api::ClaimsControllerTest < ActionController::TestCase
     board = create(:board, contract: "1NTN", user_e: @user)
     claim = create(:claim, board: board, direction: "N", tricks: 10)
 
-    patch :accept, board_id: board.id, id: claim.id, claim: {accepted_directions: "E"}, format: :json
+    patch :accept, board_id: board.id, id: claim.id, claim: {accepted: "E"}, format: :json
 
     assert_response :no_content
   end
 
   test "does not allow to accept when claim resolved" do
     board = create(:board, contract: "1NTN", user_e: @user)
-    claim = create(:claim, board: board, direction: "N", tricks: 10, rejected_directions: ["W"])
+    claim = create(:claim, board: board, direction: "N", tricks: 10, rejected: ["W"])
 
-    patch :accept, board_id: board.id, id: claim.id, claim: {accepted_directions: "E"}, format: :json
+    patch :accept, board_id: board.id, id: claim.id, claim: {accepted: "E"}, format: :json
 
     assert_response :unauthorized
   end

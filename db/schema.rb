@@ -56,12 +56,11 @@ ActiveRecord::Schema.define(version: 20130411205201) do
   add_index "cards", ["board_id"], name: "index_cards_on_board_id"
 
   create_table "claims", force: true do |t|
-    t.integer  "board_id",                         null: false
-    t.string   "direction",                        null: false
-    t.integer  "tricks",                           null: false
-    t.string   "accepted_directions", default: [],              array: true
-    t.string   "rejected_directions", default: [],              array: true
-    t.string   "state"
+    t.integer  "board_id",                null: false
+    t.string   "direction",               null: false
+    t.integer  "tricks",                  null: false
+    t.string   "accepted",   default: [],              array: true
+    t.string   "rejected",   default: [],              array: true
     t.datetime "created_at"
     t.datetime "updated_at"
   end

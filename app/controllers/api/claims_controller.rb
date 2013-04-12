@@ -14,14 +14,14 @@ class Api::ClaimsController < Api::ApplicationController
   end
 
   def accept
-    if claim.accept(accept_params[:accepted_directions])
+    if claim.accept(accept_params[:accepted])
       # notify
     end
     respond_with(@claim)
   end
 
   def reject
-    if claim.reject(reject_params[:rejected_directions])
+    if claim.reject(reject_params[:rejected])
       # notify
     end
     respond_with(@claim)
@@ -42,11 +42,11 @@ class Api::ClaimsController < Api::ApplicationController
   end
 
   def accept_params
-    params.require(:claim).permit(:accepted_directions)
+    params.require(:claim).permit(:accepted)
   end
 
   def reject_params
-    params.require(:claim).permit(:rejected_directions)
+    params.require(:claim).permit(:rejected)
   end
 
   def authorize_create
@@ -54,11 +54,11 @@ class Api::ClaimsController < Api::ApplicationController
   end
 
   def authorize_accept
-    head(:unauthorized) if accept_params[:accepted_directions] != board.user_direction(current_user)
+    head(:unauthorized) if accept_params[:accepted] != board.user_direction(current_user)
   end
 
   def authorize_reject
-    head(:unauthorized) if reject_params[:rejected_directions] != board.user_direction(current_user)
+    head(:unauthorized) if reject_params[:rejected] != board.user_direction(current_user)
   end
 
   def check_board

@@ -4,27 +4,27 @@ class Claim < ActiveRecord::Base
   validates :board_id,  presence: true
   validates :direction, presence: true, inclusion: Bridge::DIRECTIONS
   validates :tricks,    presence: true, inclusion: 0..13
-  validate  :without_dummy, :accepted_directions_inclusion, :rejected_directions_inclusion
-  validate  :max_tricks, on: :create
+  validate  :without_dummy, :accepted_inclusion, :rejected_inclusion, if: :playing?
+  validate  :max_tricks, on: :create, if: :playing?
 
   def accept(direction)
-    accepted_directions << direction
-    accepted_directions.uniq!
+    accepted << direction
+    accepted.uniq!
     save
   end
 
   def reject(direction)
-    rejected_directions << direction
-    rejected_directions.uniq!
+    rejected << direction
+    rejected.uniq!
     save
   end
 
   def accepted?
-    accept_condition_directions.all? { |direction| accepted_directions.include?(direction) }
+    accept_condition_directions.all? { |direction| accepted.include?(direction) }
   end
 
   def rejected?
-    rejected_directions.any?
+    rejected.any?
   end
 
   def resolved?
@@ -37,6 +37,10 @@ class Claim < ActiveRecord::Base
 
   private
 
+  def playing?
+    !!board.try!(:play)
+  end
+
   def accept_condition_directions
     play = board.play
     case direction
@@ -45,29 +49,23 @@ class Claim < ActiveRecord::Base
     end
   end
 
-  def accepted_directions_inclusion
-    return unless board.try!(:play)
-    unless accepted_directions.all? { |direction| accept_condition_directions.include?(direction) }
-      errors.add(:accepted_directions, :invalid)
+  def accepted_inclusion
+    unless accepted.all? { |direction| accept_condition_directions.include?(direction) }
+      errors.add(:accepted, :invalid)
     end
   end
 
-  def rejected_directions_inclusion
-    return unless board.try!(:play)
-    unless rejected_directions.all? { |direction| (Bridge::DIRECTIONS - [board.play.dummy]).include?(direction) }
-      errors.add(:rejected_directions, :invalid)
+  def rejected_inclusion
+    unless rejected.all? { |direction| (Bridge::DIRECTIONS - [board.play.dummy]).include?(direction) }
+      errors.add(:rejected, :invalid)
     end
   end
 
   def without_dummy
-    if play = board.try!(:play)
-      errors.add(:direction, :invalid) if play.dummy == direction
-    end
+    errors.add(:direction, :invalid) if board.play.dummy == direction
   end
 
   def max_tricks
-    if play = board.try!(:play)
-      errors.add(:tricks, :invalid) if tricks > 13 - play.tricks.count(&:complete?)
-    end
+    errors.add(:tricks, :invalid) if tricks > 13 - board.play.tricks.count(&:complete?)
   end
 end
