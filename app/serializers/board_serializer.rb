@@ -7,7 +7,7 @@ class BoardSerializer < ActiveModel::Serializer
   end
 
   def claim
-    object.claims.active.last
+    object.claims.last
   end
 
   def bids

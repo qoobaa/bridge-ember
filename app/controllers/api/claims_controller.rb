@@ -1,6 +1,9 @@
 class Api::ClaimsController < Api::ApplicationController
-  before_action :require_user, :check_direction
-  before_action :check_board, only: [:create]
+  before_action :require_user
+  before_action :authorize_create, :check_board, only: [:create]
+  before_action :authorize_accept, only: [:accept]
+  before_action :authorize_reject, only: [:reject]
+  before_action :check_active_claim, only: [:accept, :reject]
 
   def create
     @claim = board.claims.create(claim_params)
@@ -11,11 +14,17 @@ class Api::ClaimsController < Api::ApplicationController
   end
 
   def accept
-    @claim = board.claims.active.find(params[:id])
+    if claim.accept(accept_params[:accepted_directions])
+      # notify
+    end
+    respond_with(@claim)
   end
 
   def reject
-    @claim = board.claims.active.find(params[:id])
+    if claim.reject(reject_params[:rejected_directions])
+      # notify
+    end
+    respond_with(@claim)
   end
 
   private
@@ -24,17 +33,41 @@ class Api::ClaimsController < Api::ApplicationController
     @board ||= Board.find(params[:board_id])
   end
 
+  def claim
+    @claim ||= board.claims.find(params[:id])
+  end
+
   def claim_params
     params.require(:claim).permit(:direction, :tricks)
   end
 
-  def check_direction
+  def accept_params
+    params.require(:claim).permit(:accepted_directions)
+  end
+
+  def reject_params
+    params.require(:claim).permit(:rejected_directions)
+  end
+
+  def authorize_create
     head(:unauthorized) if claim_params[:direction] != board.user_direction(current_user)
   end
 
+  def authorize_accept
+    head(:unauthorized) if accept_params[:accepted_directions] != board.user_direction(current_user)
+  end
+
+  def authorize_reject
+    head(:unauthorized) if reject_params[:rejected_directions] != board.user_direction(current_user)
+  end
+
   def check_board
-    if board.claims.active.exists? || board.play.nil?
+    if board.claims.last.try!(:active?) || board.play.nil? || board.play.finished?
       head(:unauthorized)
     end
+  end
+
+  def check_active_claim
+    head(:unauthorized) if claim.resolved?
   end
 end

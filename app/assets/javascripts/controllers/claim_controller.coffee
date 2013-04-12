@@ -40,13 +40,13 @@
 
   isAcceptedDidChange: (->
     console.log("accepted") if @get("isAccepted")
-    # @get("controllers.board").set("claim", @get("claimed")) if @get("isAccepted")
+    # @get("controllers.board").set("claim", @get("tricks")) if @get("isAccepted")
   ).observes("isAccepted")
 
   claimRejectedObserver: (->
     if @get("isRejected")
       @setProperties
-        claimed: undefined
+        tricks: undefined
         direction: undefined
         acceptedDirections: []
         rejectedDirections: []
@@ -55,11 +55,11 @@
   # Reject claim by playing card
   cardPlayedObserver: (->
     # Will be handled by board
-    @get("rejectedDirections").pushObject("?") if @get("claimed")
+    @get("rejectedDirections").pushObject("?") if @get("tricks")
   ).observes("play.@each")
 
   claim: (value, direction) ->
-    @setProperties(claimed: value, direction: direction)
+    @setProperties(tricks: value, direction: direction)
 
   accept: (direction) ->
     @get("acceptedDirections").pushObject(direction)

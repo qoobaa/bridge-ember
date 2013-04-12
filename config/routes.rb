@@ -10,6 +10,10 @@ Bridge::Application.routes.draw do
     resources :boards, only: [] do
       resources :bids, only: [:create]
       resources :cards, only: [:create]
+      resources :claims, only: [:create] do
+        patch :accept, on: :member
+        patch :reject, on: :member
+      end
     end
   end
 end
