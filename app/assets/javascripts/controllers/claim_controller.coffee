@@ -2,6 +2,7 @@
   needs: ["table"]
 
   # http://stackoverflow.com/questions/12502465/bindings-on-objectcontroller-ember-js
+  contentBinding: "controllers.table.board.claim"
   signedInUserDirection: null
   signedInUserDirectionBinding: "controllers.table.signedInUserDirection"
   play: null
@@ -15,14 +16,13 @@
   rho: null
   rhoBinding: "play.rho"
 
-  init: ->
-    @_super.apply(@, arguments)
-    # TODO: bind to board claim
-    @set("content", Bridge.Claim.create(accepted: [], rejected: []))
-
   isEnabled: (->
     !!@get("play.contract")
   ).property("play.contract")
+
+  isResolved: (->
+    @get("isAccepted") or @get("isRejected")
+  ).property("isAccepted", "isRejected")
 
   acceptConditionDirections: (->
     switch @get("direction")
@@ -31,13 +31,14 @@
   ).property("direction")
 
   isAccepted: (->
-    return unless @get("acceptConditionDirections")
-    @get("acceptConditionDirections").every (direction) => @get("accepted").contains(direction)
-  ).property("accepted.@each")
+    return unless @get("accepted")
+    @get("acceptConditionDirections")?.every (direction) => @get("accepted").contains(direction)
+  ).property("accepted", "acceptConditionDirections")
 
   isRejected: (->
-    @get("rejected").length > 0
-  ).property("rejected.@each")
+    return unless @get("rejected")
+    @get("rejected.length") > 0
+  ).property("rejected.length")
 
   winningCards: (->
     @get("play")?.filterProperty("isWinning")
@@ -47,34 +48,12 @@
     13 - @get("winningCards")?.length || 0
   ).property("winningCards.@each")
 
-  isAcceptedDidChange: (->
-    console.log("accepted") if @get("isAccepted")
-    # @get("controllers.board").set("claim", @get("tricks")) if @get("isAccepted")
-  ).observes("isAccepted")
-
-  claimRejectedObserver: (->
-    if @get("isRejected")
-      @setProperties
-        tricks: undefined
-        direction: undefined
-        accepted: []
-        rejected: []
-  ).observes("isRejected")
-
-  # Reject claim by playing card
-  cardPlayedObserver: (->
-    # Will be handled by board
-    @get("rejected").pushObject("?") if @get("tricks")
-  ).observes("play.@each")
-
   claim: (value, direction) ->
     @setProperties(tricks: value, direction: direction)
     @get("content").save(@get("controllers.table.board.id"))
 
   accept: (direction) ->
-    @get("accepted").pushObject(direction)
     @get("content").accept(@get("controllers.table.board.id"), direction)
 
   reject: (direction) ->
-    @get("rejected").pushObject(direction)
     @get("content").reject(@get("controllers.table.board.id"), direction)

@@ -10,12 +10,14 @@ class Claim < ActiveRecord::Base
   def accept(direction)
     accepted << direction
     accepted.uniq!
+    accepted_will_change!
     save
   end
 
   def reject(direction)
     rejected << direction
     rejected.uniq!
+    rejected_will_change!
     save
   end
 
