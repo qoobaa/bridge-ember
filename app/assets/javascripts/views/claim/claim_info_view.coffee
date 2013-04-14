@@ -3,5 +3,5 @@
   templateName: "claim/claim_info"
 
   hide: (->
-    not @get("context.claimed")
-  ).property("context.claimed")
+    not @get("context.tricks")
+  ).property("context.tricks")

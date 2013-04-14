@@ -1,15 +1,24 @@
-@Bridge.ClaimController = Ember.Controller.extend
+@Bridge.ClaimController = Ember.ObjectController.extend
   needs: ["table"]
 
+  # http://stackoverflow.com/questions/12502465/bindings-on-objectcontroller-ember-js
+  signedInUserDirection: null
   signedInUserDirectionBinding: "controllers.table.signedInUserDirection"
+  play: null
   playBinding: "controllers.table.board.play"
+  declarer: null
   declarerBinding: "play.declarer"
+  dummy: null
   dummyBinding: "play.dummy"
+  lho: null
   lhoBinding: "play.lho"
+  rho: null
   rhoBinding: "play.rho"
 
-  acceptedDirections: []
-  rejectedDirections: []
+  init: ->
+    @_super.apply(@, arguments)
+    # TODO: bind to board claim
+    @set("content", Bridge.Claim.create(accepted: [], rejected: []))
 
   isEnabled: (->
     !!@get("play.contract")
@@ -23,12 +32,12 @@
 
   isAccepted: (->
     return unless @get("acceptConditionDirections")
-    @get("acceptConditionDirections").every (direction) => @get("acceptedDirections").contains(direction)
-  ).property("acceptedDirections.@each")
+    @get("acceptConditionDirections").every (direction) => @get("accepted").contains(direction)
+  ).property("accepted.@each")
 
   isRejected: (->
-    @get("rejectedDirections").length > 0
-  ).property("rejectedDirections.@each")
+    @get("rejected").length > 0
+  ).property("rejected.@each")
 
   winningCards: (->
     @get("play")?.filterProperty("isWinning")
@@ -48,21 +57,24 @@
       @setProperties
         tricks: undefined
         direction: undefined
-        acceptedDirections: []
-        rejectedDirections: []
+        accepted: []
+        rejected: []
   ).observes("isRejected")
 
   # Reject claim by playing card
   cardPlayedObserver: (->
     # Will be handled by board
-    @get("rejectedDirections").pushObject("?") if @get("tricks")
+    @get("rejected").pushObject("?") if @get("tricks")
   ).observes("play.@each")
 
   claim: (value, direction) ->
     @setProperties(tricks: value, direction: direction)
+    @get("content").save(@get("controllers.table.board.id"))
 
   accept: (direction) ->
-    @get("acceptedDirections").pushObject(direction)
+    @get("accepted").pushObject(direction)
+    @get("content").accept(@get("controllers.table.board.id"), direction)
 
   reject: (direction) ->
-    @get("rejectedDirections").pushObject(direction)
+    @get("rejected").pushObject(direction)
+    @get("content").reject(@get("controllers.table.board.id"), direction)

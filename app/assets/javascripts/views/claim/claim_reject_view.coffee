@@ -8,8 +8,8 @@
   hide: (->
     @get("context.signedInUserDirection") != @get("direction") or
     @get("direction") == @get("context.dummy") or
-    not @get("context.claimed")
-  ).property("context.claimed", "context.dummy", "context.signedInUserDirection")
+    not @get("context.tricks")
+  ).property("context.tricks", "context.dummy", "context.signedInUserDirection")
 
   disabled: (->
     @get("context.isAccepted")

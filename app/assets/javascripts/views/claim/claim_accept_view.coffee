@@ -8,14 +8,14 @@
   hide: (->
     @get("context.signedInUserDirection") != @get("direction") or
     @get("direction") == @get("context.dummy") or
-    not @get("context.claimed") or
+    not @get("context.tricks") or
     not @get("context.acceptConditionDirections").contains(@get("direction"))
-  ).property("context.claimed", "context.acceptConditionDirections.@each", "context.dummy", "context.signedInUserDirection")
+  ).property("context.tricks", "context.acceptConditionDirections.@each", "context.dummy", "context.signedInUserDirection")
 
   disabled: (->
     @get("context.isAccepted") or
-    @get("context.acceptedDirections").contains(@get("direction"))
-  ).property("context.acceptedDirections.@each", "context.isAccepted")
+    @get("context.accepted").contains(@get("direction"))
+  ).property("context.accepted.@each", "context.isAccepted")
 
   click: ->
     @get("context").accept(@get("direction"))
