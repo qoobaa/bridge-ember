@@ -68,6 +68,6 @@ class Claim < ActiveRecord::Base
   end
 
   def max_tricks
-    errors.add(:tricks, :invalid) if tricks > 13 - board.play.tricks.count(&:complete?)
+    errors.add(:tricks, :invalid) if tricks && tricks > 13 - board.play.tricks.count(&:complete?)
   end
 end

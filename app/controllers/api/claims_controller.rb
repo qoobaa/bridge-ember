@@ -9,7 +9,7 @@ class Api::ClaimsController < Api::ApplicationController
     @claim = board.claims.create(claim_params)
     if @claim.persisted?
       board.table.users.each do |user|
-        user.publish event: "table/update", data: TableSerializer.new(board.table, scope: user, scope_name: :current_user)
+        user.publish event: "claim/update", data: ClaimSerializer.new(@claim)
       end
     end
     respond_with(@claim, status: :created, location: nil)
@@ -18,7 +18,7 @@ class Api::ClaimsController < Api::ApplicationController
   def accept
     if claim.accept(accept_params[:accepted])
       board.table.users.each do |user|
-        user.publish event: "table/update", data: TableSerializer.new(board.table, scope: user, scope_name: :current_user)
+        user.publish event: "claim/update", data: ClaimSerializer.new(@claim)
       end
     end
     respond_with(@claim)
@@ -27,7 +27,7 @@ class Api::ClaimsController < Api::ApplicationController
   def reject
     if claim.reject(reject_params[:rejected])
       board.table.users.each do |user|
-        user.publish event: "table/update", data: TableSerializer.new(board.table, scope: user, scope_name: :current_user)
+        user.publish event: "claim/update", data: ClaimSerializer.new(@claim)
       end
     end
     respond_with(@claim)
