@@ -6,12 +6,10 @@
   tagName: "button"
 
   hide: (->
-    @get("context.isRejected") or
+    !@get("context.isClaimed") or
     @get("context.signedInUserDirection") != @get("direction") or
-    @get("direction") == @get("context.dummy") or
-    not @get("context.tricks") or
-    @get("context.isResolved")
-  ).property("context.isRejected", "context.tricks", "context.dummy", "context.signedInUserDirection", "context.isResolved")
+    @get("direction") == @get("context.dummy")
+  ).property("context.isClaimed", "context.dummy", "context.signedInUserDirection")
 
   disabled: (->
     @get("context.isAccepted") or @get("context.isRejected")

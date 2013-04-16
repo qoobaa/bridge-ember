@@ -3,5 +3,5 @@
   templateName: "claim/claim_info"
 
   hide: (->
-    @get("context.isResolved")
-  ).property("context.isResolved")
+    !@get("context.isClaimed")
+  ).property("context.isClaimed")

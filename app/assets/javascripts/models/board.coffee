@@ -14,7 +14,7 @@
 
   claim: ((key, value) ->
     if arguments.length == 2
-      if not value? or value instanceof Bridge.Claim
+      if value instanceof Bridge.Claim
         value
       else
         Bridge.Claim.create(value)

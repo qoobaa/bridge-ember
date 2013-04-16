@@ -23,6 +23,7 @@ Bridge.TableRoute = Ember.Route.extend
     socket.off("bids/create", @, @createBid)
     socket.off("cards/create", @, @createCard)
     socket.off("table/update", @, @updateTable)
+    socket.off("claim/update", @, @updateClaim)
 
   createBid: (payload) ->
     @modelFor("table").get("board.auction")?.pushObject(payload.bid.content)

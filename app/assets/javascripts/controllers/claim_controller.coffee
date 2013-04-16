@@ -24,6 +24,10 @@
     @get("isAccepted") or @get("isRejected")
   ).property("isAccepted", "isRejected")
 
+  isClaimed: (->
+    !!@get("tricks") and !@get("isResolved")
+  ).property("tricks", "isResolved")
+
   acceptConditionDirections: (->
     switch @get("direction")
       when @get("declarer") then [@get("lho"), @get("rho")]
