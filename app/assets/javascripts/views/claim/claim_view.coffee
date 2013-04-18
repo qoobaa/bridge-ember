@@ -1,8 +1,7 @@
 @Bridge.ClaimView = Ember.View.extend
-  classNames: ["form-inline"]
+  classNames: ["btn-group"]
   classNameBindings: ["hide"]
   templateName: "claim/claim"
-  tagName: "form"
 
   hide: (->
     @get("context.signedInUserDirection") != @get("direction") or
@@ -10,6 +9,6 @@
     @get("context.isClaimed")
   ).property("context.isClaimed", "context.dummy", "context.signedInUserDirection")
 
-  claim: ->
-    return unless @get("value")
-    @get("context").claim(@get("value"), @get("direction"))
+  range: (->
+    num for num in [0..@get("context.max")]
+  ).property("context.max")

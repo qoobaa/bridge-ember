@@ -2,7 +2,7 @@
   save: (boardId) ->
     $.ajax "/api/boards/#{boardId}/claims",
       type: "post"
-      data: claim: {direction: @get("direction"), tricks: @get("tricks")}
+      data: claim: @getProperties("direction", "tricks")
 
   accept: (boardId, direction) ->
     $.ajax "/api/boards/#{boardId}/claims/#{@get('id')}/accept",

@@ -25,7 +25,7 @@
   ).property("isAccepted", "isRejected")
 
   isClaimed: (->
-    !!@get("tricks") and !@get("isResolved")
+    !Ember.isNone(@get("tricks")) and !@get("isResolved")
   ).property("tricks", "isResolved")
 
   acceptConditionDirections: (->
@@ -52,7 +52,7 @@
     13 - @get("winningCards")?.length || 0
   ).property("winningCards.@each")
 
-  claim: (value, direction) ->
+  claim: (direction, value) ->
     @setProperties(tricks: value, direction: direction)
     @get("content").save(@get("controllers.table.board.id"))
 

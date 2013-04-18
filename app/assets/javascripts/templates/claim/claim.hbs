@@ -1,3 +1,9 @@
-<span class="badge">{{view.direction}}</span>
-{{view Bridge.NumberField valueBinding="view.value" maxBinding="max" required=true placeholder="How many?" class="input-small" min=0}}
-<button class="btn" {{action "claim" target=view}}>Claim</button>
+<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+  Claim
+  <span class="caret"></span>
+</a>
+<ul class="dropdown-menu">
+  {{#each number in view.range}}
+    <li><a href="#" {{action "claim" view.direction number target=controllers.claim}}>I claim <strong>{{number}}</strong> tricks more</a></li>
+  {{/each}}
+</ul>
