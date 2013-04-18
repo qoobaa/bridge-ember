@@ -1,5 +1,5 @@
 class Api::CardsController < Api::ApplicationController
-  before_action :require_user, :check_direction
+  before_action :require_user, :authorize
 
   def create
     @card = board.cards.create(card_params)
@@ -11,6 +11,13 @@ class Api::CardsController < Api::ApplicationController
         end
       else
         table.publish(event: "cards/create", data: CardSerializer.new(@card))
+      end
+
+      if (claim = board.claims.last) && claim.active? # Reject claim by playing card
+        claim.reject(board.user_direction(current_user))
+        board.table.users.each do |user|
+          user.publish event: "claim/update", data: ClaimSerializer.new(claim)
+        end
       end
     end
 
@@ -39,7 +46,7 @@ class Api::CardsController < Api::ApplicationController
     params.require(:card).permit(:content)
   end
 
-  def check_direction
+  def authorize
     play = board.play
     # Declarer can play dummy cards
     if play.next_direction == play.dummy ? play.declarer != board.user_direction(current_user) : play.next_direction != board.user_direction(current_user)

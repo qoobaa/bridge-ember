@@ -11,6 +11,7 @@ class Api::ClaimsController < Api::ApplicationController
       board.table.users.each do |user|
         user.publish event: "claim/update", data: ClaimSerializer.new(@claim)
       end
+      # TODO: add publishing claimed user hand
     end
     respond_with(@claim, status: :created, location: nil)
   end

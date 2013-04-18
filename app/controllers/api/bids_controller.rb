@@ -1,5 +1,5 @@
 class Api::BidsController < Api::ApplicationController
-  before_action :require_user, :check_direction
+  before_action :require_user, :authorize
 
   def create
     @bid = board.bids.create(bid_params)
@@ -18,7 +18,7 @@ class Api::BidsController < Api::ApplicationController
     params.require(:bid).permit(:content)
   end
 
-  def check_direction
+  def authorize
     head(:unauthorized) if board.auction.next_direction != board.user_direction(current_user)
   end
 end

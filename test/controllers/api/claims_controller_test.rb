@@ -8,7 +8,7 @@ class Api::ClaimsControllerTest < ActionController::TestCase
 
   # create
   test "creates claim" do
-    board = create(:board, contract: "1NTN", user_e: @user)
+    board = create(:board, table: create(:table), contract: "1NTN", user_e: @user)
 
     post :create, board_id: board.id, claim: {direction: "E", tricks: 6}, format: :json
 
@@ -16,7 +16,7 @@ class Api::ClaimsControllerTest < ActionController::TestCase
   end
 
   test "does not allow to claim for other direction" do
-    board = create(:board, contract: "1NTN", user_e: @user)
+    board = create(:board, table: create(:table), contract: "1NTN", user_e: @user)
 
     post :create, board_id: board.id, claim: {direction: "N", tricks: 0}, format: :json
 
@@ -24,7 +24,7 @@ class Api::ClaimsControllerTest < ActionController::TestCase
   end
 
   test "does not allow to claim when other claim still active" do
-    board = create(:board, contract: "1NTN", user_e: @user)
+    board = create(:board, table: create(:table), contract: "1NTN", user_e: @user)
     create(:claim, board: board, direction: "N", tricks: 10)
 
     post :create, board_id: board.id, claim: {direction: "E", tricks: 6}, format: :json
@@ -34,7 +34,7 @@ class Api::ClaimsControllerTest < ActionController::TestCase
 
   # accept
   test "accepts claim by given direction" do
-    board = create(:board, contract: "1NTN", user_e: @user)
+    board = create(:board, table: create(:table), contract: "1NTN", user_e: @user)
     claim = create(:claim, board: board, direction: "N", tricks: 10)
 
     patch :accept, board_id: board.id, id: claim.id, claim: {accepted: "E"}, format: :json
@@ -43,7 +43,7 @@ class Api::ClaimsControllerTest < ActionController::TestCase
   end
 
   test "does not allow to accept when claim resolved" do
-    board = create(:board, contract: "1NTN", user_e: @user)
+    board = create(:board, table: create(:table), contract: "1NTN", user_e: @user)
     claim = create(:claim, board: board, direction: "N", tricks: 10, rejected: ["W"])
 
     patch :accept, board_id: board.id, id: claim.id, claim: {accepted: "E"}, format: :json

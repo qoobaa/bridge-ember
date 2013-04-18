@@ -21,7 +21,6 @@ class ClaimTest < ActiveSupport::TestCase
     assert build(:claim, board: board, direction: "N", tricks: 13).invalid?
   end
 
-
   test "is accepted when lho and rho accepted" do
     board = create(:board, contract: "1NTS")
 
@@ -44,5 +43,21 @@ class ClaimTest < ActiveSupport::TestCase
     board = create(:board, contract: "1NTS")
 
     assert build(:claim, board: board, direction: "S", rejected: ["E"]).rejected?
+  end
+
+  test "accepts claim" do
+    board = create(:board, contract: "1NTS")
+    claim = create(:claim, direction: "S")
+
+    assert claim.accept("E")
+    assert_equal ["E"], claim.reload.accepted
+  end
+
+  test "rejects claim" do
+    board = create(:board, contract: "1NTS")
+    claim = create(:claim, direction: "S")
+
+    assert claim.reject("E")
+    assert_equal ["E"], claim.reload.rejected
   end
 end

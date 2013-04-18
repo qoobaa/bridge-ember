@@ -11,4 +11,5 @@
   ).property("context.isClaimed", "context.dummy", "context.signedInUserDirection")
 
   claim: ->
+    return unless @get("value")
     @get("context").claim(@get("value"), @get("direction"))

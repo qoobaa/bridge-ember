@@ -43,4 +43,14 @@ class Api::CardsControllerTest < ActionController::TestCase
     assert_response :created
     assert_equal({"card" => {"content" => "D2"}}, json_response)
   end
+
+  test "rejects active claim" do
+    board = create(:board, deal_id: "0", contract: "7SN", user_e: @user, table: create(:table))
+    claim = create(:claim, board: board, direction: "N")
+
+    post :create, board_id: board.id, card: {content: "HA"}, format: :json
+
+    assert_response :created
+    assert_equal ["E"], claim.reload.rejected
+  end
 end

@@ -20,8 +20,8 @@
   currentUserIdBinding: "controllers.table.currentUser.id"
 
   isEnabled: (->
-    @get("currentUserId") == @get("loggedInUserId")
-  ).property("loggedInUserId", "currentUserId")
+    !@get("isCompleted") and @get("currentUserId") == @get("loggedInUserId")
+  ).property("loggedInUserId", "currentUserId", "isCompleted")
 
   bid: (bid) ->
     @set("level", null)
