@@ -16,6 +16,7 @@ Bridge.TableRoute = Ember.Route.extend
     socket.on("bids/create", @, @createBid)
     socket.on("cards/create", @, @createCard)
     socket.on("table/update", @, @updateTable)
+    socket.on("board/update", @, @updateBoard)
     socket.on("claim/update", @, @updateClaim)
 
   deactivate: ->
@@ -23,6 +24,7 @@ Bridge.TableRoute = Ember.Route.extend
     socket.off("bids/create", @, @createBid)
     socket.off("cards/create", @, @createCard)
     socket.off("table/update", @, @updateTable)
+    socket.off("board/update", @, @updateBoard)
     socket.off("claim/update", @, @updateClaim)
 
   createBid: (payload) ->
@@ -33,6 +35,10 @@ Bridge.TableRoute = Ember.Route.extend
 
   updateTable: (payload) ->
     @modelFor("table").setProperties(payload.table)
+
+  updateBoard: (payload) ->
+    console.log payload
+    @modelFor("table").get("board").setProperties(payload.board)
 
   updateClaim: (payload) ->
     @modelFor("table").get("board.claim").setProperties(payload.claim)

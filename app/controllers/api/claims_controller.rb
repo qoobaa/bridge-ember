@@ -10,8 +10,10 @@ class Api::ClaimsController < Api::ApplicationController
     if @claim.persisted?
       board.table.users.each do |user|
         user.publish event: "claim/update", data: ClaimSerializer.new(@claim)
+        # FIXME: find better way of partial serialization
+        payload = {board: {@claim.direction.downcase.to_sym => board.deal[@claim.direction].map(&:to_s)}}
+        user.publish event: "board/update", data: payload
       end
-      # TODO: add publishing claimed user hand
     end
     respond_with(@claim, status: :created, location: nil)
   end

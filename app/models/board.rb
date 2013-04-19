@@ -40,7 +40,8 @@ class Board < ActiveRecord::Base
   end
 
   def visible_hand_for?(hand, direction)
-    return true if hand == direction
+    return true if hand == direction # Always see own hand
+    return true if claims.where(direction: hand).exists? # Claimed user hand is visible to all
     if cards.count > 0
       hand == play.dummy || # Dummy's cards are visible for all after first lead
       play.dummy == direction # Dummy can see all hands after first lead

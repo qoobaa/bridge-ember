@@ -5,4 +5,3 @@
   isVisible: (->
     @get("context.isClaimed")
   ).property("context.isClaimed")
-

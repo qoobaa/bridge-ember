@@ -33,4 +33,14 @@ class BoardTest < ActiveSupport::TestCase
     assert board.visible_hand_for?("S", "S")
     assert board.visible_hand_for?("W", "S")
   end
+
+  test "hand of claimed direction is visible to all" do
+    board = create(:board, deal_id: "0", contract: "7SN")
+    create(:claim, board: board, direction: "E")
+
+    assert board.visible_hand_for?("E", "N")
+    assert board.visible_hand_for?("E", "E")
+    assert board.visible_hand_for?("E", "S")
+    assert board.visible_hand_for?("E", "W")
+  end
 end
