@@ -5,10 +5,20 @@
   playBinding: "controllers.table.board.play"
   dealerBinding: "controllers.table.board.dealer"
   vulnerableBinding: "controllers.table.board.vulnerable"
+  resultBinding: "controllers.table.board.result"
 
   contract: (->
     @get("auction.contract") if @get("auction.isCompleted")
   ).property("auction.isCompleted")
+
+  resultString: (->
+    result = @get("result")
+    return if Ember.isNone(result)
+    switch
+      when result > 0  then "+#{result}"
+      when result == 0 then "="
+      when result < 0  then "#{result}"
+  ).property("result")
 
   winningCards: (->
     @get("play")?.filterProperty("isWinning")

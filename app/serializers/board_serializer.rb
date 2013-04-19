@@ -1,5 +1,5 @@
 class BoardSerializer < ActiveModel::Serializer
-  attributes :id, :dealer, :vulnerable, :bids, :cards, :n, :e, :s, :w
+  attributes :id, :dealer, :vulnerable, :bids, :cards, :n, :e, :s, :w, :result
   has_one :claim
 
   %w[n e s w].each do |direction|

@@ -26,6 +26,7 @@ class Api::TablesControllerTest < ActionController::TestCase
           "vulnerable" => "NONE",
           "bids" => ["7S", "PASS", "PASS", "PASS"],
           "cards" => ["HA"],
+          "result" => nil,
           "claim" => nil
         }
       }

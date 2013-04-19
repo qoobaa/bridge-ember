@@ -27,7 +27,7 @@ class Board < ActiveRecord::Base
   end
 
   def score
-    Bridge::Score.new(contract, vulnerable, play.declarer_tricks_number) if play.finished?
+    Bridge::Score.new(contract, vulnerable, total_declarer_tricks_number) if play.finished? || claims.last.try!(:accepted?)
   end
 
   def user_direction(user)
@@ -46,5 +46,15 @@ class Board < ActiveRecord::Base
       hand == play.dummy || # Dummy's cards are visible for all after first lead
       play.dummy == direction # Dummy can see all hands after first lead
     end
+  end
+
+  def complete?
+    result?
+  end
+
+  private
+
+  def total_declarer_tricks_number
+    play.declarer_tricks_number + claims.last.try!(:declarer_tricks_number) || 0
   end
 end

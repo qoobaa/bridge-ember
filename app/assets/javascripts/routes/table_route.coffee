@@ -37,7 +37,6 @@ Bridge.TableRoute = Ember.Route.extend
     @modelFor("table").setProperties(payload.table)
 
   updateBoard: (payload) ->
-    console.log payload
     @modelFor("table").get("board").setProperties(payload.board)
 
   updateClaim: (payload) ->

@@ -37,6 +37,14 @@ class Claim < ActiveRecord::Base
     not resolved?
   end
 
+  def declarer_tricks_number
+    if board.play.declarer == direction
+      tricks
+    else
+      13 - board.play.tricks.count(&:complete?) - tricks
+    end
+  end
+
   private
 
   def playing?

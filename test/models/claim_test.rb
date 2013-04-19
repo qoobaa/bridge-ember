@@ -60,4 +60,16 @@ class ClaimTest < ActiveSupport::TestCase
     assert claim.reject("E")
     assert_equal ["E"], claim.reload.rejected
   end
+
+  test "returns declarer tricks number when opponent claimed" do
+    board = create(:board, contract: "1NTN")
+    board.cards.create!(content: "HA")
+    board.cards.create!(content: "D2")
+    board.cards.create!(content: "C2")
+    board.cards.create!(content: "S2")
+    board.cards.create!(content: "HK")
+
+    claim = build(:claim, board: board, direction: "E", tricks: 5)
+    assert_equal 7, claim.declarer_tricks_number
+  end
 end
