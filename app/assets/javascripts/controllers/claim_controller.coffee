@@ -32,7 +32,7 @@
     switch @get("direction")
       when @get("declarer") then [@get("lho"), @get("rho")]
       when @get("lho"), @get("rho") then [@get("declarer")]
-  ).property("direction")
+  ).property("direction", "declarer", "lho", "rho")
 
   isAccepted: (->
     return unless @get("accepted")

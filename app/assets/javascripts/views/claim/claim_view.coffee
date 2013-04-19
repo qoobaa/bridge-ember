@@ -1,12 +1,11 @@
 @Bridge.ClaimView = Ember.View.extend
   classNames: ["btn-group"]
-  classNameBindings: ["hide"]
   templateName: "claim/claim"
 
-  hide: (->
-    @get("context.signedInUserDirection") != @get("direction") or
-    @get("direction") == @get("context.dummy") or
-    @get("context.isClaimed")
+  isVisible: (->
+    @get("context.signedInUserDirection") == @get("direction") and
+    @get("direction") != @get("context.dummy") and
+    !@get("context.isClaimed")
   ).property("context.isClaimed", "context.dummy", "context.signedInUserDirection")
 
   range: (->

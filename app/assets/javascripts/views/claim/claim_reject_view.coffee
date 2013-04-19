@@ -1,14 +1,13 @@
 @Bridge.ClaimRejectView = Ember.View.extend
   classNames: ["btn"]
-  classNameBindings: ["hide"]
   attributeBindings: ["disabled"]
   templateName: "claim/claim_reject"
   tagName: "button"
 
-  hide: (->
-    !@get("context.isClaimed") or
-    @get("context.signedInUserDirection") != @get("direction") or
-    @get("direction") == @get("context.dummy")
+  isVisible: (->
+    @get("context.isClaimed") and
+    @get("context.signedInUserDirection") == @get("direction") and
+    @get("direction") != @get("context.dummy")
   ).property("context.isClaimed", "context.dummy", "context.signedInUserDirection")
 
   disabled: (->
