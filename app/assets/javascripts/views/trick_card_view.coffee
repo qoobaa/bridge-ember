@@ -1,8 +1,8 @@
 @Bridge.TrickCardView = Bridge.CardView.extend
-  classNameBindings: ["orderClassName", "isHidden:hide"]
+  classNameBindings: ["orderClassName"]
 
-  isHidden: (->
-    not @get("card.value")
+  isVisible: (->
+    !!@get("card.value")
   ).property("card.value")
 
   orderClassName: (->
