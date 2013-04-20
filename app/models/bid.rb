@@ -3,7 +3,7 @@ class Bid < ActiveRecord::Base
 
   validates :board_id, presence: true
   validates :content,  presence: true, inclusion: {in: Bridge::BIDS, message: :invalid}
-  validate :allowed_in_board
+  validate :allowed_in_board, on: :create
 
   def bid
     Bridge::Bid.new(content) if content

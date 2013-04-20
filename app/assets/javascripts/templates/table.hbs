@@ -21,19 +21,21 @@
 
   <div class="span4">
     <ul>
-      <table class="auction table table-striped table-bordered">
+      <table class="auction table table-bordered">
         <tr>
-          <th>N</th>
-          <th>E</th>
-          <th>S</th>
-          <th>W</th>
+          {{#with controllers.summary}}
+            <th {{bindAttr class="isNSvulnerable:vulnerable:not-vulnerable"}}>N</th>
+            <th {{bindAttr class="isEWvulnerable:vulnerable:not-vulnerable"}}>E</th>
+            <th {{bindAttr class="isNSvulnerable:vulnerable:not-vulnerable"}}>S</th>
+            <th {{bindAttr class="isEWvulnerable:vulnerable:not-vulnerable"}}>W</th>
+          {{/with}}
         </tr>
         {{#each row in controllers.auction}}
           <tr>
-            <td>{{row.n}}</td>
-            <td>{{row.e}}</td>
-            <td>{{row.s}}</td>
-            <td>{{row.w}}</td>
+            <td>{{view Bridge.BidView bidBinding=row.n}}</td>
+            <td>{{view Bridge.BidView bidBinding=row.e}}</td>
+            <td>{{view Bridge.BidView bidBinding=row.s}}</td>
+            <td>{{view Bridge.BidView bidBinding=row.w}}</td>
           </tr>
         {{/each}}
       </table>

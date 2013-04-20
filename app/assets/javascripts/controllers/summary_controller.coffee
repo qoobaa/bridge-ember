@@ -15,9 +15,9 @@
     result = @get("result")
     return if Ember.isNone(result)
     switch
-      when result > 0  then "+#{result}"
+      when result >  0 then "+#{result}"
       when result == 0 then "="
-      when result < 0  then "#{result}"
+      when result <  0 then "#{result}"
   ).property("result")
 
   winningCards: (->
@@ -31,3 +31,11 @@
   ewWonTricksNumber: (->
     @get("winningCards")?.filterProperty("side", "EW").length
   ).property("winningCards.@each")
+
+  isNSvulnerable: (->
+    @get("vulnerable") in ["BOTH", "NS"]
+  ).property("vulnerable")
+
+  isEWvulnerable: (->
+    @get("vulnerable") in ["BOTH", "EW"]
+  ).property("vulnerable")

@@ -3,7 +3,7 @@ class Card < ActiveRecord::Base
 
   validates :board_id, presence: true
   validates :content,  presence: true, inclusion: {in: Bridge::DECK, message: :invalid}, uniqueness: {scope: :board_id}
-  validate :allowed_in_board
+  validate :allowed_in_board, on: :create
 
   def card
     Bridge::Card.new(content) if content
