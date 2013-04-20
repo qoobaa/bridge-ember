@@ -20,9 +20,14 @@ class Api::ClaimsController < Api::ApplicationController
   def accept
     if claim.accept(accept_params[:accepted])
       board.update!(result: board.score.result) if claim.accepted?
+
+      board.table.create_board!
+
       board.table.users.each do |user|
         user.publish event: "claim/update", data: ClaimSerializer.new(@claim)
         user.publish event: "board/update", data: {board: {result: board.result}} if claim.accepted?
+        # New board
+        user.publish event: "table/update", data: TableSerializer.new(board.table, scope: user, scope_name: :current_user)
       end
     end
     respond_with(@claim)
