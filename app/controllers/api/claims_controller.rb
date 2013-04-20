@@ -1,9 +1,8 @@
 class Api::ClaimsController < Api::ApplicationController
   before_action :require_user
-  before_action :authorize_create, :check_board, only: [:create]
+  before_action :authorize_create, only: [:create]
   before_action :authorize_accept, only: [:accept]
   before_action :authorize_reject, only: [:reject]
-  before_action :check_active_claim, only: [:accept, :reject]
 
   def create
     @claim = board.claims.create(claim_params)
@@ -61,24 +60,14 @@ class Api::ClaimsController < Api::ApplicationController
   end
 
   def authorize_create
-    head(:unauthorized) if claim_params[:direction] != board.user_direction(current_user)
+    head(:unauthorized) unless ClaimAuthorizer.new(current_user).create_allowed?(board, claim_params)
   end
 
   def authorize_accept
-    head(:unauthorized) if accept_params[:accepted] != board.user_direction(current_user)
+    head(:unauthorized) unless ClaimAuthorizer.new(current_user).accept_allowed?(board, claim, accept_params)
   end
 
   def authorize_reject
-    head(:unauthorized) if reject_params[:rejected] != board.user_direction(current_user)
-  end
-
-  def check_board
-    if board.claims.last.try!(:active?) || board.play.nil? || board.play.finished?
-      head(:unauthorized)
-    end
-  end
-
-  def check_active_claim
-    head(:unauthorized) if claim.resolved?
+    head(:unauthorized) unless ClaimAuthorizer.new(current_user).reject_allowed?(board, claim, reject_params)
   end
 end

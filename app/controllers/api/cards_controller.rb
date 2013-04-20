@@ -47,10 +47,6 @@ class Api::CardsController < Api::ApplicationController
   end
 
   def authorize
-    play = board.play
-    # Declarer can play dummy cards
-    if play.next_direction == play.dummy ? play.declarer != board.user_direction(current_user) : play.next_direction != board.user_direction(current_user)
-      head(:unauthorized)
-    end
+    head(:unauthorized) unless CardAuthorizer.new(current_user).create_allowed?(board)
   end
 end

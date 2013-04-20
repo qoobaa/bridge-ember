@@ -19,6 +19,6 @@ class Api::BidsController < Api::ApplicationController
   end
 
   def authorize
-    head(:unauthorized) if board.auction.next_direction != board.user_direction(current_user)
+    head(:unauthorized) unless BidAuthorizer.new(current_user).create_allowed?(board)
   end
 end

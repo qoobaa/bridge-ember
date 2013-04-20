@@ -76,7 +76,7 @@ class Api::TablesControllerTest < ActionController::TestCase
 
     patch :join, id: table.id, table: {direction: "N"}, format: :json
 
-    assert_response :ok
+    assert_response :no_content
 
     assert_equal user, table.reload.user_n
   end
@@ -134,7 +134,7 @@ class Api::TablesControllerTest < ActionController::TestCase
 
     patch :quit, id: table.id, format: :json
 
-    assert_response :ok
+    assert_response :no_content
 
     assert_nil table.reload.user_n
   end

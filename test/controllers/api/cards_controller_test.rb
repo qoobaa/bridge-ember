@@ -34,6 +34,14 @@ class Api::CardsControllerTest < ActionController::TestCase
     assert_response :unauthorized
   end
 
+  test "returns unathorized when board is complete" do
+    board = create(:board, deal_id: "0", contract: "7SN", user_n: @user, table: create(:table), result: 0)
+
+    post :create, board_id: board.id, card: {content: "HA"}, format: :json
+
+    assert_response :unauthorized
+  end
+
   test "authorizes declarer to play dummy's card" do
     board = create(:board, deal_id: "0", contract: "7SN", user_n: @user, table: create(:table))
     create(:card, board: board, content: "HA")
