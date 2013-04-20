@@ -9,7 +9,7 @@ class TableAuthorizer
     table.send(user_key).nil? and table.user_direction(user).nil?
   end
 
-  def quit_allowed?(table)
-    table.user_direction(user).present?
+  def quit_allowed?(table, user_key)
+    table.send(user_key) == user
   end
 end

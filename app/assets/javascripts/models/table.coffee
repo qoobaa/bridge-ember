@@ -51,6 +51,7 @@ userSetter = (key, value) ->
       type: "patch"
       data: table: {direction: direction}
 
-  quit: ->
+  quit: (direction) ->
     $.ajax "/api/tables/#{@get('id')}/quit",
       type: "patch"
+      data: table: {direction: direction}

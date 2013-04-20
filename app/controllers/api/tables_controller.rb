@@ -1,12 +1,12 @@
 class Api::TablesController < Api::ApplicationController
   before_action :require_user, only: [:create, :join, :quit]
-  before_action :check_direction, only: [:join]
+  before_action :check_direction, only: [:join, :quit]
   before_action :authorize_join, only: [:join]
   before_action :authorize_quit, only: [:quit]
 
   def index
     @tables = Table.order(:created_at)
-    render json: @tables, each_serializer: TableShortSerializer
+    respond_with(@tables, each_serializer: TableShortSerializer)
   end
 
   def show
@@ -34,8 +34,6 @@ class Api::TablesController < Api::ApplicationController
   end
 
   def quit
-    direction = table.user_direction(current_user)
-    user_key = :"user_#{direction.downcase}"
     table.update!(user_key => nil)
     table.publish(event: "table/update", data: TableShortSerializer.new(table))
     respond_with(table)
@@ -60,6 +58,6 @@ class Api::TablesController < Api::ApplicationController
   end
 
   def authorize_quit
-    head(:unauthorized) unless TableAuthorizer.new(current_user).quit_allowed?(table)
+    head(:unauthorized) unless TableAuthorizer.new(current_user).quit_allowed?(table, user_key)
   end
 end

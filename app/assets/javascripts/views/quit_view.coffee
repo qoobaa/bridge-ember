@@ -9,4 +9,4 @@
   ).property("context.signedInUserDirection")
 
   click: ->
-    @get("context").quit()
+    @get("context").quit(@get("direction"))

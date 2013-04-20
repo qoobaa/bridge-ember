@@ -132,19 +132,19 @@ class Api::TablesControllerTest < ActionController::TestCase
     table = create(:table, user_n: user)
     sign_in(user)
 
-    patch :quit, id: table.id, format: :json
+    patch :quit, id: table.id, table: {direction: "N"}, format: :json
 
     assert_response :no_content
 
     assert_nil table.reload.user_n
   end
 
-  test "returns unauthorized when user is not sitting at the table" do
+  test "returns unauthorized when user is not sitting at given direction" do
     user = create(:user)
-    table = create(:table)
+    table = create(:table, user_n: user)
     sign_in(user)
 
-    patch :quit, id: table.id, format: :json
+    patch :quit, id: table.id, table: {direction: "E"}, format: :json
 
     assert_response :unauthorized
   end
