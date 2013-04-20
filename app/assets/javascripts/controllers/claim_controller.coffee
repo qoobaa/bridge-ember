@@ -35,12 +35,12 @@
   ).property("direction", "declarer", "lho", "rho")
 
   isAccepted: (->
-    return unless @get("accepted")
+    return false if Ember.isNone(@get("accepted"))
     @get("acceptConditionDirections")?.every (direction) => @get("accepted").contains(direction)
   ).property("accepted", "acceptConditionDirections")
 
   isRejected: (->
-    return unless @get("rejected")
+    return false if Ember.isNone(@get("rejected.length"))
     @get("rejected.length") > 0
   ).property("rejected.length")
 

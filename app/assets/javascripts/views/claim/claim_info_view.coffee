@@ -2,6 +2,10 @@
   classNames: ["alert alert-info"]
   templateName: "claim/claim_info"
 
+  isClaimedBinding: "context.isClaimed"
+  isAcceptedBinding: "context.isAccepted"
+  isRejectedBinding: "context.isRejected"
+
   isVisible: (->
-    @get("context.isClaimed")
-  ).property("context.isClaimed")
+    @get("isClaimed") or @get("isAccepted") or @get("isRejected")
+  ).property("isClaimed", "isAccepted", "isRejcted")
