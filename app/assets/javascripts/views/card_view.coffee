@@ -15,12 +15,4 @@
     "suit-#{@get("card.suit").toLowerCase()}" if @get("card.suit")
   ).property("card.suit")
 
-  symbol: (->
-    switch @get("card.suit")
-      when "C" then "♣"
-      when "D" then "♦"
-      when "H" then "♥"
-      when "S" then "♠"
-  ).property("card.suit")
-
   isDisabled: true
