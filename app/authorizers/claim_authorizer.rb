@@ -19,6 +19,6 @@ class ClaimAuthorizer
 
   def reject_allowed?(board, claim, params)
     claim.active? and
-    params[:accepted] == board.user_direction(user)
+    params[:rejected] == board.user_direction(user)
   end
 end

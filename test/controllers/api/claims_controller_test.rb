@@ -34,7 +34,8 @@ class Api::ClaimsControllerTest < ActionController::TestCase
 
   # accept
   test "accepts claim by given direction" do
-    board = create(:board, table: create(:table), contract: "1NTN", user_e: @user)
+    table = create(:table, user_n: create(:user), user_e: @user, user_s: create(:user), user_w: create(:user))
+    board = create(:board, table: table, contract: "1NTN", user_e: @user)
     claim = create(:claim, board: board, direction: "N", tricks: 10)
 
     patch :accept, board_id: board.id, id: claim.id, claim: {accepted: "E"}, format: :json
@@ -49,5 +50,15 @@ class Api::ClaimsControllerTest < ActionController::TestCase
     patch :accept, board_id: board.id, id: claim.id, claim: {accepted: "E"}, format: :json
 
     assert_response :unauthorized
+  end
+
+  # reject
+  test "rejects claim by given direction" do
+    board = create(:board, table: create(:table), contract: "1NTN", user_e: @user)
+    claim = create(:claim, board: board, direction: "N", tricks: 10)
+
+    patch :reject, board_id: board.id, id: claim.id, claim: {rejected: "E"}, format: :json
+
+    assert_response :no_content
   end
 end

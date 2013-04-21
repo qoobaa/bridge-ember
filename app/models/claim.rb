@@ -8,16 +8,14 @@ class Claim < ActiveRecord::Base
   validate  :max_tricks, on: :create, if: :playing?
 
   def accept(direction)
-    accepted << direction
+    self.accepted += [direction]
     accepted.uniq!
-    accepted_will_change!
     save
   end
 
   def reject(direction)
-    rejected << direction
+    self.rejected += [direction]
     rejected.uniq!
-    rejected_will_change!
     save
   end
 
