@@ -4,7 +4,7 @@
     @reindex()
 
   arrangedContent: (->
-    @get("content").map (bid, i) -> Bridge.Bid.create(content: bid)
+    @get("content").map (bid, i) -> Bridge.Bid.create(compact: bid)
   ).property()
 
   contentArrayWillChange: (content, index, removedCount, addedCount) ->
@@ -15,7 +15,7 @@
   contentArrayDidChange: (content, index, removedCount, addedCount) ->
     if addedCount
       for i in [index..(index + addedCount - 1)]
-        @get("arrangedContent").insertAt(i, Bridge.Bid.create(content: content.objectAt(i)))
+        @get("arrangedContent").insertAt(i, Bridge.Bid.create(compact: content.objectAt(i)))
 
   reindex: (->
     Bridge.Utils.auctionDirections(@get("dealer"), @get("content").concat("")).forEach (direction, i) =>
@@ -34,6 +34,7 @@
   ).property("currentDirection")
 
   contract: (->
-    contract = Bridge.Utils.auctionContract(@get("dealer"), @get("content"))
+    bids = @get("content").map (bid) -> new RegExp(Bridge.BIDS.join("|")).exec(bid)
+    contract = Bridge.Utils.auctionContract(@get("dealer"), bids)
     Bridge.Contract.create(content: contract) if contract?
   ).property("isCompleted", "content.@each")

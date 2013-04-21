@@ -1,15 +1,12 @@
 #= require test_helper
-# require models/card
+#= require models/card
 
-# describe "Card", ->
-#   beforeEach =>
-#     @card = Bridge.Card.create card: "SA"
+describe "Card", ->
+  beforeEach =>
+    @card = Bridge.Card.create content: "SA"
 
-#   it "returns suit", =>
-#     assert.strictEqual @card.get("suit"), "S"
+  it "returns suit", =>
+    assert.strictEqual @card.get("suit"), "S"
 
-#   it "returns value", =>
-#     assert.strictEqual @card.get("value"), "A"
-
-#   it "returns order", =>
-#     assert.strictEqual @card.get("order"), 12
+  it "returns value", =>
+    assert.strictEqual @card.get("value"), "A"

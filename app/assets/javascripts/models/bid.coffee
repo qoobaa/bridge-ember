@@ -10,6 +10,15 @@
 
   toString: -> @get("content")
 
+  compact: ((key, value) ->
+    if arguments.length == 1 # getter
+      [@get("content"), @get("alert")].without(undefined).join("!")
+    else # setter
+      splitted = value.split("!", 2)
+      @set("content", splitted[0])
+      @set("alert", splitted[1])
+  ).property("content", "alert")
+
   save: (boardId) ->
     $.ajax "/api/boards/#{boardId}/bids",
       type: "post"

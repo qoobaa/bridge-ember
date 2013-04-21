@@ -20,13 +20,13 @@ sortCardSuits = (suits, trump) ->
   black = ["S", "C"].filter (s) -> s in suits
   red   = ["H", "D"].filter (s) -> s in suits
   if black.contains(trump)
-    black.splice(black.indexOf(trump), 1).concat(red.splice(0, 1)).concat(black.splice(0, 1)).concat(red.splice(0, 1))
+    black.splice(black.indexOf(trump), 1).concat(red.splice(0, 1), black.splice(0, 1), red.splice(0, 1))
   else if red.contains(trump)
-    red.splice(red.indexOf(trump), 1).concat(black.splice(0, 1)).concat(red.splice(0, 1)).concat(black.splice(0, 1))
+    red.splice(red.indexOf(trump), 1).concat(black.splice(0, 1), red.splice(0, 1), black.splice(0, 1))
   else if black.length >= red.length
-    black.splice(0, 1).concat(red.splice(0, 1)).concat(black.splice(0, 1)).concat(red.splice(0, 1))
+    black.splice(0, 1).concat(red.splice(0, 1), black.splice(0, 1), red.splice(0, 1))
   else
-    red.splice(0, 1).concat(black.splice(0, 1)).concat(red.splice(0, 1)).concat(black.splice(0, 1))
+    red.splice(0, 1).concat(black.splice(0, 1), red.splice(0, 1), black.splice(0, 1))
 
 # Returns a winning card from given trick, using given trump.
 #
