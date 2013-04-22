@@ -32,10 +32,10 @@
         </tr>
         {{#each row in controllers.auction}}
           <tr>
-            <td>{{view Bridge.BidView bidBinding=row.n}}</td>
-            <td>{{view Bridge.BidView bidBinding=row.e}}</td>
-            <td>{{view Bridge.BidView bidBinding=row.s}}</td>
-            <td>{{view Bridge.BidView bidBinding=row.w}}</td>
+            {{view Bridge.BidView bidBinding=row.n}}
+            {{view Bridge.BidView bidBinding=row.e}}
+            {{view Bridge.BidView bidBinding=row.s}}
+            {{view Bridge.BidView bidBinding=row.w}}
           </tr>
         {{/each}}
       </table>

@@ -1,6 +1,9 @@
 @Bridge.BidView = Ember.View.extend
+  classNames: ["hint--top", "hint--rounded"]
+  classNameBindings: ["isAlerted:bid-alerted"]
+  attributeBindings: ["alertBody:data-hint"]
   templateName: "bid"
-  tagName: "span"
+  tagName: "td"
 
   content: (->
     switch
@@ -16,3 +19,11 @@
           else
             @get("bid.content")
   ).property("bid.content")
+
+  isAlerted: (->
+    !Ember.isNone(@get("bid.alert"))
+  ).property("bid.alert")
+
+  alertBody: (->
+    if Ember.isEmpty(@get("bid.alert")) then false else @get("bid.alert")
+  ).property("bid.alert")
