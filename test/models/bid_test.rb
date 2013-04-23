@@ -22,4 +22,10 @@ class BidTest < ActiveSupport::TestCase
   test "returns nil when bid invalid" do
     assert_nil build(:bid, content: "8NT").bid
   end
+
+  test "returns compacted bid and alert" do
+    assert_equal "2D!wilkosz", build(:bid, content: "2D", alert: "wilkosz").compact
+    assert_equal "2D!", build(:bid, content: "2D", alert: "").compact
+    assert_equal "2D", build(:bid, content: "2D", alert: nil).compact
+  end
 end

@@ -11,7 +11,7 @@ class BoardSerializer < ActiveModel::Serializer
   end
 
   def bids
-    object.bids.pluck(:content)
+    object.bids.map(&:compact)
   end
 
   def cards

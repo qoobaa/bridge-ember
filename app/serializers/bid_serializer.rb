@@ -1,3 +1,3 @@
 class BidSerializer < ActiveModel::Serializer
-  attributes :content
+  attribute :compact, key: :content
 end

@@ -23,6 +23,15 @@
     !@get("isCompleted") and @get("currentUserId") == @get("loggedInUserId")
   ).property("loggedInUserId", "currentUserId", "isCompleted")
 
+  descriptionDidChange: (->
+    @set "isAlerted", !Ember.isEmpty(@get("description"))
+  ).observes("description")
+
+  isAlertedDidChange: (->
+    @set("description", undefined) unless @get("isAlerted")
+  ).observes("isAlerted")
+
   bid: (bid) ->
-    @set("level", null)
-    Bridge.Bid.create(content: bid).save(@get("controllers.table.board.id"))
+    alert = if @get("isAlerted") then @get("description") || "" else undefined
+    @setProperties(level: null, description: undefined)
+    Bridge.Bid.create(content: bid, alert: alert).save(@get("controllers.table.board.id"))

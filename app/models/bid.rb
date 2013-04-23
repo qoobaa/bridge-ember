@@ -10,6 +10,10 @@ class Bid < ActiveRecord::Base
   rescue ArgumentError # do not raise on invalid bid
   end
 
+  def compact
+    [content, alert].compact.join("!")
+  end
+
   private
 
   def allowed_in_board

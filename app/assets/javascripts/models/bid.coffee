@@ -22,4 +22,4 @@
   save: (boardId) ->
     $.ajax "/api/boards/#{boardId}/bids",
       type: "post"
-      data: bid: content: @get("content")
+      data: bid: @getProperties("content", "alert")

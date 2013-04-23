@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130411205201) do
+ActiveRecord::Schema.define(version: 20130423174904) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -21,6 +21,7 @@ ActiveRecord::Schema.define(version: 20130411205201) do
     t.string   "content",    null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.text     "alert"
   end
 
   add_index "bids", ["board_id"], name: "index_bids_on_board_id"

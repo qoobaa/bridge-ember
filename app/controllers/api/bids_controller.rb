@@ -15,7 +15,7 @@ class Api::BidsController < Api::ApplicationController
   end
 
   def bid_params
-    params.require(:bid).permit(:content)
+    params.require(:bid).permit(:content, :alert)
   end
 
   def authorize
