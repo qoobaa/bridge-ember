@@ -11,7 +11,15 @@ class BoardSerializer < ActiveModel::Serializer
   end
 
   def bids
-    object.bids.map(&:compact)
+    direction = object.user_direction(current_user)
+
+    object.bids.map do |bid|
+      if direction && !object.visible_alert_for?(bid.content, direction)
+        bid.content
+      else
+        bid.compact
+      end
+    end
   end
 
   def cards

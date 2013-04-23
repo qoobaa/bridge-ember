@@ -48,6 +48,11 @@ class Board < ActiveRecord::Base
     end
   end
 
+  def visible_alert_for?(bid, direction)
+    bid_direction = auction.directions[bids.pluck(:content).index(bid)]
+    Bridge.partner_of(bid_direction) != direction # Don't display alert to partner
+  end
+
   def complete?
     result?
   end

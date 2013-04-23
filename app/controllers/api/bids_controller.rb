@@ -4,7 +4,10 @@ class Api::BidsController < Api::ApplicationController
   def create
     @bid = board.bids.create(bid_params)
     board.update!(contract: board.auction.contract) if board.auction.finished?
-    @board.table.publish(event: "bids/create", data: BidSerializer.new(@bid)) if @bid.persisted?
+    board.table.users.each do |user|
+      user.publish event: "bids/create", data: BidSerializer.new(@bid, scope: user, scope_name: :current_user)
+    end
+
     respond_with(@bid, status: :created, location: nil)
   end
 
