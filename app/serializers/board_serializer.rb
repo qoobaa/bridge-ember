@@ -11,14 +11,8 @@ class BoardSerializer < ActiveModel::Serializer
   end
 
   def bids
-    direction = object.user_direction(current_user)
-
     object.bids.map do |bid|
-      if direction && !object.visible_alert_for?(bid.content, direction)
-        bid.content
-      else
-        bid.compact
-      end
+      BidSerializer.new(bid, scope: current_user, scope_name: :current_user).serializable_hash[:content]
     end
   end
 
