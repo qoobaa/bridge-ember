@@ -1,8 +1,8 @@
-#= require ./vendor/jquery
-#= require ./vendor/bootstrap
-#= require ./vendor/handlebars
-#= require ./vendor/ember
-#= require ./vendor/sockjs
+#= require jquery
+#= require bootstrap
+#= require handlebars
+#= require ember
+#= require sockjs
 #= require_self
 #= require bridge
 
