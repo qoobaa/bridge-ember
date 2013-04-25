@@ -15,12 +15,13 @@ class Api::TablesController < Api::ApplicationController
 
   def create
     @table = Table.create!
-    redis_publish(event: "tables/create", data: TableShortSerializer.new(@table))
+    redis_publish(event: "tables/create", data: TableShortSerializer.new(table))
     respond_with(table)
   end
 
   def join
     table.update!(user_key => current_user)
+    redis_publish(event: "tables/create", data: TableShortSerializer.new(table))
     if table.users.count == 4
       table.create_board!
 
@@ -35,6 +36,7 @@ class Api::TablesController < Api::ApplicationController
 
   def quit
     table.update!(user_key => nil)
+    redis_publish(event: "tables/create", data: TableShortSerializer.new(table))
     table.publish(event: "table/update", data: TableShortSerializer.new(table))
     respond_with(table)
   end
