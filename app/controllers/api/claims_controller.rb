@@ -5,43 +5,18 @@ class Api::ClaimsController < Api::ApplicationController
   before_action :authorize_reject, only: [:reject]
 
   def create
-    @claim = board.claims.create(claim_params)
-    if @claim.persisted?
-      board.table.users.each do |user|
-        user.publish event: "claim/update", data: ClaimSerializer.new(@claim)
-        # FIXME: find better way of partial serialization
-        payload = {board: {@claim.direction.downcase.to_sym => board.deal[@claim.direction].map(&:to_s)}}
-        user.publish event: "board/update", data: payload
-      end
-    end
-    respond_with(@claim, status: :created, location: nil)
+    @claim = ClaimService.new.create(claim_params.merge(board: board))
+    respond_with(claim, status: :created, location: nil)
   end
 
   def accept
-    if claim.accept(accept_params[:accepted])
-      board.update!(result: board.score.result) if claim.accepted?
-
-      board.table.create_board!
-
-      board.table.users.each do |user|
-        user.publish event: "claim/update", data: ClaimSerializer.new(claim)
-        user.publish event: "board/update", data: {board: {result: board.result}} if claim.accepted?
-        # New board
-        user.publish event: "table/update", data: TableSerializer.new(board.table, scope: user, scope_name: :current_user)
-      end
-    end
-    respond_with(@claim)
+    ClaimService.new(claim).accept(accept_params[:accepted])
+    respond_with(claim)
   end
 
   def reject
-    if claim.reject(reject_params[:rejected])
-      board.table.users.each do |user|
-        user.publish event: "claim/update", data: ClaimSerializer.new(claim)
-        hand = BoardSerializer.new(board, scope: user, scope_name: :current_user).serializable_hash.slice(claim.direction.downcase.to_sym)
-        user.publish event: "board/update", data: {board: hand}
-      end
-    end
-    respond_with(@claim)
+    ClaimService.new(claim).reject(reject_params[:rejected])
+    respond_with(claim)
   end
 
   private

@@ -20,7 +20,7 @@ class Claim < ActiveRecord::Base
   end
 
   def accepted?
-    accept_condition_directions.all? { |direction| accepted.include?(direction) }
+    accept_condition_directions.sort == accepted.sort
   end
 
   def rejected?

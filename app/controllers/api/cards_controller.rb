@@ -14,12 +14,7 @@ class Api::CardsController < Api::ApplicationController
       end
 
       if (claim = board.claims.last) && claim.active? # Reject claim by playing card
-        claim.reject(board.user_direction(current_user))
-        board.table.users.each do |user|
-          user.publish event: "claim/update", data: ClaimSerializer.new(claim)
-          hand = BoardSerializer.new(board, scope: user, scope_name: :current_user).serializable_hash.slice(claim.direction.downcase.to_sym)
-          user.publish event: "board/update", data: {board: hand}
-        end
+        ClaimService.new(claim).reject(board.user_direction(current_user))
       end
     end
 
