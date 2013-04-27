@@ -24,7 +24,7 @@ class Api::ClaimsController < Api::ApplicationController
       board.table.create_board!
 
       board.table.users.each do |user|
-        user.publish event: "claim/update", data: ClaimSerializer.new(@claim)
+        user.publish event: "claim/update", data: ClaimSerializer.new(claim)
         user.publish event: "board/update", data: {board: {result: board.result}} if claim.accepted?
         # New board
         user.publish event: "table/update", data: TableSerializer.new(board.table, scope: user, scope_name: :current_user)
@@ -36,7 +36,9 @@ class Api::ClaimsController < Api::ApplicationController
   def reject
     if claim.reject(reject_params[:rejected])
       board.table.users.each do |user|
-        user.publish event: "claim/update", data: ClaimSerializer.new(@claim)
+        user.publish event: "claim/update", data: ClaimSerializer.new(claim)
+        hand = BoardSerializer.new(board, scope: user, scope_name: :current_user).serializable_hash.slice(claim.direction.downcase.to_sym)
+        user.publish event: "board/update", data: {board: hand}
       end
     end
     respond_with(@claim)
