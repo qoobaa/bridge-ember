@@ -1,6 +1,6 @@
-#= require vendor/jquery
-#= require vendor/handlebars
-#= require vendor/ember
+#= require jquery
+#= require handlebars
+#= require ember
 #= require_self
 #= require constants
 
