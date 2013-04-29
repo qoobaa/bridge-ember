@@ -4,12 +4,7 @@ require "rails/test_help"
 
 class ActiveSupport::TestCase
   ActiveRecord::Migration.check_pending!
-
   include FactoryGirl::Syntax::Methods
-
-  teardown do
-    Redis.current.flushdb
-  end
 
   def json_response
     ActiveSupport::JSON.decode(response.body)
