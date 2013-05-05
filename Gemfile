@@ -2,7 +2,7 @@ source "https://rubygems.org"
 
 ruby "2.0.0"
 
-gem "rails", "4.0.0.beta1"
+gem "rails", "4.0.0.rc1"
 
 gem "active_model_serializers", github: "rails-api/active_model_serializers"
 gem "bridge", github: "qoobaa/bridge"
@@ -14,9 +14,9 @@ gem "puma"
 gem "redis"
 
 group :assets do
-  gem "sass-rails",   "~> 4.0.0.beta1"
-  gem "coffee-rails", "~> 4.0.0.beta1"
-  gem "uglifier", ">= 1.0.3"
+  gem "sass-rails",   "~> 4.0.0.rc1"
+  gem "coffee-rails"
+  gem "uglifier"
 end
 
 group :development, :test do

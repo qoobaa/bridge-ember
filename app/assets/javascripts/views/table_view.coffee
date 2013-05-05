@@ -6,5 +6,6 @@
   ).property("direction")
 
   templateNameDidChange: (->
-    @rerender()
+    # WTFZOMG
+    Ember.run.next => Ember.run.next => @rerender()
   ).observes("templateName")
