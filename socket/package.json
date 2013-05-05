@@ -5,7 +5,7 @@
         "npm": "~1.2.17"
     },
     "dependencies": {
-        "sockjs": "~0.3.5",
+        "sockjs": "~0.3.7",
         "then-redis": "~0.3.4",
         "step": "~0.0.5"
     }
