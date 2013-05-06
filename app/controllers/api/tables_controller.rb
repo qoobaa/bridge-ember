@@ -6,7 +6,7 @@ class Api::TablesController < Api::ApplicationController
 
   def index
     @tables = Table.order(:created_at)
-    respond_with(@tables, each_serializer: TableShortSerializer)
+    respond_with(@tables, except: :board)
   end
 
   def show
@@ -15,13 +15,13 @@ class Api::TablesController < Api::ApplicationController
 
   def create
     @table = Table.create!
-    redis_publish(event: "tables/create", data: TableShortSerializer.new(table))
+    redis_publish(event: "tables/create", data: TableSerializer.new(table, except: :board))
     respond_with(table)
   end
 
   def join
     table.update!(user_key => current_user)
-    redis_publish(event: "tables/create", data: TableShortSerializer.new(table))
+    redis_publish(event: "tables/create", data: TableSerializer.new(table, except: :board))
     if table.users.count == 4
       table.create_board!
 
@@ -29,15 +29,15 @@ class Api::TablesController < Api::ApplicationController
         user.publish event: "table/update", data: TableSerializer.new(table, scope: user, scope_name: :current_user)
       end
     else
-      table.publish(event: "table/update", data: TableShortSerializer.new(table))
+      table.publish(event: "table/update", data: TableSerializer.new(table, except: :board))
     end
     respond_with(table)
   end
 
   def quit
     table.update!(user_key => nil)
-    redis_publish(event: "tables/create", data: TableShortSerializer.new(table))
-    table.publish(event: "table/update", data: TableShortSerializer.new(table))
+    redis_publish(event: "tables/create", data: TableSerializer.new(table, except: :board))
+    table.publish(event: "table/update", data: TableSerializer.new(table, except: :board))
     respond_with(table)
   end
 

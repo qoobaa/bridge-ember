@@ -4,7 +4,7 @@ ruby "2.0.0"
 
 gem "rails", "4.0.0.rc1"
 
-gem "active_model_serializers", github: "rails-api/active_model_serializers"
+gem "active_model_serializers", ">= 0.8.1"
 gem "bridge", github: "qoobaa/bridge"
 gem "ember-rails"
 gem "ember-source", "1.0.0.rc3"
