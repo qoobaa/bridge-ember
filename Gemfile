@@ -23,7 +23,7 @@ group :development, :test do
   gem "debugger"
   gem "konacha", ">= 2.5.1"
   gem "poltergeist"
-  gem "capistrano"
+  gem "capistrano", ">= 2.15.1"
 end
 
 group :test do
