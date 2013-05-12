@@ -62,6 +62,7 @@ class Board < ActiveRecord::Base
   private
 
   def total_declarer_tricks_number
-    play.declarer_tricks_number + claims.last.try!(:declarer_tricks_number) || 0
+    claim = claims.last
+    play.declarer_tricks_number + (claim.try!(:accepted?) ? claim.declarer_tricks_number : 0)
   end
 end
