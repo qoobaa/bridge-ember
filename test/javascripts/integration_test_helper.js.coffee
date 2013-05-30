@@ -3,6 +3,7 @@
 #= require bootstrap
 #= require handlebars
 #= require ember
+#= require mocha-adapter
 #= require sockjs
 #= require_self
 #= require bridge
@@ -10,6 +11,7 @@
 Konacha.reset = ->
 
 Ember.LOG_VERSION = false
+Ember.Test.adapter = Ember.Test.MochaAdapter.create()
 
 $("head", document).append('<meta content="http://localhost:5123/socket" name="socket-url">')
 # $("head", document).append('<meta name="socket-id">')
@@ -30,7 +32,8 @@ Bridge.injectTestHelpers()
 
 beforeEach (done) =>
   Ember.testing = true
-  @server = sinon.fakeServer.create();
+  @server = sinon.fakeServer.create()
+  server.autoRespond = true
 
   Ember.run ->
     Bridge.advanceReadiness()
@@ -39,5 +42,5 @@ beforeEach (done) =>
       done()
 
 afterEach =>
-  Bridge.reset()
+  # Bridge.reset() - throws error somehow
   server.restore()
