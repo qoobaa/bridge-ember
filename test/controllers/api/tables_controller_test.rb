@@ -1,6 +1,13 @@
 require "test_helper"
 
 class Api::TablesControllerTest < ActionController::TestCase
+  # create
+  test "creates table" do
+    sign_in(create(:user))
+    post :create, format: :json
+    assert_response :created
+  end
+
   # show
   test "returns table JSON without visible hands when no user signed in" do
     table = create(:table)
