@@ -3,8 +3,16 @@
 <head>
   <title>Bridge</title>
   <%= stylesheet_link_tag "application", media: "all" %>
+
+  <!--[if lt IE 9]>
+      <script src="http://code.jquery.com/jquery-1.10.0.min.js"></script>
+  <![endif]-->
+  <!--[if gte IE 9]><!-->
+      <script src="http://code.jquery.com/jquery-2.0.1.min.js"></script>
+  <!--<![endif]-->
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
+
   <%= tag(:meta, name: "user-id", content: current_user.try(:id)) %>
   <%= tag(:meta, name: "user-email", content: current_user.try(:email)) %>
   <%= tag(:meta, name: "socket-url", content: ENV["SOCKET_URL"]) %>

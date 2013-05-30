@@ -16,7 +16,7 @@ class Api::TablesController < Api::ApplicationController
   def create
     @table = Table.create!
     redis_publish(event: "tables/create", data: TableSerializer.new(table, except: :board))
-    respond_with(table)
+    respond_with(table, location: nil)
   end
 
   def join

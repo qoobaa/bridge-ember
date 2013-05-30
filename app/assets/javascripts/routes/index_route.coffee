@@ -6,6 +6,7 @@ Bridge.IndexRoute = Ember.Route.extend
     Bridge.Tables.create(content: [])
 
   setupController: (controller, model) ->
+    @_super(controller, model)
     @controllerFor("socket").set("channel", "tables")
 
   activate: ->
