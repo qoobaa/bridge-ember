@@ -1,6 +1,6 @@
 #= require bootstrap
 #= require handlebars
-#= require ember-with-fixed-regression
+#= require ember
 #= require sockjs
 #= require_self
 #= require bridge
