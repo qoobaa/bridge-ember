@@ -1,4 +1,4 @@
-#= require twitter/bootstrap
+#= require bootstrap
 #= require handlebars
 #= require ember
 #= require sockjs
