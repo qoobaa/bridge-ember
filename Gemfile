@@ -9,9 +9,12 @@ gem "bridge", ">= 0.2.0"
 gem "ember-rails"
 gem "ember-source", ">= 1.0.0.rc5"
 gem "foreman"
+gem "less-rails"
 gem "pg"
 gem "puma"
 gem "redis"
+gem "therubyracer"
+gem "twitter-bootstrap-rails"
 
 group :assets do
   gem "sass-rails", "~> 4.0.0.rc1"
