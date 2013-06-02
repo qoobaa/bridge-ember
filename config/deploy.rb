@@ -5,9 +5,9 @@ set :deploy_to, "/home/bridge/apps/#{application}"
 set :user, "bridge"
 set :repository,  "git://github.com/qoobaa/bridge-ember.git"
 set :use_sudo, false
+# set :default_environment, "PATH" => "~/.nvm/v0.11.2/bin:~/.rbenv/shims:~/.rbenv/bin:$PATH"
 set :rails_env, "production"
 set :keep_releases, 3
-set :branch, "arch"
 
 server "bridge-arch.jah.pl:43377", :web, :app, :db, primary: true
 
@@ -33,9 +33,10 @@ end
 namespace :foreman do
   desc "Export the Procfile to systemd scripts"
   task :export, roles: :app do
+      # sudo env PATH=$PATH bundle exec foreman export systemd /etc/systemd/system -f ./Procfile.production -a #{application} -u #{user} -l #{shared_path}/log -e .env.production
     run <<-CMD.compact
       cd #{current_path} &&
-      sudo bundle exec foreman export upstart /etc/systemd/system -f ./Procfile.production -a #{application} -u #{user} -l #{shared_path}/log -e .env.production
+      sudo bundle exec foreman export systemd /etc/systemd/system -f ./Procfile.production -a #{application} -u #{user} -l #{shared_path}/log -e .env.production
     CMD
   end
 
