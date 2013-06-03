@@ -35,11 +35,6 @@ userSetter = (key, value) ->
       when @get("user_s.id") then "S"
       when @get("user_w.id") then "W"
 
-  reload: ->
-    $.ajax("/api/tables/#{@get('id')}")
-    .done (payload) =>
-      @setProperties(payload.table)
-
   save: ->
     $.ajax "/api/tables",
       type: "post"

@@ -22,7 +22,7 @@ Bridge.IndexRoute = Ember.Route.extend
     stream.off("tables/destroy", @, @removeTable)
 
   setTables: (payload) ->
-    @modelFor("index").load(payload)
+    @modelFor("index").set("content", payload)
 
   mergeTable: (payload) ->
     @modelFor("index").merge(payload.table)

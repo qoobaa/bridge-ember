@@ -13,6 +13,13 @@ class Stream::TablesController < Stream::ApplicationController
   end
 
   def show
+    sse.write(event: "table", data: TableSerializer.new(table, current_user: current_user, scope_name: :current_user))
+
+    ActiveRecord::Base.clear_active_connections!
+
+    redis_subscribe("tables/#{table.id}") do |on|
+      on.message { |channel, payload| sse.write(payload) }
+    end
   rescue IOError
   ensure
     sse.close
