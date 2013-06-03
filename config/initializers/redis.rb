@@ -3,7 +3,10 @@ def redis
   Thread.current[:redis] = Redis.new
 end
 
-# message should contain: event, data
-def redis_publish(channel: "tables", **message)
-  redis.publish("#{Rails.env}/#{channel}", message.to_json)
+def redis_publish(channel, message)
+  redis.publish("bridge_#{Rails.env}/#{channel}", message.to_json)
+end
+
+def redis_subscribe(channel, &block)
+  redis.subscribe("bridge_#{Rails.env}/#{channel}", &block)
 end

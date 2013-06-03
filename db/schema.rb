@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130423174904) do
+ActiveRecord::Schema.define(version: 20130603104945) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,7 +24,7 @@ ActiveRecord::Schema.define(version: 20130423174904) do
     t.text     "alert"
   end
 
-  add_index "bids", ["board_id"], name: "index_bids_on_board_id"
+  add_index "bids", ["board_id"], name: "index_bids_on_board_id", using: :btree
 
   create_table "boards", force: true do |t|
     t.string   "deal_id",    null: false
@@ -41,10 +41,10 @@ ActiveRecord::Schema.define(version: 20130423174904) do
     t.integer  "result"
   end
 
-  add_index "boards", ["user_e_id"], name: "index_boards_on_user_e_id"
-  add_index "boards", ["user_n_id"], name: "index_boards_on_user_n_id"
-  add_index "boards", ["user_s_id"], name: "index_boards_on_user_s_id"
-  add_index "boards", ["user_w_id"], name: "index_boards_on_user_w_id"
+  add_index "boards", ["user_e_id"], name: "index_boards_on_user_e_id", using: :btree
+  add_index "boards", ["user_n_id"], name: "index_boards_on_user_n_id", using: :btree
+  add_index "boards", ["user_s_id"], name: "index_boards_on_user_s_id", using: :btree
+  add_index "boards", ["user_w_id"], name: "index_boards_on_user_w_id", using: :btree
 
   create_table "cards", force: true do |t|
     t.integer  "board_id",   null: false
@@ -53,8 +53,8 @@ ActiveRecord::Schema.define(version: 20130423174904) do
     t.datetime "updated_at"
   end
 
-  add_index "cards", ["board_id", "content"], name: "index_cards_on_board_id_and_content", unique: true
-  add_index "cards", ["board_id"], name: "index_cards_on_board_id"
+  add_index "cards", ["board_id", "content"], name: "index_cards_on_board_id_and_content", unique: true, using: :btree
+  add_index "cards", ["board_id"], name: "index_cards_on_board_id", using: :btree
 
   create_table "claims", force: true do |t|
     t.integer  "board_id",                null: false
@@ -66,7 +66,7 @@ ActiveRecord::Schema.define(version: 20130423174904) do
     t.datetime "updated_at"
   end
 
-  add_index "claims", ["board_id"], name: "index_claims_on_board_id"
+  add_index "claims", ["board_id"], name: "index_claims_on_board_id", using: :btree
 
   create_table "tables", force: true do |t|
     t.integer  "user_n_id"
@@ -81,9 +81,8 @@ ActiveRecord::Schema.define(version: 20130423174904) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "email",      null: false
-    t.string   "socket_id"
   end
 
-  add_index "users", ["email"], name: "index_users_on_email", unique: true
+  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
 
 end

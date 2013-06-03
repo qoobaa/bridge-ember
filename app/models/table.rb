@@ -2,10 +2,6 @@ class Table < ActiveRecord::Base
   %w[n e s w].each { |direction| belongs_to :"user_#{direction}", class_name: "User" }
   has_many :boards, -> { order(:created_at) }
 
-  def publish(message)
-    redis_publish(message.merge(channel: "tables/#{id}"))
-  end
-
   def online?
     publish(event: "ping") > 0
   end
