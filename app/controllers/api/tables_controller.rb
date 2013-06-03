@@ -4,16 +4,6 @@ class Api::TablesController < Api::ApplicationController
   before_action :authorize_join, only: %w[join]
   before_action :authorize_quit, only: %w[quit]
 
-  # DEPRECATED: use SSE instead
-  def index
-    @tables = Table.order(:created_at)
-    respond_with(@tables, except: :board)
-  end
-
-  def show
-    respond_with(table)
-  end
-
   def create
     @table = Table.create!
     redis_publish("tables", event: "tables/create", data: TableSerializer.new(table, except: :board))
