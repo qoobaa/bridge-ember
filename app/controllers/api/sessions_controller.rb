@@ -4,7 +4,6 @@ class Api::SessionsController < Api::ApplicationController
 
   def create
     @user = User.find_or_create_by!(session_params)
-    @user.reset_socket_id!
     session[:user_id] = @user.id
 
     respond_with(@user, serializer: SessionSerializer, status: :created, location: nil)
