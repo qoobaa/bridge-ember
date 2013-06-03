@@ -5,9 +5,7 @@ class Stream::TablesController < Stream::ApplicationController
     ActiveRecord::Base.clear_active_connections!
 
     redis_subscribe("tables") do |on|
-      on.message do |channel, payload|
-        sse.write(payload)
-      end
+      on.message { |channel, payload| sse.write(payload) }
     end
   rescue IOError
   ensure

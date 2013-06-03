@@ -1,8 +1,8 @@
 class Api::TablesController < Api::ApplicationController
-  before_action :require_user, only: [:create, :join, :quit]
-  before_action :check_direction, only: [:join, :quit]
-  before_action :authorize_join, only: [:join]
-  before_action :authorize_quit, only: [:quit]
+  before_action :require_user, only: %w[create join quit]
+  before_action :check_direction, only: %w[join quit]
+  before_action :authorize_join, only: %w[join]
+  before_action :authorize_quit, only: %w[quit]
 
   # DEPRECATED: use SSE instead
   def index
@@ -22,23 +22,23 @@ class Api::TablesController < Api::ApplicationController
 
   def join
     table.update!(user_key => current_user)
-    redis_publish(event: "tables/create", data: TableSerializer.new(table, except: :board))
-    if table.users.count == 4
-      table.create_board!
+    redis_publish("tables", event: "tables/create", data: TableSerializer.new(table, except: :board))
+    # if table.users.count == 4
+    #   table.create_board!
 
-      table.users.each do |user|
-        user.publish event: "table/update", data: TableSerializer.new(table, scope: user, scope_name: :current_user)
-      end
-    else
-      table.publish(event: "table/update", data: TableSerializer.new(table, except: :board))
-    end
+    #   table.users.each do |user|
+    #     user.publish event: "table/update", data: TableSerializer.new(table, scope: user, scope_name: :current_user)
+    #   end
+    # else
+    #   table.publish(event: "table/update", data: TableSerializer.new(table, except: :board))
+    # end
     respond_with(table)
   end
 
   def quit
     table.update!(user_key => nil)
-    redis_publish(event: "tables/create", data: TableSerializer.new(table, except: :board))
-    table.publish(event: "table/update", data: TableSerializer.new(table, except: :board))
+    redis_publish("tables", event: "tables/create", data: TableSerializer.new(table, except: :board))
+    # redis_publish("tables/#{table.id}", event: "table/update", data: TableSerializer.new(table, except: :board))
     respond_with(table)
   end
 
