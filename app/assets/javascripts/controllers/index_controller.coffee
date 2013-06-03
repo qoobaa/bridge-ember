@@ -1,5 +1,5 @@
 @Bridge.IndexController = Ember.ArrayController.extend
-  needs: ["socket"]
+  needs: ["stream"]
 
   contentDidChange: (->
     @get("content")?.reload()

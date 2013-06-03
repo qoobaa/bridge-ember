@@ -1,13 +1,12 @@
 class Stream::TablesController < Stream::ApplicationController
   def index
-    sse.write(ActiveModel::ArraySerializer.new(Table.all, each_serializer: TableSerializer, except: :board), event: "tables")
+    sse.write(event: "tables", data: ActiveModel::ArraySerializer.new(Table.all, each_serializer: TableSerializer, except: :board))
 
     ActiveRecord::Base.clear_active_connections!
 
     redis_subscribe("tables") do |on|
       on.message do |channel, payload|
-        message = JSON.parse(payload)
-        sse.write(message["data"], event: message["event"])
+        sse.write(payload)
       end
     end
   rescue IOError

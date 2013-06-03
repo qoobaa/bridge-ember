@@ -10,7 +10,7 @@ Bridge.TableRoute = Ember.Route.extend
 
   setupController: (controller, model) ->
     @_super(controller, model)
-    @controllerFor("socket").set("channel", "tables/#{model.get('id')}")
+    @controllerFor("stream").set("channel", "tables/#{model.get('id')}")
 
   # activate: ->
   #   socket = @controllerFor("socket").get("content")

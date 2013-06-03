@@ -12,6 +12,8 @@ gem "foreman"
 gem "pg"
 gem "puma"
 gem "redis"
+gem "clockwork"
+gem "sidekiq"
 
 group :assets do
   gem "sass-rails", "~> 4.0.0.rc1"

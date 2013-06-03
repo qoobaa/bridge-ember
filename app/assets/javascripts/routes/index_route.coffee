@@ -7,7 +7,7 @@ Bridge.IndexRoute = Ember.Route.extend
 
   setupController: (controller, model) ->
     @_super(controller, model)
-    @controllerFor("socket").set("channel", "tables")
+    @controllerFor("stream").set("uri", "/stream/tables")
 
   # activate: ->
   #   socket = @controllerFor("socket").get("content")
