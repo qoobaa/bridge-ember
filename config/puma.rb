@@ -1,5 +1,3 @@
 rails_env = ENV["RAILS_ENV"] || "development"
-
 threads 4, 4
-
-bind "unix:///home/bridge/apps/bridge/shared/sockets/bridge.sock"
+bind "tcp://127.0.0.1:#{ENV['PORT']}"

@@ -26,4 +26,5 @@ Bridge::Application.configure do
   config.assets.debug = true
   config.ember.variant = :development
   config.allow_concurrency = true
+  config.preload_frameworks = true
 end

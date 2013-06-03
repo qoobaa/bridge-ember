@@ -1,2 +1,1 @@
-web: bin/rails s Puma -p $PORT
-
+web: bundle exec puma -C config/puma.rb
