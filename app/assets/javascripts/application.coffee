@@ -1,7 +1,7 @@
 #= require bootstrap
 #= require handlebars
 #= require ember
-#= require sockjs
+#= require eventsource
 #= require_self
 #= require bridge
 

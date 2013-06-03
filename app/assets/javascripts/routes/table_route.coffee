@@ -12,21 +12,21 @@ Bridge.TableRoute = Ember.Route.extend
     @_super(controller, model)
     @controllerFor("socket").set("channel", "tables/#{model.get('id')}")
 
-  activate: ->
-    socket = @controllerFor("socket").get("content")
-    socket.on("bids/create", @, @createBid)
-    socket.on("cards/create", @, @createCard)
-    socket.on("table/update", @, @updateTable)
-    socket.on("board/update", @, @updateBoard)
-    socket.on("claim/update", @, @updateClaim)
+  # activate: ->
+  #   socket = @controllerFor("socket").get("content")
+  #   socket.on("bids/create", @, @createBid)
+  #   socket.on("cards/create", @, @createCard)
+  #   socket.on("table/update", @, @updateTable)
+  #   socket.on("board/update", @, @updateBoard)
+  #   socket.on("claim/update", @, @updateClaim)
 
-  deactivate: ->
-    socket = @controllerFor("socket").get("content")
-    socket.off("bids/create", @, @createBid)
-    socket.off("cards/create", @, @createCard)
-    socket.off("table/update", @, @updateTable)
-    socket.off("board/update", @, @updateBoard)
-    socket.off("claim/update", @, @updateClaim)
+  # deactivate: ->
+  #   socket = @controllerFor("socket").get("content")
+  #   socket.off("bids/create", @, @createBid)
+  #   socket.off("cards/create", @, @createCard)
+  #   socket.off("table/update", @, @updateTable)
+  #   socket.off("board/update", @, @updateBoard)
+  #   socket.off("claim/update", @, @updateClaim)
 
   createBid: (payload) ->
     @modelFor("table").get("board.auction")?.pushObject(payload.bid.content)
