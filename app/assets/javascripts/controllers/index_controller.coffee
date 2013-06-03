@@ -2,7 +2,7 @@
   needs: ["stream"]
 
   contentDidChange: (->
-    @get("content")?.reload()
+    # @get("content")?.reload()
   ).observes("content")
 
   createTable: ->

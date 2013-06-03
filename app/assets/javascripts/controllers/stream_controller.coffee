@@ -1,28 +1,22 @@
 @Bridge.StreamController = Ember.Controller.extend Ember.Evented,
-  uri: "/stream/tables"
-
   isConnecting: (-> @get("readyState") == EventSource.CONNECTING).property("readyState")
-  isOpen: (-> @get("readyState") == EventSource.OPEN).property("readyState")
-  isClosed: (-> @get("readyState") == EventSource.CLOSED).property("readyState")
+  isOpen:       (-> @get("readyState") == EventSource.OPEN).property("readyState")
+  isClosed:     (-> @get("readyState") == EventSource.CLOSED).property("readyState")
 
-  init: ->
-    @connect()
+  update: -> @setProperties(readyState: eventSource?.readyState, url: eventSource?.url)
 
-  connect: ->
-    @close()
-    @set("readyState", undefined)
-    eventSource = new EventSource(@get("uri"))
+  connect: (url) ->
+    @disconnect()
+    eventSource = new EventSource(url)
     @set("eventSource", eventSource)
-    eventSource.onopen = => @set("readyState", eventSource.readyState)
-    eventSource.onerror = => @set("readyState", eventSource.readyState)
+    eventSource.onopen = => @update()
+    eventSource.onerror = => @update()
     eventSource.onmessage = (event) =>
-      @set("readyState", eventSource.readyState)
+      @update()
       payload = JSON.parse(event.data)
       @trigger(payload.event, payload.data)
 
-  close: ->
-    eventSource.close() if eventSource = @get("eventSource")
-
-  readyStateDidChange: (->
-    console.log(@get("readyState"))
-  ).observes("readyState")
+  disconnect: ->
+    @get("eventSource")?.close()
+    @set("eventSource", undefined)
+    @update()

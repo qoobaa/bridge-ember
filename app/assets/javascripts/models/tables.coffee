@@ -1,8 +1,7 @@
 @Bridge.Tables = Ember.ArrayProxy.extend
-  reload: ->
-    $.ajax("/api/tables").done (payload) =>
-      tables = payload.tables.forEach (table) => @merge(table)
-      @setProperties(isLoaded: true)
+  load: (tables) ->
+    tables.forEach (table) => @merge(table)
+    @setProperties(isLoaded: true)
 
   merge: (attributes) ->
     if table = @findProperty("id", attributes.id)
