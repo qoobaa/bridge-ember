@@ -4,12 +4,13 @@ class Stream::ApplicationController < ActionController::Base
   include ActionController::Live
   include CurrentUser
 
-  before_action :set_content_type, :current_user
+  before_action :set_headers, :current_user
 
   private
 
-  def set_content_type
+  def set_headers
     response.headers["Content-Type"] = "text/event-stream"
+    response.headers["Access-Control-Allow-Origin"] = "*"
   end
 
   def sse

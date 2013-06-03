@@ -11,7 +11,6 @@
       @setProperties
         userId: payload.session.id
         userEmail: payload.session.email
-        socketId: payload.session.socket_id
 
   signOut: ->
     $.ajax "/api/session",
@@ -20,4 +19,3 @@
       @setProperties
         userId: undefined
         email: undefined
-        socketId: undefined
