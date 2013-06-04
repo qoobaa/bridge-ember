@@ -7,16 +7,14 @@
 #= require sockjs
 #= require_self
 #= require bridge
+#= require_tree ./helpers
 
-Konacha.reset = ->
+Konacha.reset = Ember.K
 
 Ember.LOG_VERSION = false
 Ember.Test.adapter = Ember.Test.MochaAdapter.create()
 
 $("head", document).append('<meta content="http://localhost:5123/socket" name="socket-url">')
-# $("head", document).append('<meta name="socket-id">')
-# $("head", document).append('<meta name="user-id">')
-# $("head", document).append('<meta name="user-email">')
 
 Ember.run =>
   @Bridge = Ember.Application.create
@@ -33,7 +31,7 @@ Bridge.injectTestHelpers()
 beforeEach (done) =>
   Ember.testing = true
   @server = sinon.fakeServer.create()
-  server.autoRespond = true
+  @server.autoRespond = true
 
   Ember.run ->
     Bridge.advanceReadiness()
@@ -42,5 +40,5 @@ beforeEach (done) =>
       done()
 
 afterEach =>
-  # Bridge.reset() - throws error somehow
+  # Bridge.reset() # - throws error due to creating Session in Ember.Application.create ready hook
   server.restore()

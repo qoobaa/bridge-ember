@@ -8,4 +8,5 @@
 
   signOut: ->
     Bridge.get("session").signOut().done =>
+      @set("email", undefined)
       @transitionToRoute("signIn")
