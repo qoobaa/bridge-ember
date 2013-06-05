@@ -1,7 +1,7 @@
 #= require integration_test_helper
 
 describe "Session", ->
-  it.skip "signs in", ->
+  it "signs in", ->
     Helpers.signIn("homer@simpson.com").then ->
       assert.equal find(".nav button").text().trim(), "homer@simpson.com"
 

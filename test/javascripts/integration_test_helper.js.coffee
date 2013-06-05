@@ -41,4 +41,6 @@ beforeEach (done) =>
 
 afterEach =>
   # Bridge.reset() # - throws error due to creating Session in Ember.Application.create ready hook
+  # Manual session reset for now:
+  Ember.run -> Bridge.session.set("userId", undefined)
   server.restore()

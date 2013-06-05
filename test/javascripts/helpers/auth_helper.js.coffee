@@ -8,5 +8,6 @@
     Ember.run ->
       request.respond(200, {"Content-Type": "application/json"}, JSON.stringify({tables: []}))
 
-  fillIn("input[placeholder='Email']", email)
+  visit("/")
+  .fillIn("input[placeholder='Email']", email)
   .click("button:contains('Sign in')")
