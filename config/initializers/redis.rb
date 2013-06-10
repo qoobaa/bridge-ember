@@ -7,6 +7,7 @@ def redis_publish(channel, message)
   redis.publish("bridge_#{Rails.env}/#{channel}", message.to_json)
 end
 
-def redis_subscribe(channel, &block)
-  redis.subscribe("bridge_#{Rails.env}/service", "bridge_#{Rails.env}/#{channel}", &block)
+def redis_subscribe(*channels, &block)
+  (channels + ["service"]).map! { |channel| "bridge_#{Rails.env}/#{channel}" }
+  redis.subscribe(*channels, &block)
 end

@@ -5,7 +5,8 @@ class Api::BidsController < Api::ApplicationController
     @bid = board.bids.create(bid_params)
     board.update!(contract: board.auction.contract) if board.auction.finished?
     board.table.users.each do |user|
-      user.publish event: "bids/create", data: BidSerializer.new(@bid, scope: user, scope_name: :current_user)
+      redis_publish "tables/#{table.id}/#{table.user_direction(user).downcase}", event: "bids/create", data: BidSerializer.new(@bid, scope: user, scope_name: :current_user)
+      redis_publish "tables/#{table.id}/guest", event: "bids/create", data: BidSerializer.new(@bid)
     end
 
     respond_with(@bid, status: :created, location: nil)

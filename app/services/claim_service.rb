@@ -9,7 +9,7 @@ class ClaimService
     @claim = Claim.create(attributes)
     if claim.persisted?
       board.table.users.each do |user|
-        user.publish event: "claim/update", data: ClaimSerializer.new(claim)
+        redis_publish event: "claim/update", data: ClaimSerializer.new(claim)
         data = BoardSerializer.new(board, scope: user, scope_name: :current_user, only: claim.direction.downcase.to_sym)
         user.publish event: "board/update", data: data
       end

@@ -12,23 +12,26 @@ class Api::TablesController < Api::ApplicationController
 
   def join
     table.update!(user_key => current_user)
+    redis_publish("service", event: "disconnect", table_id: table.id, user_id: current_user.id)
     redis_publish("tables", event: "tables/create", data: TableSerializer.new(table, except: :board))
-    # if table.users.count == 4
-    #   table.create_board!
+    if table.users.count == 4
+      table.create_board!
 
-    #   table.users.each do |user|
-    #     user.publish event: "table/update", data: TableSerializer.new(table, scope: user, scope_name: :current_user)
-    #   end
-    # else
-    #   table.publish(event: "table/update", data: TableSerializer.new(table, except: :board))
-    # end
+      table.users.each do |user|
+        redis_publish "tables/#{table.id}/#{table.user_direction(user).downcase}", event: "table/update", data: TableSerializer.new(table, scope: user, scope_name: :current_user)
+      end
+      redis_publish "tables/#{table.id}/guest", event: "table/update", data: TableSerializer.new(table)
+    else
+      redis_publish("tables/#{table.id}", event: "table/update", data: TableSerializer.new(table, except: :board))
+    end
     respond_with(table)
   end
 
   def quit
     table.update!(user_key => nil)
-    redis_publish("tables", event: "tables/create", data: TableSerializer.new(table, except: :board))
-    # redis_publish("tables/#{table.id}", event: "table/update", data: TableSerializer.new(table, except: :board))
+    redis_publish("service", event: "disconnect", table_id: table.id, user_id: current_user.id)
+    redis_publish("tables", event: "tables/update", data: TableSerializer.new(table, except: :board))
+    redis_publish("tables/#{table.id}", event: "table/update", data: TableSerializer.new(table, except: :board))
     respond_with(table)
   end
 
