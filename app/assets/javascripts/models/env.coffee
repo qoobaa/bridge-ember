@@ -2,7 +2,8 @@
   init: ->
     @_super.apply(@, arguments)
     $("meta").each (i, element) =>
-      @set($(element).attr("name").camelize(), $(element).attr("content"))
+      if name = $(element).attr("name")
+        @set(name.camelize(), $(element).attr("content"))
 
   csrfTokenDidChange: (->
     $.ajaxSettings.headers = {"X-CSRF-Token": @get("csrfToken")}
