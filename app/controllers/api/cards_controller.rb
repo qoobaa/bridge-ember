@@ -5,12 +5,10 @@ class Api::CardsController < Api::ApplicationController
     @card = board.cards.create(card_params)
 
     if @card.persisted?
+      # publish card create to table (data: card)
+
       if board.cards.count == 1 # First lead
-        table.users.each do |user|
-          user.publish event: "table/update", data: TableSerializer.new(table, scope: user, scope_name: :current_user)
-        end
-      else
-        table.publish(event: "cards/create", data: CardSerializer.new(@card))
+        # show hand of dummy to table (data: cards of dummy player)
       end
 
       if (claim = board.claims.last) && claim.active? # Reject claim by playing card
@@ -21,10 +19,7 @@ class Api::CardsController < Api::ApplicationController
     if board.play.finished?
       board.update!(result: board.score.result)
       board.table.create_board!
-
-      table.users.each do |user|
-        user.publish event: "table/update", data: TableSerializer.new(table, scope: user, scope_name: :current_user)
-      end
+      # publish board update to table (data: board)
     end
     respond_with(@card, status: :created, location: nil)
   end

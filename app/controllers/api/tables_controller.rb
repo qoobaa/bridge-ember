@@ -15,29 +15,25 @@ class Api::TablesController < Api::ApplicationController
 
   def create
     @table = Table.create!
-    redis_publish(event: "tables/create", data: TableSerializer.new(table, except: :board))
+    # publish table create to lobby (data: table_id)
     respond_with(table, location: nil)
   end
 
   def join
     table.update!(user_key => current_user)
-    redis_publish(event: "tables/create", data: TableSerializer.new(table, except: :board))
+    # publish table join to lobby (data: table_id, name, direction)
+    # publish table join to table (data: table_id, name, direction)
     if table.users.count == 4
       table.create_board!
-
-      table.users.each do |user|
-        user.publish event: "table/update", data: TableSerializer.new(table, scope: user, scope_name: :current_user)
-      end
-    else
-      table.publish(event: "table/update", data: TableSerializer.new(table, except: :board))
+      # publish board update to table (data: board)
     end
     respond_with(table)
   end
 
   def quit
     table.update!(user_key => nil)
-    redis_publish(event: "tables/create", data: TableSerializer.new(table, except: :board))
-    table.publish(event: "table/update", data: TableSerializer.new(table, except: :board))
+    # publish table quit to lobby (data: table_id, direction)
+    # publish table quit to table (data: table_id, direction)
     respond_with(table)
   end
 
