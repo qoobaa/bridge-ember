@@ -5,28 +5,19 @@ class Api::CardsController < Api::ApplicationController
     @card = board.cards.create(card_params)
 
     if @card.persisted?
-      if board.cards.count == 1 # First lead
-        table.users.each do |user|
-          redis_publish "tables/#{table.id}/#{table.user_direction(user).downcase}", event: "table/update", data: TableSerializer.new(table, scope: user, scope_name: :current_user)
-        end
-        redis_publish "tables/#{table.id}/guest", event: "table/update", data: TableSerializer.new(table)
-      else
-        redis_publish "tables/#{table.id}", event: "cards/create", data: CardSerializer.new(@card)
-      end
+      Event::CardCreated.new(@card)
+      Event::DummyRevealed.new(table) if board.cards.count == 1 # First lead
 
-      if (claim = board.claims.last) && claim.active? # Reject claim by playing card
+      claim = board.claims.last
+      if claim.present? and claim.active? # Reject claim by playing card
         ClaimService.new(claim).reject(board.user_direction(current_user))
       end
     end
 
     if board.play.finished?
       board.update!(result: board.score.result)
-      board.table.create_board!
-
-      table.users.each do |user|
-        redis_publish "tables/#{table.id}/#{table.user_direction(user).downcase}", event: "table/update", data: TableSerializer.new(table, scope: user, scope_name: :current_user)
-      end
-      redis_publish "tables/#{table.id}/guest", event: "table/update", data: TableSerializer.new(table)
+      table.create_board!
+      Event::BoardCreated.new(table)
     end
     respond_with(@card, status: :created, location: nil)
   end
