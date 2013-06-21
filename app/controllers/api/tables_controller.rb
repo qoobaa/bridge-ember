@@ -6,7 +6,7 @@ class Api::TablesController < Api::ApplicationController
 
   def create
     @table = Table.create!
-    Event::TableCreated.new(@table)
+    Event::TableCreated.new(@table).publish
     respond_with(table, location: nil)
   end
 

@@ -9,17 +9,17 @@ Bridge.IndexRoute = Ember.Route.extend
     stream = @controllerFor("stream")
     stream.connect("/stream/tables")
     stream.on("tables", @, @setTables)
-    stream.on("tables/create", @, @mergeTable)
-    stream.on("tables/update", @, @mergeTable)
-    stream.on("tables/destroy", @, @removeTable)
+    stream.on("tableCreated", @, @mergeTable)
+    # stream.on("tables/update", @, @mergeTable)
+    # stream.on("tables/destroy", @, @removeTable)
 
   deactivate: ->
     stream = @controllerFor("stream")
     stream.disconnect()
     stream.off("tables", @, @setTables)
-    stream.off("tables/create", @, @mergeTable)
-    stream.off("tables/update", @, @mergeTable)
-    stream.off("tables/destroy", @, @removeTable)
+    stream.off("tableCreated", @, @mergeTable)
+    # stream.off("tables/update", @, @mergeTable)
+    # stream.off("tables/destroy", @, @removeTable)
 
   setTables: (payload) ->
     @modelFor("index").set("content", payload)
