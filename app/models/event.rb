@@ -1,21 +1,20 @@
 class Event
-  class_attribute :channel_names
-  self.channel_names = []
+  attr_accessor :current_user
 
   def self.prefixed_channel(name)
     "bridge_#{Rails.env}_#{name}"
   end
 
-  def self.channel(*names)
-    self.channel_names = names.map { |name| prefixed_channel(name) }
+  def channel_names
+    []
+  end
+
+  def publish
+    channel_names.each { |name| redis.publish(self.class.prefixed_channel(name), Marshal.dump(self)) }
   end
 
   def event_name
     self.class.name.demodulize.camelize(:lower)
-  end
-
-  def publish
-    self.class.channel_names.each { |channel_name| redis.publish(channel_name, Marshal.dump(self)) }
   end
 
   def as_json
@@ -32,5 +31,9 @@ class Event
     end
   ensure
     redis.quit
+  end
+
+  def disconnect?
+    false
   end
 end

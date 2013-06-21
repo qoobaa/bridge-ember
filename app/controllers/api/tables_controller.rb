@@ -12,7 +12,7 @@ class Api::TablesController < Api::ApplicationController
 
   def join
     table.update!(user_key => current_user)
-    Event::Join.new(table)
+    Event::TableJoined.new(table, current_user).publish
     if table.users.count == 4
       table.create_board!
       Event::BoardCreated.new(table)
@@ -22,7 +22,7 @@ class Api::TablesController < Api::ApplicationController
 
   def quit
     table.update!(user_key => nil)
-    Event::Quit.new(table)
+    Event::TableQuitted.new(table, current_user).publish
     respond_with(table)
   end
 
