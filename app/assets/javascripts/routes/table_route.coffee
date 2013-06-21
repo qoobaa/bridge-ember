@@ -13,11 +13,11 @@ Bridge.TableRoute = Ember.Route.extend
     stream.connect("/stream/tables/#{@modelFor('table').get('id')}")
     stream.on("init", @, @setTable)
     stream.on("tableCreated", @, @updateTable)
-    stream.on("tableJoined", @, @updateTable)
-    # stream.on("bids/create", @, @createBid)
-    # stream.on("cards/create", @, @createCard)
-    # stream.on("table/update", @, @updateTable)
-    # stream.on("board/update", @, @updateBoard)
+    stream.on("tableUpdated", @, @updateTable)
+    stream.on("bidCreated", @, @createBid)
+    stream.on("boardCreated", @, @updateBoard)
+    stream.on("cardCreated", @, @createCard)
+    stream.on("boardUpdated", @, @updateBoard)
     # stream.on("claim/update", @, @updateClaim)
 
   deactivate: ->
@@ -25,11 +25,11 @@ Bridge.TableRoute = Ember.Route.extend
     stream.disconnect()
     stream.off("init", @, @setTable)
     stream.off("tableCreated", @, @updateTable)
-    stream.off("tableJoined", @, @updateTable)
-    # stream.off("bids/create", @, @createBid)
-    # stream.off("cards/create", @, @createCard)
-    # stream.off("table/update", @, @updateTable)
-    # stream.off("board/update", @, @updateBoard)
+    stream.off("tableUpdated", @, @updateTable)
+    stream.off("bidCreated", @, @createBid)
+    stream.off("boardCreated", @, @updateBoard)
+    stream.off("cardCreated", @, @createCard)
+    stream.off("boardUpdated", @, @updateBoard)
     # stream.off("claim/update", @, @updateClaim)
 
   setTable: (payload) ->

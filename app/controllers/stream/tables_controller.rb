@@ -5,7 +5,7 @@ class Stream::TablesController < Stream::ApplicationController
     ActiveRecord::Base.clear_active_connections!
 
     Event.subscribe("lobby") do |event|
-      raise IOError if response.stream.closed?
+      response.stream.write("\n")
       sse.write(event.as_json) if event.present?
     end
   rescue IOError
@@ -24,7 +24,7 @@ class Stream::TablesController < Stream::ApplicationController
         response.stream.close if event.disconnect?
         sse.write(event.as_json)
       end
-      raise IOError if response.stream.closed?
+      response.stream.write("\n")
     end
   rescue IOError
   ensure

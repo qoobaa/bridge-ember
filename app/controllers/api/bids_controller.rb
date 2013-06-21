@@ -4,7 +4,7 @@ class Api::BidsController < Api::ApplicationController
   def create
     @bid = board.bids.create(bid_params)
     board.update!(contract: board.auction.contract) if board.auction.finished?
-    Event::BidCreated.new(@bid)
+    Event::BidCreated.new(board.table, @bid).publish
     respond_with(@bid, status: :created, location: nil)
   end
 

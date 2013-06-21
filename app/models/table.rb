@@ -7,7 +7,7 @@ class Table < ActiveRecord::Base
   end
 
   def board
-    boards.last
+    @board ||= boards.last
   end
 
   def users

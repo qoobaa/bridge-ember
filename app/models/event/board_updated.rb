@@ -1,4 +1,4 @@
-class Event::BoardCreated < Event
+class Event::BoardUpdated < Event
   def initialize(table)
     @table = table
     table.board # eager load association

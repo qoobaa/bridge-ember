@@ -5,6 +5,8 @@ class Board < ActiveRecord::Base
   has_many :claims, -> { order(:created_at) }
   belongs_to :table
 
+  default_scope include: [:bids, :cards, :claims]
+
   validates :user_n_id,  presence: true
   validates :user_e_id,  presence: true
   validates :user_s_id,  presence: true

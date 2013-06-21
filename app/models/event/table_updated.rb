@@ -1,4 +1,4 @@
-class Event::TableQuitted < Event
+class Event::TableUpdated < Event
   def initialize(table, user)
     @table = table
     @user = user

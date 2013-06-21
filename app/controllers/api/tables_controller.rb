@@ -12,17 +12,17 @@ class Api::TablesController < Api::ApplicationController
 
   def join
     table.update!(user_key => current_user)
-    Event::TableJoined.new(table, current_user).publish
+    Event::TableUpdated.new(table, current_user).publish
     if table.users.count == 4
       table.create_board!
-      Event::BoardCreated.new(table)
+      Event::BoardCreated.new(table).publish
     end
     respond_with(table)
   end
 
   def quit
     table.update!(user_key => nil)
-    Event::TableQuitted.new(table, current_user).publish
+    Event::TableUpdated.new(table, current_user).publish
     respond_with(table)
   end
 

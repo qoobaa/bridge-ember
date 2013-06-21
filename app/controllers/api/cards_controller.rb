@@ -5,8 +5,8 @@ class Api::CardsController < Api::ApplicationController
     @card = board.cards.create(card_params)
 
     if @card.persisted?
-      Event::CardCreated.new(@card)
-      Event::DummyRevealed.new(table) if board.cards.count == 1 # First lead
+      Event::CardCreated.new(table, @card).publish
+      Event::BoardUpdated.new(table).publish if board.cards.count == 1 # First lead
 
       claim = board.claims.last
       if claim.present? and claim.active? # Reject claim by playing card
@@ -17,7 +17,7 @@ class Api::CardsController < Api::ApplicationController
     if board.play.finished?
       board.update!(result: board.score.result)
       table.create_board!
-      Event::BoardCreated.new(table)
+      Event::BoardCreated.new(table).publish
     end
     respond_with(@card, status: :created, location: nil)
   end
