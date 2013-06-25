@@ -2,7 +2,7 @@ source "https://rubygems.org"
 
 ruby "2.0.0"
 
-gem "rails", ">= 4.0.0.rc2"
+gem "rails", ">= 4.0.0"
 
 gem "active_model_serializers", ">= 0.8.1"
 gem "bridge", ">= 0.2.0"
@@ -16,7 +16,7 @@ gem "clockwork"
 gem "sidekiq"
 
 group :assets do
-  gem "sass-rails", "~> 4.0.0.rc2"
+  gem "sass-rails", "~> 4.0.0"
   gem "coffee-rails"
   gem "uglifier"
 end
