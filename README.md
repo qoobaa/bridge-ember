@@ -22,7 +22,7 @@ To run server with js tests http://localhost:3500/
 foreman run rake konacha:serve
 ```
 
-http://visionmedia.github.com/mocha/
+http://mochajs.org/
 
 http://chaijs.com/api/assert/
 
